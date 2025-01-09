@@ -12,7 +12,7 @@ namespace NoBullshitReviews.Controllers;
 public class ReviewController : ControllerBase
 {
     public readonly ReviewContext _context;
-    public const string CDN_PATH = "C:\\Users\\Puzonne\\Desktop\\aaaa\\nbr\\public\\assets";
+    public const string CDN_PATH = "C:\\Users\\Puzonne\\source\\repos\\NoBullshitReviews\\NoBullshitReviews\\NoBullshitReviews\\NoBullshitReviews.Frontend\\public\\assets\\static";
 
     public ReviewController(ReviewContext context)
     {

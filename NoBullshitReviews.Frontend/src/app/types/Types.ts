@@ -18,6 +18,7 @@ export interface IReviewCreation {
 
 export interface IReview extends IReviewCreation {
   Creation: Date;
+  RouteName: string;
   Id: number;
   UID: string;
   ImagePath: string;

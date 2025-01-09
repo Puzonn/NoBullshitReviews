@@ -2,12 +2,12 @@
 
 import { DashReview } from "./components/DashReview";
 import { IReview } from "@/app/types/Types";
-import { redirect } from "next/navigation";
+import { permanentRedirect, redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [reviews, setReviews] = useState<IReview[]>([]);
-  
+  const router = useRouter();
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -20,15 +20,8 @@ export default function Home() {
     fetchReviews();
   }, []);
 
-  const deleteReview = (id: number) => {
-    // fetch(`https://localhost:7106/review/delete/${id}`, {
-    //   method: "DELETE",
-    // }).then((response) => {
-    //   if (response.ok) {
-    //     const index = reviews.findIndex((x) => x.Id == id);
-    //     setReviews(reviews.filter((_, i) => i !== index));
-    //   }
-    // });
+  const reviewClicked = (review: IReview) => {
+    router.push(`/game/${review.RouteName}`)
   };
 
   return (
@@ -73,7 +66,7 @@ export default function Home() {
             return (
               <DashReview
                 onClick={(e) => {
-                  deleteReview(e.Id);
+                  reviewClicked(e);
                 }}
                 key={`review_${index}`}
                 review={review}
