@@ -13,7 +13,7 @@ export const Review = ({ review }: { review: IReview }) => {
       <Image
         width={150}
         height={160}
-        src={PoeImage}
+        src={`/assets/icons/${review.ImagePath}.png`}
         alt={review.Title}
         priority
       />

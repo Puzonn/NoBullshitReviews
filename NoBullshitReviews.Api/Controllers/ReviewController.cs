@@ -13,7 +13,7 @@ public class ReviewController : ControllerBase
 {
     private readonly ReviewContext _context;
     private readonly IConfiguration _configuration;
-    private readonly string StaticImageDirectory;
+    private readonly string _staticImageDirectory;
 
     public ReviewController(ReviewContext context, IConfiguration configuration)
     {
@@ -27,7 +27,7 @@ public class ReviewController : ControllerBase
             throw new Exception("StaticImageDirectory is empty in configuration");
         }
 
-        StaticImageDirectory = staticImageDirectory;
+        _staticImageDirectory = staticImageDirectory;
     }
 
     [HttpPost("create")]
@@ -44,7 +44,7 @@ public class ReviewController : ControllerBase
             if (request.Image != null && request.Image.Length > 0)
             {
                 string extension = Path.GetExtension(request.Image.FileName);
-                string path = $"{StaticImageDirectory}/{review.UID}{extension}";
+                string path = $"{_staticImageDirectory}/{review.UID}{extension}";
 
                 using (Stream stream = new FileStream(path, new FileStreamOptions() { Mode = FileMode.CreateNew, Access = FileAccess.Write }))
                 {

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [reviews, setReviews] = useState<IReview[]>([]);
   const router = useRouter();
+
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -21,7 +22,7 @@ export default function Home() {
   }, []);
 
   const reviewClicked = (review: IReview) => {
-    router.push(`/game/${review.RouteName}`)
+    router.push(`/game/${review.RouteName}`);
   };
 
   return (

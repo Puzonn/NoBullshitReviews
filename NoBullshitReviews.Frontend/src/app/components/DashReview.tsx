@@ -20,7 +20,7 @@ export const DashReview = ({
         className="min-h-[220px]"
         width={250}
         height={200}
-        src={`/assets/${review.ImagePath}`}
+        src={`/assets/static/${review.ImagePath}`}
         alt={review.Title}
         priority
       />

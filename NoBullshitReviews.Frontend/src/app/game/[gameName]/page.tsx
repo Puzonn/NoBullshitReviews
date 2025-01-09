@@ -59,7 +59,7 @@ const ReviewGameInfoPage = () => {
             <div className="flex justify-center sm:justify-start w-full h-full">
               <img
                 className="max-h-[260px] w-full object-cover"
-                src={`/assets/${review.ImagePath}`}
+                src={`/assets/static/${review.ImagePath}`}
                 alt={review.Title}
               />
             </div>
