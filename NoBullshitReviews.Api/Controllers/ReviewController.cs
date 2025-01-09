@@ -11,12 +11,23 @@ namespace NoBullshitReviews.Controllers;
 [Route("[controller]")]
 public class ReviewController : ControllerBase
 {
-    public readonly ReviewContext _context;
-    public const string CDN_PATH = "C:\\Users\\Puzonne\\source\\repos\\NoBullshitReviews\\NoBullshitReviews\\NoBullshitReviews\\NoBullshitReviews.Frontend\\public\\assets\\static";
+    private readonly ReviewContext _context;
+    private readonly IConfiguration _configuration;
+    private readonly string StaticImageDirectory;
 
-    public ReviewController(ReviewContext context)
+    public ReviewController(ReviewContext context, IConfiguration configuration)
     {
+        _configuration = configuration;
         _context = context;
+
+        string? staticImageDirectory = _configuration["StaticImageDirectory"];
+
+        if(string.IsNullOrEmpty(staticImageDirectory))
+        {
+            throw new Exception("StaticImageDirectory is empty in configuration");
+        }
+
+        StaticImageDirectory = staticImageDirectory;
     }
 
     [HttpPost("create")]
@@ -33,7 +44,7 @@ public class ReviewController : ControllerBase
             if (request.Image != null && request.Image.Length > 0)
             {
                 string extension = Path.GetExtension(request.Image.FileName);
-                string path = $"{CDN_PATH}/{review.UID}{extension}";
+                string path = $"{StaticImageDirectory}/{review.UID}{extension}";
 
                 using (Stream stream = new FileStream(path, new FileStreamOptions() { Mode = FileMode.CreateNew, Access = FileAccess.Write }))
                 {
