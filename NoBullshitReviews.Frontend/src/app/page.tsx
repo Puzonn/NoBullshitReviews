@@ -79,7 +79,7 @@ export default function Home() {
 
       <div>
         <button
-          onClick={() => redirect("/creator")}
+          onClick={() => router.push("/creator")}
           className="fixed bottom-8 hover:bg-reviewinfobglight right-8 bg-reviewinfobg text-white py-2 px-4 rounded-lg shadow-lg transition-all"
         >
           Create Review
