@@ -1,18 +1,16 @@
-"use client";
-
-import GameReviewAttribute from "@/app/components/GameReviewAttribute";
-import { getScoreBackgroundColor } from "@/app/global/Colors";
-import { Attributes, IReviewCreation, ReviewGameInfo } from "@/app/types/Types";
+import { useParams } from "react-router-dom";
+import GameReviewAttribute from "../components/GameReviewAttribute";
+import { getScoreBackgroundColor } from "../global/Colors";
+import { Attributes, IReviewCreation, ReviewGameInfo } from "../types/Types";
 import { useEffect, useState } from "react";
+import * as React from "react";
 
 const ReviewGameInfoPage = () => {
   const [review, setReview] = useState<ReviewGameInfo | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { game } = useParams<{ game: string }>();
 
   useEffect(() => {
-    const segments = window.location.href.split("/");
-    const game = segments[segments.length - 1];
-
     const fetchInfo = async () => {
       try {
         await fetch(`https://localhost:7106/review/get-info-name/${game}`).then(
@@ -28,12 +26,6 @@ const ReviewGameInfoPage = () => {
 
     fetchInfo();
   }, []);
-
-  useEffect(() => {
-    if (review !== null && review !== undefined) {
-      review["Story"];
-    }
-  }, [review]);
 
   const getAttributeValueName = (attribute: string, attributeIndex: number) => {
     const dictionary = Attributes.find((e) => e.FormName == attribute)?.Values[

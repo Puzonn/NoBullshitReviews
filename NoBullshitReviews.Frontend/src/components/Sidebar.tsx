@@ -1,17 +1,17 @@
-"use client";
-
-import Image from "next/image";
+import * as React from "react";
+import "../index.css"
+import "../App.css"
 
 const Sidebar = () => {
   return (
     <div className="px-5 flex flex-col gap-5 h-full pt-5 bg-reviewinfobglight shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_8px_16px_rgba(0,0,0,0.6)]">
       <span className="font-semibold text-2xl">No Bullshit Reviews</span>
       <div className="hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center">
-        <Image width={24} height={24} alt="home" src="/assets/icons/home.png" />
+        <img width={24} height={24} alt="home" src="/assets/icons/home.png" />
         Home
       </div>
       <div className="hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center">
-        <Image
+        <img
           width={24}
           height={24}
           alt="home"
@@ -20,7 +20,7 @@ const Sidebar = () => {
         Games
       </div>
       <div className="hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center">
-        <Image
+        <img
           width={24}
           height={24}
           alt="home"

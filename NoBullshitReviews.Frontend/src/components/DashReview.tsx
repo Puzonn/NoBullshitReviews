@@ -1,6 +1,6 @@
-import { getScoreBackgroundColor } from "@/app/global/Colors";
-import { IReview } from "@/app/types/Types";
-import Image from "next/image";
+import { getScoreBackgroundColor } from "../global/Colors";
+import { IReview } from "../types/Types";
+import * as React from "react";
 
 export const DashReview = ({
   review,
@@ -16,13 +16,12 @@ export const DashReview = ({
          transition-colors duration-500 cursor-pointer p-4 rounded
        shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_8px_16px_rgba(0,0,0,0.6)]"
     >
-      <Image
+      <img
         className="min-h-[220px]"
         width={250}
         height={200}
         src={`/assets/static/${review.ImagePath}`}
         alt={review.Title}
-        priority
       />
 
       <div className="flex items-center">

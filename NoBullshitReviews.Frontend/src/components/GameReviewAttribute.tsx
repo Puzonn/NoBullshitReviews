@@ -1,4 +1,4 @@
-import Image from "next/image";
+import * as React from 'react'
 
 const GameReviewAttribute = ({
   attribute,
@@ -12,7 +12,7 @@ const GameReviewAttribute = ({
   return (
     <>
       <div className="flex items-center justify-center gap-2 mx-2">
-        <Image
+        <img
           width={20}
           height={20}
           alt="Grahpics"

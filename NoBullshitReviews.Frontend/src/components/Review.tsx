@@ -1,7 +1,6 @@
-import Image from "next/image";
-import PoeImage from "../../assets/pathofexile2.jpg";
-import { IReview } from "@/app/types/Types";
-import { getScoreBackgroundColor } from "@/app/global/Colors";
+import { IReview } from "../types/Types";
+import { getScoreBackgroundColor } from "../global/Colors";
+import * as React from "react";
 
 export const Review = ({ review }: { review: IReview }) => {
   return (
@@ -10,12 +9,11 @@ export const Review = ({ review }: { review: IReview }) => {
          transition-colors duration-500 cursor-pointer p-4 rounded
        shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_8px_16px_rgba(0,0,0,0.6)] min-w-[20vw]"
     >
-      <Image
+      <img
         width={150}
         height={160}
         src={`/assets/icons/${review.ImagePath}.png`}
         alt={review.Title}
-        priority
       />
       <div className="flex flex-col h-full">
         <div className="bg-reviewinfobg font-bold max-w-fit px-2 py-1 mb-1 rounded">

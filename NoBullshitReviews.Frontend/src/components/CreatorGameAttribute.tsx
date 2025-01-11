@@ -1,5 +1,5 @@
-import { Dictionary } from "@/app/types/Types";
-import { useEffect } from "react";
+import { Dictionary } from "../types/Types";
+import * as React from "react";
 
 const CreatorGameAttribute = ({
   attribute,
@@ -10,7 +10,7 @@ const CreatorGameAttribute = ({
   attribute: string;
   attributeValues: Dictionary<string, string>[];
   imageSource: string;
-  onClick: (attribute:string, attributeIndex: number) => void;
+  onClick: (attribute: string, attributeIndex: number) => void;
 }) => {
   return (
     <div>

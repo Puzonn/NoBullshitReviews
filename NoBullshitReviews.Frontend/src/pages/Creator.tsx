@@ -1,9 +1,8 @@
-"use client";
-
-import CreatorGameAttribute from "@/app/components/CreatorGameAttribute";
-import { getScoreBackgroundColor } from "@/app/global/Colors";
-import { Attributes, Dictionary } from "@/app/types/Types";
+import CreatorGameAttribute from "../components/CreatorGameAttribute";
+import { getScoreBackgroundColor } from "../global/Colors";
+import { Attributes, Dictionary } from "../types/Types";
 import { useState } from "react";
+import * as React from "react";
 
 const createDefaultAttributeDictionary = () => {
   const names = Attributes.map((x) => x.Name);

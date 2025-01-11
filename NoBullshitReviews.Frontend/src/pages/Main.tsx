@@ -1,16 +1,14 @@
-"use client";
-
-import Navbar from "@/app/components/Navbar";
-import { DashReview } from "./components/DashReview";
-import { IReview } from "@/app/types/Types";
-import { permanentRedirect, redirect, useRouter } from "next/navigation";
+import { DashReview } from "../components/DashReview";
+import { IReview } from "../types/Types";
 import { useEffect, useState } from "react";
-import Sidebar from "@/app/components/Sidebar";
+import Sidebar from "../components/Sidebar";
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Home() {
+export default function Main() {
   const [reviews, setReviews] = useState<IReview[]>([]);
-  const router = useRouter();
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -24,7 +22,7 @@ export default function Home() {
   }, []);
 
   const reviewClicked = (review: IReview) => {
-    router.push(`/game/${review.RouteName}`);
+    navigate(`/game/${review.RouteName}`);
   };
 
   return (
@@ -32,8 +30,6 @@ export default function Home() {
       <div className="flex h-full">
         <Sidebar />
         <div className="overflow-auto pb-20 gap-8 p-8 font-[family-name:var(--font-geist-sans)]">
-          <Navbar />
-
           <h1 className="text-3xl font-semibold py-2">Most Recent</h1>
           <div className="flex flex-row gap-8 justify-start">
             {reviews.map((review, index) => {
@@ -52,7 +48,7 @@ export default function Home() {
 
         <div>
           <button
-            onClick={() => router.push("/creator")}
+            onClick={() => navigate("/creator")}
             className="fixed bottom-8 hover:bg-reviewinfobglight right-8 bg-reviewinfobg text-white py-2 px-4 rounded-lg shadow-lg transition-all"
           >
             Create Review

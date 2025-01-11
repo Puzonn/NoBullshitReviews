@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --background: #23272F;
+  --background: #23272f;
   --foreground: #171717;
-  --review-background: #16181D;
+  --review-background: #16181d;
   --review-background-light: #23272e;
-  --review-info-background: #343A46;
+  --review-info-background: #343a46;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,6 +21,10 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Roboto, Arial, Helvetica, sans-serif;
+
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer base {
@@ -29,4 +33,9 @@ body {
     -webkit-appearance: none;
     margin: 0;
   }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
