@@ -84,7 +84,7 @@ const Creator = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen w-full">
       <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-4 items-start mx-2 my-2  shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_8px_16px_rgba(0,0,0,0.6)] bg-reviewinfobglight p-5 rounded">
         <div className="w-full max-w-sm md:max-w-fit min-w-[200px]">
           <div className="relative flex flex-col gap-4 items-center">

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function Main() {
   const [reviews, setReviews] = useState<IReview[]>([]);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -26,7 +26,7 @@ export default function Main() {
   };
 
   return (
-    <div className="box-border flex flex-col h-screen">
+    <div className="box-border flex flex-col min-h-screen bg-reviewbg">
       <div className="flex h-full">
         <Sidebar />
         <div className="overflow-auto pb-20 gap-8 p-8 font-[family-name:var(--font-geist-sans)]">

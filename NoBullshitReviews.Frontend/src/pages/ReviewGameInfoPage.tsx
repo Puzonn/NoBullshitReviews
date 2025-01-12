@@ -50,16 +50,16 @@ const ReviewGameInfoPage = () => {
   };
 
   return (
-    <div className="flex justify-center mt-4">
+    <div className="flex justify-center w-full">
       <div
-        className="bg-reviewbg transition-colors duration-500 p-4 rounded w-[1440px]
-     shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_8px_16px_rgba(0,0,0,0.6)] max-w-[90vw]"
+        className="bg-reviewbg transition-colors duration-500 rounded w-full
+     shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_8px_16px_rgba(0,0,0,0.6)] max-w-[90vw] px-5 py-5 md:px-5 2xl:px-64"
       >
         <div className="flex flex-col gap-5">
           <div className="grid grid-cols-1 md:grid-cols-[2fr,5fr] gap-5">
             <div className="flex justify-center sm:justify-start w-full h-full">
               <img
-                className="max-h-[260px] w-full object-cover"
+                className="max-h-[260px] w-full object-cover rounded-xl"
                 src={`/assets/static/${review.ImagePath}`}
                 alt={review.Title}
               />
@@ -75,7 +75,7 @@ const ReviewGameInfoPage = () => {
                     <div
                       className={`${getScoreBackgroundColor(
                         review.Score
-                      )} flex justify-center items-center rounded text-4xl w-[64] h-[64]`}
+                      )} flex justify-center items-center rounded text-4xl w-[64] p-3 h-[64]`}
                     >
                       {review.Score}
                     </div>
@@ -85,7 +85,7 @@ const ReviewGameInfoPage = () => {
                     <div
                       className={`${getScoreBackgroundColor(
                         review.Score
-                      )} flex justify-center items-center text-4xl w-[64] h-[64]`}
+                      )} flex justify-center items-center p-3 rounded text-4xl w-[64] h-[64]`}
                     >
                       {review.Score}
                     </div>
@@ -127,8 +127,8 @@ const ReviewGameInfoPage = () => {
             </div>
           </div>
 
-          <div className="bg-reviewinfobglight p-5 rounded border border-white">
-            <div className="flex text-sm gap-5">
+          <div className="bg-reviewinfobglight p-5 rounded border flex border-white">
+            <div className="flex text-sm gap-5 flex-wrap">
               <div className="flex flex-col">
                 <span className="font-semibold">Initlial Release</span>
                 <span>Dec 6, 2024</span>
