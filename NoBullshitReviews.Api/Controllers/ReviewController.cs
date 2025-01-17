@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoBullshitReviews.Database;
 using NoBullshitReviews.Models;
@@ -30,6 +31,7 @@ public class ReviewController : ControllerBase
         _staticImageDirectory = staticImageDirectory;
     }
 
+    [Authorize]
     [HttpPost("create")]
     public async Task<ActionResult<Review>> CreateReview([FromForm] ReviewRequest request)
     {
@@ -65,6 +67,7 @@ public class ReviewController : ControllerBase
         return Ok(JsonSerializer.Serialize(review));
     }
 
+    [Authorize]
     [HttpGet("get-all")]
     public async Task<ActionResult<List<ReviewRequest>>> GetAll()
     {

@@ -12,7 +12,10 @@ export default function Main() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        await fetch("https://localhost:7106/review/get-all").then((e) => {
+        await fetch("https://localhost:7106/review/get-all", {
+          credentials: "include",
+          headers: {},
+        }).then((e) => {
           e.json().then((e) => setReviews(e));
         });
       } catch (e) {}

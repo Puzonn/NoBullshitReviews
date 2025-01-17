@@ -7,6 +7,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ReviewGameInfoPage from "src/pages/ReviewGameInfoPage";
 import Sidebar from "src/components/Sidebar";
 import Creator from "src/pages/Creator";
+import Join from "src/pages/Join";
+import OAuth from "src/pages/OAuth";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
@@ -25,7 +27,9 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route index path="/" element={<Main />} />
-      <Route index path="/creator" element={renderWithSidebar(<Creator />)} />
+      <Route path="/creator" element={renderWithSidebar(<Creator />)} />
+      <Route path="/join" element={renderWithSidebar(<Join />)} />
+      <Route path="/auth/oauthCallback" element={renderWithSidebar(<OAuth />)} />
       <Route
         path="/game/:game"
         element={renderWithSidebar(<ReviewGameInfoPage />)}

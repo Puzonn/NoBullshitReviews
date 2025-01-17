@@ -102,7 +102,7 @@ const Sidebar = () => {
           </div>
         ) : (
           <div className="flex justify-center">
-            <button className="border border-white text-white hover:bg-reviewinfobg py-1 px-5 rounded font-medium">
+            <button onClick={() => navigate("/join")} className="border border-white text-white hover:bg-reviewinfobg py-1 px-5 rounded font-medium">
               Join
             </button>
           </div>

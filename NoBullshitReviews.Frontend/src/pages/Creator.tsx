@@ -58,6 +58,7 @@ const Creator = () => {
     form.append("bugs", getAttributeValue("Bugs"));
 
     const response = await fetch("https://localhost:7106/review/create", {
+      credentials: "include",
       method: "POST",
       body: form,
     });
@@ -201,7 +202,6 @@ const Creator = () => {
             </div>
             <button
               onClick={postReview}
-              type="submit"
               className="bg-reviewbg hover:bg-reviewinfobg font-bold text-xl p-3 rounded w-full"
             >
               Submit

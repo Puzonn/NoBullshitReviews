@@ -6,7 +6,8 @@ namespace NoBullshitReviews.Database;
 public class ReviewContext : DbContext
 {
     public DbSet<Review> Reviews { get; set; }
-
+    public DbSet<User> Users { get; set; }
+    
     public string DbPath { get; }
 
     public ReviewContext()
