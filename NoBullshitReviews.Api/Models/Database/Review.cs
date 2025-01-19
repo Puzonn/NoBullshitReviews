@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NoBullshitReviews.Models.Requests;
+using System.ComponentModel.DataAnnotations;
 
-namespace NoBullshitReviews.Models;
+namespace NoBullshitReviews.Models.Database;
 
 public class Review : ReviewBase
 {
@@ -15,6 +16,9 @@ public class Review : ReviewBase
 
     [Required]
     public string RouteName { get; set; } = string.Empty;
+
+    public int AuthorId { get; set; }
+    public User Author { get; set; }
 
     [Key]
     public int Id { get; set; }

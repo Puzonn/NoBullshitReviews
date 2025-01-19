@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoBullshitReviews.Database;
-using NoBullshitReviews.Models;
+using NoBullshitReviews.Models.Database;
+using NoBullshitReviews.Models.Requests;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 

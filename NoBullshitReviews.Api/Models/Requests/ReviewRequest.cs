@@ -1,4 +1,5 @@
-﻿namespace NoBullshitReviews.Models;
+﻿
+namespace NoBullshitReviews.Models.Requests;
 
 public class ReviewRequest : ReviewBase
 {

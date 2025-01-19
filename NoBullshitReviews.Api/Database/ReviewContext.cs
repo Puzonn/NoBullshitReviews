@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using NoBullshitReviews.Models;
+using NoBullshitReviews.Models.Database;
 
 namespace NoBullshitReviews.Database;
 
@@ -18,5 +20,22 @@ public class ReviewContext : DbContext
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={DbPath}");
+    {
+        options.ConfigureWarnings(warnings =>
+    warnings.Ignore(RelationalEventId.NonTransactionalMigrationOperationWarning));
+
+        options.UseSqlite($"Data Source={DbPath}");
+
+#if DEBUG
+        options.EnableSensitiveDataLogging();
+#endif
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Review>()
+    .HasOne(r => r.Author)
+    .WithMany(u => u.Reviews)
+    .HasForeignKey(r => r.AuthorId);
+    }
 }
