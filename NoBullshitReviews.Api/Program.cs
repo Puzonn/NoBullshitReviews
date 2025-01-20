@@ -24,8 +24,9 @@ builder.Services.AddHttpClient();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
+        options.Cookie.SameSite = SameSiteMode.None;
         options.ExpireTimeSpan = TimeSpan.FromHours(20);
-        options.Cookie.HttpOnly = true;
+        options.Cookie.HttpOnly = false;
     });
 
 builder.Services.AddScoped<AuthService>();

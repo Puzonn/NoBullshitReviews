@@ -20,24 +20,24 @@ export const DashReview = ({
         className="min-h-[220px]"
         width={250}
         height={200}
-        src={`/assets/static/${review.ImagePath}`}
-        alt={review.Title}
+        src={`/assets/static/${review.imagePath}`}
+        alt={review.title}
       />
 
       <div className="flex items-center">
         <span
           className={`${getScoreBackgroundColor(
-            review.Score
+            review.score
           )} my-2 rounded p-1 font-medium`}
         >
-          {review.Score}
+          {review.score}
         </span>
         <span className="ml-auto bg-reviewinfobg p-1 rounded font-medium">
           Game
         </span>
       </div>
       <div className="overflow-hidden max">
-        <span className="text-pretty">{review.Title}</span>
+        <span className="text-pretty">{review.title}</span>
       </div>
     </div>
   );

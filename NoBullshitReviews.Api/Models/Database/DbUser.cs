@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace NoBullshitReviews.Models.Database;
 
@@ -11,5 +12,8 @@ public class DbUser
     public string Username { get; set; }
 
     public List<string> Roles { get; set; } = new List<string>();
+
+    /* TODO: Throws when review include author */
+    [JsonIgnore]
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
 }

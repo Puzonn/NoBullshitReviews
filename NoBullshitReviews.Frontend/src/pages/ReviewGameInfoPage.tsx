@@ -28,9 +28,14 @@ const ReviewGameInfoPage = () => {
   }, []);
 
   const getAttributeValueName = (attribute: string, attributeIndex: number) => {
-    const dictionary = Attributes.find((e) => e.FormName == attribute)?.Values[
-      attributeIndex
-    ]!;
+    const dictionary = Attributes.find((e) => {
+      return e.FormName == attribute;
+    })?.Values[attributeIndex];
+
+    if (dictionary === null || dictionary === undefined) {
+      return "";
+    }
+
     const entry = Object.entries(dictionary)[0][1];
     return entry;
   };
@@ -40,7 +45,7 @@ const ReviewGameInfoPage = () => {
   }
 
   const formatCreationDate = () => {
-    const date = new Date(review.Creation);
+    const date = new Date(review.creation);
     const formattedDate = new Intl.DateTimeFormat("en-US", {
       month: "short",
       day: "numeric",
@@ -60,34 +65,34 @@ const ReviewGameInfoPage = () => {
             <div className="flex justify-center sm:justify-start w-full h-full">
               <img
                 className="max-h-[260px] w-full object-cover rounded-xl"
-                src={`/assets/static/${review.ImagePath}`}
-                alt={review.Title}
+                src={`/assets/static/${review.imagePath}`}
+                alt={review.title}
               />
             </div>
             <div className="flex flex-col gap-2">
-              <span className="text-xl font-semibold">{review.Title}</span>
+              <span className="text-xl font-semibold">{review.title}</span>
               <span className="text-base font-medium text-gray-300">
-                {formatCreationDate()} • Puzonne
+                {formatCreationDate()} • {review.authorName}
               </span>
               <div className="mt-5">
                 <div className="flex justify-between">
                   <div className="flex flex-col items-center justify-center">
                     <div
                       className={`${getScoreBackgroundColor(
-                        review.Score
+                        review.score
                       )} flex justify-center items-center rounded text-4xl w-[64] p-3 h-[64]`}
                     >
-                      {review.Score}
+                      {review.score}
                     </div>
                     <span>Review Score</span>
                   </div>
                   <div className="flex flex-col items-center justify-center">
                     <div
                       className={`${getScoreBackgroundColor(
-                        review.Score
+                        review.score
                       )} flex justify-center items-center p-3 rounded text-4xl w-[64] h-[64]`}
                     >
-                      {review.Score}
+                      {review.score}
                     </div>
                     <span>Average Score</span>
                   </div>
@@ -103,13 +108,13 @@ const ReviewGameInfoPage = () => {
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-xl pb-2">Summary</span>
-            <span>{review.Content}</span>
+            <span>{review.content}</span>
           </div>
           <div className="flex flex-col h-full w-full">
             <div className="flex flex-col gap-2 pt-5 w-full">
               {Attributes.map((x, index) => {
                 const attributeIndex = Number(
-                  review[x.FormName as keyof IReviewCreation]
+                  review[(x.FormName as keyof IReviewCreation).toLowerCase()]
                 );
 
                 return (
@@ -143,7 +148,7 @@ const ReviewGameInfoPage = () => {
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold">Tags</span>
-                {review.Tags.map((tag, index) => {
+                {review.tags.map((tag, index) => {
                   return (
                     <a
                       key={`review_tag_${index}`}

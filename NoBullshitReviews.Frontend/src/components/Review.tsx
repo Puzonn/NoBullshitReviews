@@ -12,20 +12,20 @@ export const Review = ({ review }: { review: IReview }) => {
       <img
         width={150}
         height={160}
-        src={`/assets/icons/${review.ImagePath}.png`}
-        alt={review.Title}
+        src={`/assets/icons/${review.imagePath}.png`}
+        alt={review.title}
       />
       <div className="flex flex-col h-full">
         <div className="bg-reviewinfobg font-bold max-w-fit px-2 py-1 mb-1 rounded">
           Review
         </div>
-        <span className="font-bold">{review.Title}</span>
-        <p>{review.Content}</p>
+        <span className="font-bold">{review.title}</span>
+        <p>{review.content}</p>
         <div className="mt-auto flex gap-3 items-center pt-5">
           <div
-            className={`${getScoreBackgroundColor(review.Score)} font-bold p-1`}
+            className={`${getScoreBackgroundColor(review.score)} font-bold p-1`}
           >
-            {review.Score}
+            {review.score}
           </div>
           <time className=" text-gray-300">4 miesiące temu</time>
         </div>

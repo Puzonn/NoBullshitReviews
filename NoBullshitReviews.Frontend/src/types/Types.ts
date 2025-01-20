@@ -1,27 +1,28 @@
 export interface IReviewCreation {
-  Title: string;
-  Content: string;
-  Tags: string[];
-  Score: number;
-  Graphics: number;
-  Gameplay: number;
-  Audio: number;
-  Audience: number;
-  Requirements: number;
-  GameSize: number;
-  Difficulty: number;
-  Story: number;
-  GameTime: number;
-  Bugs: number;
-  Image?: FormData | null;
+  title: string;
+  content: string;
+  tags: string[];
+  score: number;
+  graphics: number;
+  gameplay: number;
+  audio: number;
+  audience: number;
+  requirements: number;
+  gameSize: number;
+  difficulty: number;
+  story: number;
+  gameTime: number;
+  bugs: number;
+  image?: FormData | null;
 }
 
 export interface IReview extends IReviewCreation {
-  Creation: Date;
-  RouteName: string;
-  Id: number;
-  UID: string;
-  ImagePath: string;
+  authorName
+  creation: Date;
+  routeName: string;
+  id: number;
+  uID: string;
+  imagePath: string;
 }
 
 export interface ReviewGameInfo extends IReview {}

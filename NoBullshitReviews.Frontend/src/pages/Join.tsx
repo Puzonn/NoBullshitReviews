@@ -27,7 +27,7 @@ const Join = () => {
           <div
             onClick={() =>
               (window.location.href =
-                "https://discord.com/oauth2/authorize?client_id=1328307815336378409&response_type=code&redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Fauth%2FoauthCallback&scope=identify+email")
+                "https://discord.com/oauth2/authorize?client_id=1328307815336378409&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2FoauthCallback&scope=identify+email")
             }
             className="rounded flex items-center justify-center w-fit cursor-pointer"
           >

@@ -93,28 +93,47 @@ public class ReviewController : ControllerBase
         ReviewResponse response = ReviewResponse.FromReview(review);
         response.AuthorName = user.Username;
 
-        return Ok(JsonSerializer.Serialize(response));
+        return Ok(response);
     }
 
-    [Authorize]
-    [HttpGet("get-all")]
+    [HttpGet("recent")]
     public async Task<ActionResult<List<ReviewRequest>>> GetAll()
     {
-        var reviews = _context.Reviews.Take(10);
-        return Ok(JsonSerializer.Serialize(reviews));
+        var reviews = await _context.Reviews.OrderBy(x => x.Creation).Take(10).ToListAsync();
+
+        var response = reviews.Select(x =>
+        {
+            var review = ReviewResponse.FromReview(x);
+            review.AuthorName = x.Author.Username;
+            return review;
+        });
+
+        return Ok(reviews);
+    }
+
+    [HttpDelete("delete")]
+    public async Task<ActionResult> DeleteAll()
+    {
+        _context.RemoveRange(_context.Reviews);
+        await _context.SaveChangesAsync();
+
+        return Ok();
     }
 
     [HttpGet("get-info-name/{name}")]
-    public async Task<ActionResult<List<ReviewRequest>>> GetInfoByName(string name)
+    public async Task<ActionResult<List<ReviewResponse>>> GetInfoByName(string name)
     {
-        Review? review = await _context.Reviews.Where(review => review.RouteName == name).FirstOrDefaultAsync();
+        Review? review = await _context.Reviews.Include(x => x.Author).FirstOrDefaultAsync(x => x.RouteName == name);
 
         if(review is null)
         {
             return BadRequest($"Review with name: {name} dose not exist");
         }
 
-        return Ok(JsonSerializer.Serialize(review));
+        var response = ReviewResponse.FromReview(review);
+        response.AuthorName = review.Author.Username;
+
+        return Ok(response);
     }
 
     [HttpDelete("delete/{id}")]

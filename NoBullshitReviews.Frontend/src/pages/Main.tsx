@@ -12,7 +12,7 @@ export default function Main() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        await fetch("https://localhost:7106/review/get-all", {
+        await fetch("https://localhost:7106/review/recent", {
           credentials: "include",
           headers: {},
         }).then((e) => {
@@ -25,7 +25,7 @@ export default function Main() {
   }, []);
 
   const reviewClicked = (review: IReview) => {
-    navigate(`/game/${review.RouteName}`);
+    navigate(`/game/${review.routeName}`);
   };
 
   return (

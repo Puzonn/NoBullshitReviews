@@ -9,7 +9,7 @@ const GameReviewAttribute = ({
   attributeValue: string;
   imageSource: string;
 }) => {
-  if (attributeValue === "N/A") {
+  if (attributeValue === "N/A" || attributeValue === "") {
     return <></>;
   }
 
