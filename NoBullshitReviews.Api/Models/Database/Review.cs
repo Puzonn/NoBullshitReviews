@@ -18,7 +18,7 @@ public class Review : ReviewBase
     public string RouteName { get; set; } = string.Empty;
 
     public int AuthorId { get; set; }
-    public User Author { get; set; }
+    public DbUser Author { get; set; }
 
     [Key]
     public int Id { get; set; }

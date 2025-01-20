@@ -6,6 +6,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using NoBullshitReviews.Database;
 using Microsoft.EntityFrameworkCore;
+using NoBullshitReviews.Models.Database;
 
 namespace NoBullshitReviews.Controllers;
 
@@ -24,7 +25,7 @@ public class AuthController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("authorize")]
-    public async Task<ActionResult<User>> Authorize([FromBody] string code)
+    public async Task<ActionResult<DbUser>> Authorize([FromBody] string code)
     {
         string discordAuthToken;
         DiscordUser discordUser;
@@ -39,11 +40,11 @@ public class AuthController : ControllerBase
             return BadRequest(ex.Message);  
         }
 
-        User? user = await _context.Users.Where(x => x.DiscordUserId == discordUser.DiscordId).FirstOrDefaultAsync();
+        DbUser? user = await _context.Users.Where(x => x.DiscordUserId == discordUser.DiscordId).FirstOrDefaultAsync();
 
         if(user is null)
         {
-            user = new User()
+            user = new DbUser()
             {
                 DiscordUserId = discordUser.DiscordId,
                 Roles = new List<string>(),
@@ -53,11 +54,6 @@ public class AuthController : ControllerBase
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();  
         }
-
-        var identity = new ClaimsIdentity();
-
-        identity.AddClaim(new Claim("id", user.Id.ToString()));
-        identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
 
         await HttpContext.SignInAsync(new ClaimsPrincipal(
              new ClaimsIdentity(

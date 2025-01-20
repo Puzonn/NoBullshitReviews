@@ -14,7 +14,7 @@ const OAuth = () => {
         },
         body: JSON.stringify(code),
       }).then((e) => {
-        console.log(e);
+        window.location.href = "/"
       });
     }
   });

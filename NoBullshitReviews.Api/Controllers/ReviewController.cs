@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using NoBullshitReviews.Database;
 using NoBullshitReviews.Models.Database;
 using NoBullshitReviews.Models.Requests;
+using NoBullshitReviews.Models.Responses;
+using System.Security.Claims;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -36,11 +38,34 @@ public class ReviewController : ControllerBase
     [HttpPost("create")]
     public async Task<ActionResult<Review>> CreateReview([FromForm] ReviewRequest request)
     {
+        var principal = HttpContext.User;
+        DbUser? user = null;
+
+        if(principal?.Identity?.IsAuthenticated ?? false)
+        {
+            var id = principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if(id is null)
+            {
+                return Unauthorized();
+            }
+
+            user = await _context.Users.FindAsync(int.Parse(id));
+
+         
+        }
+
+        if (user is null)
+        {
+            return Unauthorized();
+        }
+
         Review review = Review.FromRequest(request);
 
         review.UID = Guid.NewGuid();
         review.Creation = DateTime.UtcNow;
         review.RouteName = Regex.Replace(review.Title.ToLower(), @"[^a-zA-Z0-9\s]", "").Replace(" ", "-");
+        review.Author = user;
 
         try
         {
@@ -65,7 +90,10 @@ public class ReviewController : ControllerBase
         await _context.Reviews.AddAsync(review);
         await _context.SaveChangesAsync();
 
-        return Ok(JsonSerializer.Serialize(review));
+        ReviewResponse response = ReviewResponse.FromReview(review);
+        response.AuthorName = user.Username;
+
+        return Ok(JsonSerializer.Serialize(response));
     }
 
     [Authorize]
