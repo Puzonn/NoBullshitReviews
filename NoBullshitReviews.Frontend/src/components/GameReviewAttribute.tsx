@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react";
 
 const GameReviewAttribute = ({
   attribute,
@@ -9,6 +9,10 @@ const GameReviewAttribute = ({
   attributeValue: string;
   imageSource: string;
 }) => {
+  if (attributeValue === "N/A") {
+    return <></>;
+  }
+
   return (
     <>
       <div className="flex items-center justify-center gap-2 mx-2">
