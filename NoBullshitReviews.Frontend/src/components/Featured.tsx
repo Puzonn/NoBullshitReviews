@@ -1,14 +1,19 @@
-import * as React from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DashReview } from "src/components/DashReview";
 import { IReview } from "src/types/Types";
 
 const Featured = ({ reviews }: { reviews: IReview[] }) => {
-  const featuredElement = React.useRef<HTMLDivElement>(null);
-  const [canScrollRight, setCanScrollRight] = React.useState<boolean>(true);
-  const [canScrollLeft, setCanScrollLeft] = React.useState<boolean>(false);
+  const featuredElement = useRef<HTMLDivElement>(null);
+  const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
+  const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setCanScrollLeft(checkCanScrollLeft());
+    setCanScrollRight(checkCanScrollRight());
+  }, []);
 
   const reviewClicked = (review: IReview) => {
     navigate(`/game/${review.routeName}`);
