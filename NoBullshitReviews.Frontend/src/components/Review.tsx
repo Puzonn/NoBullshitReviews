@@ -1,6 +1,5 @@
 import { IReview } from "../types/Types";
 import { getScoreBackgroundColor } from "../global/Colors";
-import * as React from "react";
 
 export const Review = ({ review }: { review: IReview }) => {
   return (

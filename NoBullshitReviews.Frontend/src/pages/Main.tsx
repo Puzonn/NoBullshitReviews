@@ -1,11 +1,12 @@
 import Featured from "src/components/Featured";
-import { IReview } from "../types/Types";
+import { IReview, ReviewType } from "../types/Types";
 import { useEffect, useState } from "react";
 import Latest from "src/components/Latest";
 
 export default function Main() {
+  const [filtredReviews, setFiltredReviews] = useState<IReview[]>([]);
   const [reviews, setReviews] = useState<IReview[]>([]);
-  const [filter, setFilter] = useState<string>("all");
+  const [filter, setFilter] = useState<ReviewType>(ReviewType.Any);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -14,7 +15,10 @@ export default function Main() {
           credentials: "include",
           headers: {},
         }).then((e) => {
-          e.json().then((e) => setReviews(e));
+          e.json().then((e) => {
+            setReviews(e);
+            setFiltredReviews(e);
+          });
         });
       } catch (e) {}
     };
@@ -22,39 +26,49 @@ export default function Main() {
     fetchReviews();
   }, []);
 
+  useEffect(() => {
+    setFiltredReviews((prev) => {
+      if (filter !== ReviewType.Any) {
+        return reviews.filter((x) => x.reviewType === filter);
+      }
+
+      return reviews;
+    });
+  }, [filter]);
+
   return (
     <div className="box-border flex flex-col min-h-screen bg-reviewbg w-full sm:pl-5 overflow-hidden">
       <div className="pb-20 gap-8 p-4 font-[family-name:var(--font-geist-sans)]">
         <div className="flex flex-col gap-3 justify-start">
-          <Featured reviews={reviews} />
+          <Featured reviews={filtredReviews} />
           <div className="flex gap-2 font-medium justify-center">
             <div
-              onClick={() => setFilter("all")}
+              onClick={() => setFilter(ReviewType.Any)}
               className={`p-4 w-[90px] text-center cursor-pointer rounded-l-3xl bg-reviewinfobglight transition-colors duration-200 ${
-                filter === "all" ? "bg-slate-300 text-black" : ""
+                filter === ReviewType.Any ? "bg-slate-300 text-black" : ""
               }`}
             >
               All
             </div>
             <div
-              onClick={() => setFilter("movies")}
+              onClick={() => setFilter(ReviewType.Movie)}
               className={`p-4 w-[90px] text-center  cursor-pointer bg-reviewinfobglight transition-colors duration-200 ${
-                filter === "movies" ? "bg-slate-300 text-black" : ""
+                filter === ReviewType.Movie ? "bg-slate-300 text-black" : ""
               }`}
             >
               Movies
             </div>
             <div
-              onClick={() => setFilter("games")}
+              onClick={() => setFilter(ReviewType.Game)}
               className={`p-4 w-[90px] text-center  cursor-pointer rounded-r-3xl bg-reviewinfobglight transition-colors duration-200 ${
-                filter === "games" ? "bg-slate-300 text-black" : ""
+                filter === ReviewType.Game ? "bg-slate-300 text-black" : ""
               }`}
             >
               Games
             </div>
           </div>
 
-          <Latest reviews={reviews} />
+          <Latest reviews={filtredReviews} />
         </div>
       </div>
     </div>

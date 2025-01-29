@@ -25,13 +25,18 @@ public class Review : ReviewBase
 
     public static Review FromRequest(ReviewRequest request)
     {
+        var mappedAttributes = request.Attributes.Select(e => new Attribute()
+        {
+            AttributeName = e.Key,
+            AttributeValueIndex = e.Value
+        }).ToList();
+
         return new Review()
         {
             Title = request.Title,
             Content = request.Content,
+            Attributes = mappedAttributes,
             Score = request.Score,
-            Attributes = request.Attributes,
-            Tags = request.Tags,
         };
     }
 }

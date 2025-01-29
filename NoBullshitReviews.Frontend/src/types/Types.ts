@@ -8,6 +8,7 @@ export interface IReviewCreation {
 }
 
 export enum ReviewType {
+  Any = -1,
   Game = 0,
   Movie = 1,
 }

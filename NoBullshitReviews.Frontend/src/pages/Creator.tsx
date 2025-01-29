@@ -46,57 +46,19 @@ const Creator = () => {
     form.append("content", content);
     form.append("tags", JSON.stringify(tags));
     form.append("score", score.toString());
-    form.append("reviewType", "1")
-    
-    const attributes = [
-      {
-        attributeName: "Graphics",
-        attributeValueIndex: getAttributeValue("Graphics"),
-      },
-      {
-        attributeName: "Gameplay",
-        attributeValueIndex: getAttributeValue("Gameplay"),
-      },
-      {
-        attributeName: "Audio",
-        attributeValueIndex: getAttributeValue("Audio"),
-      },
-      {
-        attributeName: "Audience",
-        attributeValueIndex: getAttributeValue("Audience"),
-      },
-      {
-        attributeName: "PC Requirements",
-        attributeValueIndex: getAttributeValue("PC Requirements"),
-      },
-      {
-        attributeName: "Game Size",
-        attributeValueIndex: getAttributeValue("Game Size"),
-      },
-      {
-        attributeName: "Difficulty",
-        attributeValueIndex: getAttributeValue("Difficulty"),
-      },
-      {
-        attributeName: "Story",
-        attributeValueIndex: getAttributeValue("Story"),
-      },
-      {
-        attributeName: "Game Time",
-        attributeValueIndex: getAttributeValue("Game Time"),
-      },
-      {
-        attributeName: "Bugs",
-        attributeValueIndex: getAttributeValue("Bugs"),
-      },
-    ];
+    form.append("reviewType", "1");
 
-    attributes.forEach((attr, index) => {
-      form.append(`Attributes[${index}].AttributeName`, attr.attributeName);
-      form.append(
-        `Attributes[${index}].AttributeValueIndex`,
-        attr.attributeValueIndex.toString()
-      );
+    const mappedAttributes = attributes.reduce<Record<string, number>>(
+      (acc, obj) => {
+        const key = Object.keys(obj)[0];
+        acc[key] = obj[key];
+        return acc;
+      },
+      {}
+    );
+
+    Object.entries(mappedAttributes).forEach(([key, value]) => {
+      form.append(`Attributes[${key}]`, value.toString());
     });
 
     const response = await fetch("https://localhost:7106/review/create", {
@@ -121,9 +83,9 @@ const Creator = () => {
     });
   };
 
-  const getAttributeValue = (attribute: string): string => {
+  const getAttributeValue = (attribute: string): number => {
     const value = attributes.find((e) => attribute in e)?.[attribute];
-    return value!.toString();
+    return value;
   };
 
   return (
