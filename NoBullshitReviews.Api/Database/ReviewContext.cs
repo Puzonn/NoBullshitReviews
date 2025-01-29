@@ -33,8 +33,9 @@ public class ReviewContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Review>()
-    .HasOne(r => r.Author)
-    .WithMany(u => u.Reviews)
-    .HasForeignKey(r => r.AuthorId);
+        .HasOne(r => r.Author)
+        .WithMany(u => u.Reviews)
+        .HasForeignKey(r => r.AuthorId)
+        .OnDelete(DeleteBehavior.Cascade);
     }
 }

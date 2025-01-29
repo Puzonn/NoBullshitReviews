@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NoBullshitReviews.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace NoBullshitReviews.Models;
 
@@ -13,38 +14,15 @@ public class ReviewBase
     public string Content { get; set; } = string.Empty;
 
     [Required]
-    public List<string> Tags { get; set; } = new List<string>();
-
-    [Required]
+    [Range(0, 100)]
     public int Score { get; set; }
 
     [Required]
-    public int Graphics { get; set; }
+    public List<string> Tags { get; set; } = new List<string>();
 
     [Required]
-    public int Gameplay { get; set; }
+    public ReviewType ReviewType { get; set; }  
 
     [Required]
-    public int Audio { get; set; }
-
-    [Required]
-    public int Audience { get; set; }
-
-    [Required]
-    public int Requirements { get; set; }
-
-    [Required]
-    public int GameSize { get; set; }
-
-    [Required]
-    public int Difficulty { get; set; }
-
-    [Required]
-    public int Story { get; set; }
-
-    [Required]
-    public int GameTime { get; set; }
-
-    [Required]
-    public int Bugs { get; set; }
+    public List<Attribute> Attributes { get; set; } = new List<Attribute>();
 }

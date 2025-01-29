@@ -1,5 +1,4 @@
-import { Dictionary } from "../types/Types";
-import * as React from "react";
+import { Dictionary } from "src/types/Types";
 
 const CreatorGameAttribute = ({
   attribute,

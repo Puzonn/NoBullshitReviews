@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoBullshitReviews.Database;
 
@@ -10,9 +11,11 @@ using NoBullshitReviews.Database;
 namespace NoBullshitReviews.Migrations
 {
     [DbContext(typeof(ReviewContext))]
-    partial class ReviewContextModelSnapshot : ModelSnapshot
+    [Migration("20250129022751_ReviewAttributes")]
+    partial class ReviewAttributes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -84,15 +87,9 @@ namespace NoBullshitReviews.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ReviewType")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("RouteName")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("INTEGER");
 
                     b.PrimitiveCollection<string>("Tags")
                         .IsRequired()

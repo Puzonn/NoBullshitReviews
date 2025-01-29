@@ -1,9 +1,12 @@
 import { useParams } from "react-router-dom";
-import GameReviewAttribute from "../components/GameReviewAttribute";
+import GameReviewAttribute from "../components/Creator/GameReviewAttribute";
 import { getScoreBackgroundColor } from "../global/Colors";
-import { Attributes, IReviewCreation, ReviewGameInfo } from "../types/Types";
+import {
+  GameReviewAttributes,
+  IReviewCreation,
+  ReviewGameInfo,
+} from "../types/Types";
 import { useEffect, useState } from "react";
-import * as React from "react";
 
 const ReviewGameInfoPage = () => {
   const [review, setReview] = useState<ReviewGameInfo | undefined>(undefined);
@@ -14,15 +17,13 @@ const ReviewGameInfoPage = () => {
     const fetchInfo = async () => {
       try {
         await fetch(`https://localhost:7106/review/get-info-name/${game}`, {
-          credentials: 'include'
-        }).then(
-          (e) => {
-            e.json().then((e) => {
-              setReview(e);
-              setIsLoading(false);
-            });
-          }
-        );
+          credentials: "include",
+        }).then((e) => {
+          e.json().then((e) => {
+            setReview(e);
+            setIsLoading(false);
+          });
+        });
       } catch (e) {}
     };
 
@@ -30,7 +31,7 @@ const ReviewGameInfoPage = () => {
   }, []);
 
   const getAttributeValueName = (attribute: string, attributeIndex: number) => {
-    const dictionary = Attributes.find((e) => {
+    const dictionary = GameReviewAttributes.find((e) => {
       return e.FormName == attribute;
     })?.Values[attributeIndex];
 
@@ -114,19 +115,17 @@ const ReviewGameInfoPage = () => {
           </div>
           <div className="flex flex-col h-full w-full">
             <div className="flex flex-col gap-2 pt-5 w-full">
-              {Attributes.map((x, index) => {
-                const attributeIndex = Number(
-                  review[(x.FormName as keyof IReviewCreation).toLowerCase()]
+              {GameReviewAttributes.map((x, index) => {
+                const values = Object.values(review.attributes);
+                const attributeIndex = values.findIndex(
+                  (r) => (r as any).attributeName === x.FormName
                 );
 
                 return (
                   <GameReviewAttribute
                     key={`game_review_attribute_${index}`}
                     attribute={x.Name}
-                    attributeValue={getAttributeValueName(
-                      x.FormName,
-                      attributeIndex
-                    )}
+                    attributeValue={getAttributeValueName(x.FormName, attributeIndex)}
                     imageSource={x.Image}
                   />
                 );

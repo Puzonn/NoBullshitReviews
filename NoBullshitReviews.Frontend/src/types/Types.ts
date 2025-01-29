@@ -3,17 +3,13 @@ export interface IReviewCreation {
   content: string;
   tags: string[];
   score: number;
-  graphics: number;
-  gameplay: number;
-  audio: number;
-  audience: number;
-  requirements: number;
-  gameSize: number;
-  difficulty: number;
-  story: number;
-  gameTime: number;
-  bugs: number;
+  attributes: Dictionary<string, number>;
   image?: FormData | null;
+}
+
+export enum ReviewType {
+  Game = 0,
+  Movie = 1,
 }
 
 export interface IReview extends IReviewCreation {
@@ -23,6 +19,7 @@ export interface IReview extends IReviewCreation {
   id: number;
   uID: string;
   imagePath: string;
+  reviewType: ReviewType;
 }
 
 export interface ReviewGameInfo extends IReview {
@@ -33,14 +30,14 @@ export type Dictionary<K extends string | number, V> = {
   [P in K]: V;
 };
 
-export interface IGameAttributeReview {
+export interface IAttributeReview {
   Name: string;
   FormName: string;
   Values: Dictionary<string, string>[];
   Image: string;
 }
 
-export const Attributes: IGameAttributeReview[] = [
+export const GameReviewAttributes: IAttributeReview[] = [
   {
     Name: "Graphics",
     FormName: "Graphics",

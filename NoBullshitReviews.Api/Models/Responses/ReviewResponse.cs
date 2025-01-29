@@ -24,23 +24,14 @@ public class ReviewResponse : ReviewBase
     {
         return new ReviewResponse()
         {
-            Difficulty = review.Difficulty,
-            Audience = review.Audience, 
-            Audio = review.Audio,
-            Bugs = review.Bugs,
             Content = review.Content,   
-            Gameplay = review.Gameplay,
-            GameSize = review.GameSize,
-            GameTime = review.GameTime,
-            Graphics = review.Graphics,
-            Requirements = review.Requirements,
             ImagePath = review.ImagePath,
             Creation = review.Creation,
             Title = review.Title,
             Tags = review.Tags,
-            Story = review.Story,
-            RouteName = review.RouteName,
+            Attributes = review.Attributes,
             Score = review.Score,
+            RouteName = review.RouteName,
         };   
     }
 }

@@ -8,7 +8,6 @@ using NoBullshitReviews.Models.Database;
 using NoBullshitReviews.Models.Requests;
 using NoBullshitReviews.Models.Responses;
 using System.Security.Claims;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace NoBullshitReviews.Controllers;
@@ -99,7 +98,9 @@ public class ReviewController : ControllerBase
     [HttpGet("recent")]
     public async Task<ActionResult<List<ReviewRequest>>> GetAll()
     {
-        var reviews = await _context.Reviews.OrderBy(x => x.Creation).Take(10).ToListAsync();
+        var reviews = await _context.Reviews.OrderByDescending(x => x.Creation)
+            .Take(10)
+            .ToListAsync();
 
         var response = reviews.Select(x =>
         {
@@ -123,7 +124,10 @@ public class ReviewController : ControllerBase
     [HttpGet("get-info-name/{name}")]
     public async Task<ActionResult<List<ReviewResponse>>> GetInfoByName(string name)
     {
-        Review? review = await _context.Reviews.Include(x => x.Author).FirstOrDefaultAsync(x => x.RouteName == name);
+        Review? review = await _context.Reviews
+            .Include(x => x.Author)
+            .Include(r => r.Attributes)
+            .FirstOrDefaultAsync(x => x.RouteName == name);
 
         var principal = HttpContext.User;
         DbUser? user = null;
@@ -155,13 +159,14 @@ public class ReviewController : ControllerBase
     [HttpDelete("delete/{id}")]
     public async Task<ActionResult> DeleteReviewById(int id)
     {
-        var review = await _context.Reviews.FindAsync(id);
+        var review = await _context.Reviews.Include(r => r.Attributes).FirstOrDefaultAsync(x => x.Id == id);
 
         if(review is null)
         {
             return BadRequest();
         }
 
+        _context.RemoveRange(review.Attributes);
         _context.Remove(review);
         await _context.SaveChangesAsync();
 

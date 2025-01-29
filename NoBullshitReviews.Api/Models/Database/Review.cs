@@ -29,18 +29,9 @@ public class Review : ReviewBase
         {
             Title = request.Title,
             Content = request.Content,
-            Difficulty = request.Difficulty,
-            Audience = request.Audience,
-            Audio = request.Audio,
-            Bugs = request.Bugs,
-            Tags = request.Tags,
-            Gameplay = request.Gameplay,
-            GameSize = request.GameSize,
-            GameTime = request.GameTime,
-            Graphics = request.Graphics,
-            Requirements = request.Requirements,
             Score = request.Score,
-            Story = request.Story,
+            Attributes = request.Attributes,
+            Tags = request.Tags,
         };
     }
 }
