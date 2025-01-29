@@ -13,7 +13,9 @@ const ReviewGameInfoPage = () => {
   useEffect(() => {
     const fetchInfo = async () => {
       try {
-        await fetch(`https://localhost:7106/review/get-info-name/${game}`).then(
+        await fetch(`https://localhost:7106/review/get-info-name/${game}`, {
+          credentials: 'include'
+        }).then(
           (e) => {
             e.json().then((e) => {
               setReview(e);

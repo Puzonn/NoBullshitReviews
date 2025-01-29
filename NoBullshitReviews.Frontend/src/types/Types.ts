@@ -17,7 +17,7 @@ export interface IReviewCreation {
 }
 
 export interface IReview extends IReviewCreation {
-  authorName
+  authorName;
   creation: Date;
   routeName: string;
   id: number;
@@ -25,7 +25,9 @@ export interface IReview extends IReviewCreation {
   imagePath: string;
 }
 
-export interface ReviewGameInfo extends IReview {}
+export interface ReviewGameInfo extends IReview {
+  isAuthor: boolean;
+}
 
 export type Dictionary<K extends string | number, V> = {
   [P in K]: V;

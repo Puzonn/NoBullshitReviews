@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using NoBullshitReviews.Database;
 using Microsoft.EntityFrameworkCore;
 using NoBullshitReviews.Models.Database;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace NoBullshitReviews.Controllers;
 
@@ -61,7 +62,7 @@ public class AuthController : ControllerBase
                  {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.Username),
-                 }, "Auth")
+                 }, CookieAuthenticationDefaults.AuthenticationScheme)
              ), new AuthenticationProperties()
              {
                  IsPersistent = true,

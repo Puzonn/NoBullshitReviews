@@ -1,13 +1,10 @@
-import { DashReview } from "../components/DashReview";
+import Featured from "src/components/Featured";
 import { IReview } from "../types/Types";
 import { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function Main() {
   const [reviews, setReviews] = useState<IReview[]>([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -24,29 +21,11 @@ export default function Main() {
     fetchReviews();
   }, []);
 
-  const reviewClicked = (review: IReview) => {
-    navigate(`/game/${review.routeName}`);
-  };
-
   return (
-    <div className="box-border flex flex-col min-h-screen bg-reviewbg">
-      <div className="flex h-full">
-        <Sidebar />
-        <div className="overflow-auto pb-20 gap-8 p-8 font-[family-name:var(--font-geist-sans)]">
-          <h1 className="text-3xl font-semibold py-2">Most Recent</h1>
-          <div className="flex flex-row gap-8 justify-start">
-            {reviews.map((review, index) => {
-              return (
-                <DashReview
-                  onClick={(e) => {
-                    reviewClicked(e);
-                  }}
-                  key={`review_${index}`}
-                  review={review}
-                />
-              );
-            })}
-          </div>
+    <div className="box-border flex flex-col min-h-screen bg-reviewbg w-full sm:pl-5 overflow-hidden">
+      <div className="pb-20 gap-8 p-4 font-[family-name:var(--font-geist-sans)]">
+        <div className="flex flex-col gap-3 justify-start">
+          <Featured reviews={reviews} />
         </div>
       </div>
     </div>

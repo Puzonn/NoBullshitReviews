@@ -17,6 +17,9 @@ public class ReviewResponse : ReviewBase
     [Required]
     public string RouteName { get; set; } = string.Empty;
 
+    [Required]
+    public bool IsAuthor { get; set; } = false;
+
     public static ReviewResponse FromReview(Review review)
     {
         return new ReviewResponse()

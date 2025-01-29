@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoBullshitReviews.Database;
@@ -51,8 +53,6 @@ public class ReviewController : ControllerBase
             }
 
             user = await _context.Users.FindAsync(int.Parse(id));
-
-         
         }
 
         if (user is null)
@@ -125,13 +125,29 @@ public class ReviewController : ControllerBase
     {
         Review? review = await _context.Reviews.Include(x => x.Author).FirstOrDefaultAsync(x => x.RouteName == name);
 
-        if(review is null)
+        var principal = HttpContext.User;
+        DbUser? user = null;
+
+        if (principal?.Identity?.IsAuthenticated ?? false)
+        {
+            var id = principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if (id is null)
+            {
+                return Unauthorized();
+            }
+
+            user = await _context.Users.FindAsync(int.Parse(id));
+        }
+
+        if (review is null)
         {
             return BadRequest($"Review with name: {name} dose not exist");
         }
 
         var response = ReviewResponse.FromReview(review);
         response.AuthorName = review.Author.Username;
+        response.IsAuthor = review.Author == user;
 
         return Ok(response);
     }
