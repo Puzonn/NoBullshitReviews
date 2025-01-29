@@ -13,7 +13,7 @@ const Featured = ({ reviews }: { reviews: IReview[] }) => {
   useEffect(() => {
     setCanScrollLeft(checkCanScrollLeft());
     setCanScrollRight(checkCanScrollRight());
-  }, []);
+  }, [reviews]);
 
   const reviewClicked = (review: IReview) => {
     navigate(`/game/${review.routeName}`);

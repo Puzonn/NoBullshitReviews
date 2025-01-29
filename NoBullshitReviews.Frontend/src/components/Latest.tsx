@@ -46,7 +46,7 @@ const Latest = ({ reviews }: { reviews: IReview[] }) => {
   useEffect(() => {
     setCanScrollLeft(checkCanScrollLeft());
     setCanScrollRight(checkCanScrollRight());
-  }, []);
+  }, [reviews]);
 
   return (
     <div>
@@ -60,7 +60,7 @@ const Latest = ({ reviews }: { reviews: IReview[] }) => {
         <hr className="w-full" />
         <div className="gap-3 hidden sm:flex">
           <div
-            onClick={() => scroll("featured", -400)}
+            onClick={() => scroll("latest", -400)}
             className={`border-white border-2 hover:bg-reviewinfobg select-disable cursor-pointer rounded-full p-1.5 ${
               canScrollLeft ? "" : "opacity-50"
             }`}
@@ -73,7 +73,7 @@ const Latest = ({ reviews }: { reviews: IReview[] }) => {
             />
           </div>
           <div
-            onClick={() => scroll("featured", 400)}
+            onClick={() => scroll("latest", 400)}
             className={`border-white border-2 hover:bg-reviewinfobg select-disable cursor-pointer rounded-full p-1.5 ${
               canScrollRight ? "" : "opacity-50"
             }`}
@@ -85,7 +85,7 @@ const Latest = ({ reviews }: { reviews: IReview[] }) => {
       <div
         ref={lastestElement}
         className="flex flex-row overflow-auto no-scrollbar"
-        id="featured"
+        id="latest"
       >
         {reviews.map((review, index) => {
           return (
