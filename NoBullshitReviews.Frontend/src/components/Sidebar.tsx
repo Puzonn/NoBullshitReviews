@@ -107,6 +107,14 @@ const Sidebar = () => {
               Create Review
             </button>
           )}
+          {!visible && (
+            <button
+              onClick={() => navigate("/creator")}
+              className="hover:bg-reviewbg right-8 bg-reviewinfobg text-white py-2 rounded-lg shadow-lg transition-all"
+            >
+              Create
+            </button>
+          )}
           <hr className="border border-white" />
 
           <div className="flex justify-center">
