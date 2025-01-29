@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import GameReviewAttribute from "../components/Creator/GameReviewAttribute";
+import GameReviewAttribute from "../components/creator/GameReviewAttribute";
 import { getScoreBackgroundColor } from "../global/Colors";
 import {
   GameReviewAttributes,

@@ -93,8 +93,8 @@ public class ReviewController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("recent")]
-    public async Task<ActionResult<List<ReviewRequest>>> GetAll()
+    [HttpGet("feed")]
+    public async Task<ActionResult<List<ReviewRequest>>> GetFeed()
     {
         var reviews = await _context.Reviews.OrderByDescending(x => x.Creation)
             .Take(10)

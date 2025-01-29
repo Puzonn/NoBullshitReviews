@@ -159,3 +159,126 @@ export const GameReviewAttributes: IAttributeReview[] = [
     ],
   },
 ];
+
+export const MovieReviewAttributes: IAttributeReview[] = [
+  {
+    Name: "Graphics/Visual Effects",
+    FormName: "Graphics/Visual Effects",
+    Image: "Monitor",
+    Values: [
+      { na: "N/A" },
+      { beautiful: "Beautiful" },
+      { good: "Good" },
+      { decent: "Decent" },
+      { bad: "Bad" },
+    ],
+  },
+  {
+    Name: "Story/Plot",
+    FormName: "Story/Plot",
+    Image: "Book",
+    Values: [
+      { na: "N/A" },
+      { amazing: "Amazing" },
+      { good: "Good" },
+      { average: "Average" },
+      { poor: "Poor" },
+    ],
+  },
+  {
+    Name: "Audio/Voice Acting",
+    FormName: "Audio/Voice Acting",
+    Image: "Microphone",
+    Values: [
+      { na: "N/A" },
+      { excellent: "Excellent" },
+      { good: "Good" },
+      { average: "Average" },
+      { poor: "Poor" },
+    ],
+  },
+  {
+    Name: "Pacing",
+    FormName: "Pacing",
+    Image: "Clock",
+    Values: [
+      { na: "N/A" },
+      { perfect: "Perfect" },
+      { good: "Good" },
+      { slow: "Slow" },
+      { rushed: "Rushed" },
+    ],
+  },
+  {
+    Name: "Character Development",
+    FormName: "Character Development",
+    Image: "Person",
+    Values: [
+      { na: "N/A" },
+      { deep: "Deep" },
+      { good: "Good" },
+      { average: "Average" },
+      { shallow: "Shallow" },
+    ],
+  },
+  {
+    Name: "Cinematography",
+    FormName: "Cinematography",
+    Image: "Camera",
+    Values: [
+      { na: "N/A" },
+      { breathtaking: "Breathtaking" },
+      { good: "Good" },
+      { average: "Average" },
+      { poor: "Poor" },
+    ],
+  },
+  {
+    Name: "Originality",
+    FormName: "Originality",
+    Image: "Lightbulb",
+    Values: [
+      { na: "N/A" },
+      { unique: "Unique" },
+      { creative: "Creative" },
+      { average: "Average" },
+      { derivative: "Derivative" },
+    ],
+  },
+  {
+    Name: "Emotional Impact",
+    FormName: "Emotional Impact",
+    Image: "Heart",
+    Values: [
+      { na: "N/A" },
+      { powerful: "Powerful" },
+      { touching: "Touching" },
+      { decent: "Decent" },
+      { dull: "Dull" },
+    ],
+  },
+  {
+    Name: "Soundtrack",
+    FormName: "Soundtrack",
+    Image: "Music",
+    Values: [
+      { na: "N/A" },
+      { outstanding: "Outstanding" },
+      { good: "Good" },
+      { average: "Average" },
+      { forgettable: "Forgettable" },
+    ],
+  },
+  {
+    Name: "Rewatchability",
+    FormName: "Rewatchability",
+    Image: "Repeat",
+    Values: [
+      { na: "N/A" },
+      { must_watch: "Must Watch" },
+      { enjoyable: "Enjoyable" },
+      { occasional: "Occasional" },
+      { one_time: "One Time" },
+    ],
+  },
+];

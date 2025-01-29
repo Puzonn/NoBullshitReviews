@@ -6,10 +6,12 @@ import Main from "./pages/Main";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ReviewGameInfoPage from "src/pages/ReviewGameInfoPage";
 import Sidebar from "src/components/Sidebar";
-import Creator from "src/pages/Creator";
+import Creator from "src/pages/creator/Creator";
 import Join from "src/pages/Join";
 import OAuth from "src/pages/OAuth";
 import AuthProvider from "src/Providers/AuthProvider";
+import GameReviewCreator from "src/pages/creator/GameReviewCreator";
+import MovieReviewCreator from "src/pages/creator/MovieReviewCreator";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
@@ -29,7 +31,15 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route index path="/" element={renderWithSidebar(<Main />)} />
-        <Route path="/creator" element={renderWithSidebar(<Creator />)} />
+        <Route path="/creator/" element={renderWithSidebar(<Creator />)} />
+        <Route
+          path="/creator/review/movie"
+          element={renderWithSidebar(<MovieReviewCreator />)}
+        />
+        <Route
+          path="/creator/review/game"
+          element={renderWithSidebar(<GameReviewCreator />)}
+        />
         <Route path="/join" element={renderWithSidebar(<Join />)} />
         <Route path="/auth/oauthCallback" element={<OAuth />} />
         <Route

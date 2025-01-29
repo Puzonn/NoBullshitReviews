@@ -2,6 +2,7 @@ import Featured from "src/components/Featured";
 import { IReview, ReviewType } from "../types/Types";
 import { useEffect, useState } from "react";
 import Latest from "src/components/Latest";
+import { FetchFeed } from "src/api/ReviewApi";
 
 export default function Main() {
   const [filtredReviews, setFiltredReviews] = useState<IReview[]>([]);
@@ -11,10 +12,7 @@ export default function Main() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        await fetch("https://localhost:7106/review/recent", {
-          credentials: "include",
-          headers: {},
-        }).then((e) => {
+        await FetchFeed().then((e) => {
           e.json().then((e) => {
             setReviews(e);
             setFiltredReviews(e);
