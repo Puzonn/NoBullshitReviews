@@ -33,6 +33,7 @@ builder.Services.AddAuthentication(options =>
         options.Cookie.HttpOnly = false;
     });
 
+builder.Services.AddMemoryCache();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddDbContext<ReviewContext>();
 builder.Services.AddControllers();
