@@ -36,6 +36,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddDbContext<ReviewContext>();
+builder.Services.AddScoped<ReviewService>();
+
 builder.Services.AddControllers();
 
 var app = builder.Build();

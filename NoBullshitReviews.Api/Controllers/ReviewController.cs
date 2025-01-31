@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using NoBullshitReviews.Database;
 using NoBullshitReviews.Models.Database;
 using NoBullshitReviews.Models.Requests;
 using NoBullshitReviews.Models.Responses;
+using NoBullshitReviews.Services;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 
@@ -15,14 +15,15 @@ namespace NoBullshitReviews.Controllers;
 [Route("[controller]")]
 public class ReviewController : ControllerBase
 {
-    private readonly IMemoryCache _cache;
     private readonly ReviewContext _context;
+    private readonly ReviewService _reviewService;
+
     private readonly IConfiguration _configuration;
     private readonly string _staticImageDirectory;
 
-    public ReviewController(ReviewContext context, IConfiguration configuration, IMemoryCache cache)
+    public ReviewController(ReviewContext context, IConfiguration configuration, ReviewService reviewService)
     {
-        _cache = cache;
+        _reviewService = reviewService;
         _configuration = configuration;
         _context = context;
 
@@ -99,31 +100,7 @@ public class ReviewController : ControllerBase
     [HttpGet("feed")]
     public async Task<ActionResult<List<ReviewRequest>>> GetFeed()
     {
-        const string cacheKey = "feed_cache";
-
-        if(!_cache.TryGetValue(cacheKey, out object? feed))
-        {
-            var latest = await _context.Reviews.Include(x => x.Author).OrderByDescending(x => x.Creation)
-                .Take(10)
-                .ToListAsync();
-
-            feed = latest.Select(x =>
-            {
-                var review = ReviewResponse.FromReview(x);
-                review.AuthorName = x.Author.Username;
-                return review;
-            });
-
-            var cacheEntryOptions = new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
-                SlidingExpiration = TimeSpan.FromMinutes(5)
-            };
-
-            _cache.Set(cacheKey, feed, cacheEntryOptions);
-        }
-
-        return Ok(feed);
+        return Ok(await _reviewService.GetFeed());
     }
 
     [HttpDelete("delete")]

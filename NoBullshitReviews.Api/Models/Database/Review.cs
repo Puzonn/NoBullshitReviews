@@ -33,6 +33,8 @@ public class Review : ReviewBase
 
         return new Review()
         {
+            ReviewType = request.ReviewType,
+            Tags = request.Tags,
             Title = request.Title,
             Content = request.Content,
             Attributes = mappedAttributes,

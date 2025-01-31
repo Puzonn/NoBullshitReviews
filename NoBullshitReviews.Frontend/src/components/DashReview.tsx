@@ -1,6 +1,5 @@
 import { getScoreBackgroundColor } from "../global/Colors";
-import { IReview } from "../types/Types";
-import * as React from "react";
+import { IReview, ReviewType } from "../types/Types";
 
 export const DashReview = ({
   review,
@@ -9,12 +8,23 @@ export const DashReview = ({
   review: IReview;
   onClick: (e: IReview) => void;
 }) => {
+  const GetTag = (): string => {
+    switch (review.reviewType) {
+      case ReviewType.Movie:
+        return "Movie";
+      case ReviewType.Game:
+        return "Game";
+    }
+
+    return "";
+  };
+
   return (
     <div className="flex overflow-x-auto gap-4 p-4">
       <div
         onClick={() => onClick(review)}
-        className="hover:bg-reviewinfobglight 
-                 transition-colors duration-500 cursor-pointer flex flex-col gap-2 
+        className="hover:bg-reviewinfobglight
+                 transition-colors duration-500 cursor-pointer flex flex-col gap-2
                  p-3 rounded shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_4px_8px_rgba(0,0,0,0.6)]
                  w-40 sm:w-48 lg:w-64"
       >
@@ -35,7 +45,7 @@ export const DashReview = ({
               {review.score}
             </span>
             <span className="ml-auto border border-white p-1 rounded font-medium">
-              Game
+              {GetTag()}
             </span>
           </div>
         </div>
