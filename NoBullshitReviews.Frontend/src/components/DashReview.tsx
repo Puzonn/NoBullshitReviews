@@ -1,5 +1,5 @@
 import { getScoreBackgroundColor } from "../global/Colors";
-import { IReview, ReviewType } from "../types/Types";
+import { IReview, ContentType } from "../types/Types";
 
 export const DashReview = ({
   review,
@@ -10,9 +10,9 @@ export const DashReview = ({
 }) => {
   const GetTag = (): string => {
     switch (review.reviewType) {
-      case ReviewType.Movie:
+      case ContentType.ReviewMovie:
         return "Movie";
-      case ReviewType.Game:
+      case ContentType.ReviewGame:
         return "Game";
     }
 

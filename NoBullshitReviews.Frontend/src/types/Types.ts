@@ -7,10 +7,12 @@ export interface IReviewCreation {
   image?: FormData | null;
 }
 
-export enum ReviewType {
+export enum ContentType {
   Any = -1,
-  Game = 0,
-  Movie = 1,
+  ReviewGame = 0,
+  ReviewMovie = 1,
+  NewsGame = 2,
+  NewsMovie = 3,
 }
 
 export interface IReview extends IReviewCreation {
@@ -20,7 +22,7 @@ export interface IReview extends IReviewCreation {
   id: number;
   uID: string;
   imagePath: string;
-  reviewType: ReviewType;
+  reviewType: ContentType;
 }
 
 export interface ReviewGameInfo extends IReview {

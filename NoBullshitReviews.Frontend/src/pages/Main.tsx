@@ -1,5 +1,5 @@
 import Featured from "src/components/Featured";
-import { IReview, ReviewType } from "../types/Types";
+import { IReview, ContentType } from "../types/Types";
 import { useEffect, useState } from "react";
 import Latest from "src/components/Latest";
 import { FetchFeed } from "src/api/ReviewApi";
@@ -7,7 +7,7 @@ import { FetchFeed } from "src/api/ReviewApi";
 export default function Main() {
   const [filtredReviews, setFiltredReviews] = useState<IReview[]>([]);
   const [reviews, setReviews] = useState<IReview[]>([]);
-  const [filter, setFilter] = useState<ReviewType>(ReviewType.Any);
+  const [filter, setFilter] = useState<ContentType>(ContentType.Any);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -26,7 +26,7 @@ export default function Main() {
 
   useEffect(() => {
     setFiltredReviews((prev) => {
-      if (filter !== ReviewType.Any) {
+      if (filter !== ContentType.Any) {
         return reviews.filter((x) => x.reviewType === filter);
       }
 
@@ -41,25 +41,29 @@ export default function Main() {
           <Featured reviews={filtredReviews} />
           <div className="flex gap-2 font-medium justify-center">
             <div
-              onClick={() => setFilter(ReviewType.Any)}
+              onClick={() => setFilter(ContentType.Any)}
               className={`p-4 w-[90px] text-center cursor-pointer rounded-l-3xl bg-reviewinfobglight transition-colors duration-200 ${
-                filter === ReviewType.Any ? "bg-slate-300 text-black" : ""
+                filter === ContentType.Any ? "bg-slate-300 text-black" : ""
               }`}
             >
               All
             </div>
             <div
-              onClick={() => setFilter(ReviewType.Movie)}
+              onClick={() => setFilter(ContentType.ReviewMovie)}
               className={`p-4 w-[90px] text-center  cursor-pointer bg-reviewinfobglight transition-colors duration-200 ${
-                filter === ReviewType.Movie ? "bg-slate-300 text-black" : ""
+                filter === ContentType.ReviewMovie
+                  ? "bg-slate-300 text-black"
+                  : ""
               }`}
             >
               Movies
             </div>
             <div
-              onClick={() => setFilter(ReviewType.Game)}
+              onClick={() => setFilter(ContentType.ReviewGame)}
               className={`p-4 w-[90px] text-center  cursor-pointer rounded-r-3xl bg-reviewinfobglight transition-colors duration-200 ${
-                filter === ReviewType.Game ? "bg-slate-300 text-black" : ""
+                filter === ContentType.ReviewGame
+                  ? "bg-slate-300 text-black"
+                  : ""
               }`}
             >
               Games

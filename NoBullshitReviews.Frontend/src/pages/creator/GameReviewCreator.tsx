@@ -6,7 +6,7 @@ import {
   Dictionary,
   GameReviewAttributes,
   MovieReviewAttributes,
-  ReviewType,
+  ContentType,
 } from "src/types/Types";
 import { CreateDefaultAttributeDictionary } from "src/utils/CreatorUtils";
 
@@ -29,7 +29,7 @@ const GameReviewCreator = () => {
     form.append("content", content);
     form.append("tags", JSON.stringify(tags));
     form.append("score", score.toString());
-    form.append("reviewType", ReviewType.Game.toString());
+    form.append("reviewType", ContentType.ReviewGame.toString());
 
     const mappedAttributes = attributes.reduce<Record<string, number>>(
       (acc, obj) => {

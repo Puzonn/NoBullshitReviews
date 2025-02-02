@@ -12,6 +12,8 @@ import OAuth from "src/pages/OAuth";
 import AuthProvider from "src/Providers/AuthProvider";
 import GameReviewCreator from "src/pages/creator/GameReviewCreator";
 import MovieReviewCreator from "src/pages/creator/MovieReviewCreator";
+import Games from "./pages/Games";
+import GameNewsCreator from "./pages/creator/GameNewsCreator";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
@@ -31,7 +33,12 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route index path="/" element={renderWithSidebar(<Main />)} />
+        <Route index path="/games" element={renderWithSidebar(<Games />)} />
         <Route path="/creator/" element={renderWithSidebar(<Creator />)} />
+        <Route
+          path="/creator/news/game"
+          element={renderWithSidebar(<GameNewsCreator />)}
+        />
         <Route
           path="/creator/review/movie"
           element={renderWithSidebar(<MovieReviewCreator />)}

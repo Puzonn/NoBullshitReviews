@@ -90,7 +90,7 @@ public class ReviewController : ControllerBase
 
         await _context.Reviews.AddAsync(review);
         await _context.SaveChangesAsync();
-
+         
         ReviewResponse response = ReviewResponse.FromReview(review);
         response.AuthorName = user.Username;
 
@@ -106,7 +106,17 @@ public class ReviewController : ControllerBase
     [HttpDelete("delete")]
     public async Task<ActionResult> DeleteAll()
     {
-        _context.RemoveRange(_context.Reviews);
+        var r = await _context.Reviews.Include(r => r.Attributes).ToListAsync();
+
+        foreach(var a in r)
+        {
+            if(a.Attributes != null)
+            {
+                _context.RemoveRange(a.Attributes);
+            }
+        }
+
+        _context.RemoveRange(r);
         await _context.SaveChangesAsync();
 
         return Ok();

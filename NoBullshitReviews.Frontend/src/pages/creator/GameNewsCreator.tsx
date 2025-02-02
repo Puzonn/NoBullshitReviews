@@ -2,14 +2,10 @@ import { useState } from "react";
 import { PostReview } from "src/api/ReviewApi";
 import CreatorGameAttribute from "src/components/creator/CreatorGameAttribute";
 import { getScoreBackgroundColor } from "src/global/Colors";
-import {
-  Dictionary,
-  MovieReviewAttributes,
-  ContentType,
-} from "src/types/Types";
+import { Dictionary, GameReviewAttributes, ContentType } from "src/types/Types";
 import { CreateDefaultAttributeDictionary } from "src/utils/CreatorUtils";
 
-const MovieReviewCreator = () => {
+const GameNewsCreator = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
@@ -17,7 +13,7 @@ const MovieReviewCreator = () => {
   const [score, setScore] = useState<number>(0);
   const [image, setImage] = useState<File | null>(null);
   const [attributes, setAttributes] = useState<Dictionary<string, number>[]>(
-    CreateDefaultAttributeDictionary(MovieReviewAttributes)
+    CreateDefaultAttributeDictionary(GameReviewAttributes)
   );
 
   const postReview = async () => {
@@ -28,7 +24,7 @@ const MovieReviewCreator = () => {
     form.append("content", content);
     form.append("tags", JSON.stringify(tags));
     form.append("score", score.toString());
-    form.append("reviewType", ContentType.ReviewMovie.toString());
+    form.append("reviewType", ContentType.NewsGame.toString());
 
     const mappedAttributes = attributes.reduce<Record<string, number>>(
       (acc, obj) => {
@@ -43,7 +39,6 @@ const MovieReviewCreator = () => {
       form.append(`Attributes[${key}]`, value.toString());
     });
 
-    /* TODO: Handle errors */
     const response = await PostReview(form);
   };
 
@@ -81,10 +76,10 @@ const MovieReviewCreator = () => {
       <input
         onChange={(e) => setTitle(e.target.value)}
         className="w-full bg-reviewbg text-white placeholder:text-gray-300 text-sm border
-             border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
-             focus:text-white
-              hover:border-slate-300 shadow-sm focus:shadow"
-        placeholder="Movie Title"
+               border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
+               focus:text-white
+                hover:border-slate-300 shadow-sm focus:shadow"
+        placeholder="News Title"
       />
       <textarea
         onChange={(e) => {
@@ -92,9 +87,9 @@ const MovieReviewCreator = () => {
           setContent(e.target.value);
         }}
         className="w-full bg-reviewbg h-full text-white placeholder:text-gray-300 border
-             border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
-             focus:text-white
-              hover:border-slate-300 shadow-sm focus:shadow"
+               border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
+               focus:text-white
+                hover:border-slate-300 shadow-sm focus:shadow"
         placeholder="Content"
       />
       <span
@@ -107,41 +102,15 @@ const MovieReviewCreator = () => {
 
       <div className="mr-auto">
         <label className="text-medium" htmlFor="image">
-          Review Image
+          Thumbnail
         </label>
         <input
           onChange={(e) => setImage(e.target.files?.[0] || null)}
           className="w-full file:bg-reviewinfobglight file:text-white file:rounded file:font-medium mb-5 text-gray-300 border py-1 px-1 transition duration-300 ease border-gray-300 rounded-lg cursor-pointer bg-reviewbg focus:outline-none"
           id="image"
           type="file"
-          accept="image/png, image/jpeg image/webp"
+          accept="image/png, image/jpeg"
         />
-      </div>
-
-      <div className="mr-auto flex items-center gap-4">
-        <input
-          onChange={(e) => setScore(Number(e.target.value))}
-          className="w-full bg-reviewbg text-white placeholder:text-gray-300 text-sm border
-             border-slate-200 rounded-md pl-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
-             focus:text-white
-              hover:border-slate-300 shadow-sm focus:shadow"
-          type="number"
-          placeholder="Score"
-        />
-        {isScoreValid() && (
-          <div className="items-center">
-            <div className={`${getScoreBackgroundColor(score)} font-bold p-1`}>
-              {score}
-            </div>
-          </div>
-        )}
-        {!isScoreValid() && (
-          <div className="items-center">
-            <div className="text-sm text-red-400">
-              <span>The score must be between 1 and 100</span>
-            </div>
-          </div>
-        )}
       </div>
 
       <input
@@ -153,9 +122,9 @@ const MovieReviewCreator = () => {
         }}
         id="review_creator_input_tag"
         className="w-full bg-reviewbg text-white placeholder:text-gray-300 text-sm border
-             border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
-             focus:text-white
-              hover:border-slate-300 shadow-sm focus:shadow"
+               border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
+               focus:text-white
+                hover:border-slate-300 shadow-sm focus:shadow"
         placeholder="Search Tags"
       />
       <div className="bg-reviewinfobg flex flex-wrap gap-3 rounded">
@@ -171,20 +140,6 @@ const MovieReviewCreator = () => {
           );
         })}
       </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {MovieReviewAttributes.map((attribute, index) => {
-          return (
-            <CreatorGameAttribute
-              key={`creator_attribute_${index}`}
-              onClick={onAttributeChange}
-              attribute={attribute.Name}
-              attributeValues={attribute.Values}
-              imageSource="gg"
-            />
-          );
-        })}
-      </div>
       <button
         onClick={postReview}
         className="bg-reviewbg hover:bg-reviewinfobg font-bold text-xl p-3 rounded w-full"
@@ -195,4 +150,4 @@ const MovieReviewCreator = () => {
   );
 };
 
-export default MovieReviewCreator;
+export default GameNewsCreator;
