@@ -35,7 +35,7 @@ export default function Main() {
   }, [filter]);
 
   return (
-    <div className="box-border flex flex-col min-h-screen bg-reviewbg w-full sm:pl-5 overflow-hidden">
+    <div className="box-border bg-reviewbg w-full">
       <div className="pb-20 gap-8 p-4 font-[family-name:var(--font-geist-sans)]">
         <div className="flex flex-col gap-3 justify-start">
           <Featured reviews={filtredReviews} />

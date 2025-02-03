@@ -20,9 +20,9 @@ const root = createRoot(document.getElementById("root") as HTMLElement);
 const renderWithSidebar = (child) => {
   return (
     <div className="box-border flex flex-col min-h-screen">
-      <div className="flex h-full w-full">
-        <Sidebar></Sidebar>
-        {child}
+      <div className="flex h-screen w-full">
+        <Sidebar />
+        <div className="sm:ml-24 flex-1">{child}</div>
       </div>
     </div>
   );
