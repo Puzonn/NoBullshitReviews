@@ -7,7 +7,7 @@ const FeaturedDashReview = ({ review }: { review: IReview }) => {
   }
 
   return (
-    <div className="bg-white relative sm:w-[840px] h-[500px] w-full sm:h-[535px] rounded-lg">
+    <div className="bg-white relative w-full sm:h-[535px] rounded-lg">
       <img
         className="w-full h-full object-cover rounded-lg"
         width={458}

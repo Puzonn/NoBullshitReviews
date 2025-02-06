@@ -1,14 +1,15 @@
-import * as React from "react";
 import "../index.css";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "src/contexts/AuthContext";
 
 const Sidebar = () => {
-  const [visible, setVisible] = React.useState(true);
-  const [mobile, setMobile] = React.useState(true);
+  const [visible, setVisible] = useState(true);
   const navigate = useNavigate();
+  const auth = useContext(AuthContext);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 1280) {
         setVisible(false);
@@ -23,11 +24,11 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`fixed top-0 left-0 z-40 h-screen bg-gray-800 transition-all duration-300
+      className={`fixed top-0 left-0 z-40 h-screen bg-gray-800 transition-all duration-300 shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_8px_16px_rgba(0,0,0,0.6)]
         ${visible ? "w-64" : "w-20"}
         lg:${visible ? "w-64" : "w-20"} xl:${visible ? "w-64" : "w-20"}`}
     >
-      <div className="h-full px-3 py-4 overflow-y-auto bg-reviewinfobglight">
+      <div className="h-full px-3 py-5 overflow-y-auto bg-reviewinfobglight">
         <div className="xl:hidden">
           <button
             onClick={() => setVisible(!visible)}
@@ -105,32 +106,50 @@ const Sidebar = () => {
             </div>
           </div>
 
-          <div className="mt-auto pb-5 flex flex-col gap-5 justify-between">
-            {visible && (
-              <button
-                onClick={() => navigate("/creator")}
-                className="hover:bg-reviewbg right-8 m-2 bg-reviewinfobg text-white py-2 rounded-lg shadow-lg transition-all"
-              >
-                Create Review
-              </button>
+          <div className="mt-auto flex flex-col gap-5 justify-between">
+            {auth !== undefined && (
+              <div className="w-full text-center">
+                {visible && (
+                  <button
+                    onClick={() => navigate("/creator")}
+                    className="hover:bg-reviewbg right-8 px-5 bg-reviewinfobg text-white py-2 rounded-lg shadow-lg transition-all"
+                  >
+                    Create Review
+                  </button>
+                )}
+                {!visible && (
+                  <button
+                    onClick={() => navigate("/creator")}
+                    className="hover:bg-reviewbg right-8 m-2 bg-reviewinfobg text-white py-2 rounded-lg shadow-lg transition-all"
+                  >
+                    Create
+                  </button>
+                )}
+              </div>
             )}
-            {!visible && (
-              <button
-                onClick={() => navigate("/creator")}
-                className="hover:bg-reviewbg right-8 m-2 bg-reviewinfobg text-white py-2 rounded-lg shadow-lg transition-all"
-              >
-                Create
-              </button>
-            )}
+
             <hr className="border border-white" />
 
-            <div className="flex justify-center pb-5">
-              <button
-                onClick={() => navigate("/join")}
-                className="border border-white text-white hover:bg-reviewinfobg py-1 px-5 rounded font-medium"
-              >
-                Join
-              </button>
+            <div className="flex justify-center">
+              {auth === undefined ? (
+                <button
+                  onClick={() => navigate("/join")}
+                  className="border border-white text-white hover:bg-reviewinfobg py-1 px-5 rounded font-medium"
+                >
+                  Join
+                </button>
+              ) : (
+                <div className="flex">
+                  <img
+                    className="rounded-full w-10"
+                    src={auth.avatarUrl}
+                    alt=""
+                  />
+                  <span className={`px-2 font-bold ${visible ? "" : "hidden"}`}>
+                    {auth.username}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>

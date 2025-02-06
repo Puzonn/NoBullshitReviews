@@ -67,7 +67,7 @@ const Featured = ({ featured }: { featured: IReview[] }) => {
       </div>
       <hr className="w-full my-5" />
       <div className="flex flex-wrap gap-5">
-        <div className="flex flex-col items-center">
+        <div className="lg:flex-1 flex-col items-center w-full">
           <div
             ref={featuredElement}
             className="flex flex-row overflow-auto no-scrollbar w-full h-full"
@@ -77,7 +77,7 @@ const Featured = ({ featured }: { featured: IReview[] }) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 lg:w-[500px]">
           {nextFeatured.map((review, index) => {
             return (
               <div className="flex gap-3">
@@ -89,8 +89,8 @@ const Featured = ({ featured }: { featured: IReview[] }) => {
                   alt={review.title}
                 />
                 <div className="truncate h-full flex flex-col">
-                  <p>{review.title}</p>
-                  <p className="text-gray-400">{review.content}</p>
+                  <p className="truncate">{review.title}</p>
+                  <p className="text-gray-400 truncate">{review.content}</p>
 
                   <div className="mt-auto flex items-center gap-3">
                     <div>

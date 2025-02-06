@@ -1,3 +1,8 @@
+export interface User {
+  avatarUrl: string;
+  username: string;
+}
+
 export interface IReviewCreation {
   title: string;
   content: string;

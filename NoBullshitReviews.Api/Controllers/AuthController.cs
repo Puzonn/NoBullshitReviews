@@ -24,6 +24,19 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
+    [Authorize]
+    [HttpGet("@me")]
+    public async Task<ActionResult<DiscordUser>> Me()
+    {
+        var principal = HttpContext.User;
+
+        return Ok(new DiscordUser()
+        {
+            Username = principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value,
+            AvatarUrl = principal.Claims.FirstOrDefault(x => x.Type == "AvatarUrl")?.Value,
+        });
+    }
+
     [AllowAnonymous]
     [HttpPost("authorize")]
     public async Task<ActionResult<DbUser>> Authorize([FromBody] string code)
@@ -56,12 +69,20 @@ public class AuthController : ControllerBase
             await _context.SaveChangesAsync();  
         }
 
+        if (string.IsNullOrEmpty(user.AvatarUrl))
+        {
+            user.AvatarUrl = discordUser.AvatarUrl;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+        }
+
         await HttpContext.SignInAsync(new ClaimsPrincipal(
              new ClaimsIdentity(
                  new Claim[]
                  {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.Username),
+                    new Claim("AvatarUrl", user.AvatarUrl)
                  }, CookieAuthenticationDefaults.AuthenticationScheme)
              ), new AuthenticationProperties()
              {

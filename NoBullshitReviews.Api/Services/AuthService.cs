@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using NoBullshitReviews.Models;
+﻿using NoBullshitReviews.Models;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -35,6 +33,12 @@ public class AuthService
         var body = await response.Content.ReadAsStringAsync();
 
         var jsonObject = JsonSerializer.Deserialize<JsonDocument>(body);
+
+        if(jsonObject is null)
+        {
+            throw new Exception("Error while deserializing discord response body");
+        }
+
         var token = jsonObject.RootElement.GetProperty("access_token").GetString();
 
         return token;
@@ -50,17 +54,20 @@ public class AuthService
 
         var response = await client.SendAsync(request);
         var body = await response.Content.ReadAsStringAsync();
-
+            
         var root = JsonSerializer.Deserialize<JsonDocument>(body).RootElement;
         var user = root.GetProperty("user");
 
+        string avatar = user.GetProperty("avatar").GetString();
         string username = user.GetProperty("username").GetString();
         string userId = user.GetProperty("id").GetString();
+        string avatarUrl = $"https://cdn.discordapp.com/avatars/{userId}/{avatar}.png";
 
         return new DiscordUser()
         {
             Username = username,
-            DiscordId = long.Parse(userId)
+            DiscordId = long.Parse(userId),
+            AvatarUrl = avatarUrl,
         };
     }
 }
