@@ -25,7 +25,8 @@ public class ReviewResponse : ReviewBase
         return new ReviewResponse()
         {
             ReviewType = review.ReviewType,
-            Content = review.Content,   
+            Summary = review.Summary,   
+            Review = review.Review,
             ImagePath = review.ImagePath,
             Creation = review.Creation,
             Title = review.Title,

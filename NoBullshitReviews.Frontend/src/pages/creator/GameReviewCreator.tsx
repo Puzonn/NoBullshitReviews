@@ -12,9 +12,11 @@ import { CreateDefaultAttributeDictionary } from "src/utils/CreatorUtils";
 
 const GameReviewCreator = () => {
   const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
+  const [review, setReview] = useState<string>("");
+  const [summary, setSummary] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
-  const [contentLenght, setContentLenght] = useState<number>(0);
+  const [reviewLenght, setReviewLenght] = useState<number>(0);
+  const [summaryLenght, setSummaryLenght] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
   const [image, setImage] = useState<File | null>(null);
   const [attributes, setAttributes] = useState<Dictionary<string, number>[]>(
@@ -26,7 +28,8 @@ const GameReviewCreator = () => {
 
     form.append("image", image!);
     form.append("title", title);
-    form.append("content", content);
+    form.append("review", review);
+    form.append("summary", summary);
     form.append("tags", JSON.stringify(tags));
     form.append("score", score.toString());
     form.append("reviewType", ContentType.ReviewGame.toString());
@@ -88,21 +91,40 @@ const GameReviewCreator = () => {
       />
       <textarea
         onChange={(e) => {
-          setContentLenght(e.target.textLength);
-          setContent(e.target.value);
+          setSummaryLenght(e.target.textLength);
+          setSummary(e.target.value);
         }}
         className="w-full bg-reviewbg h-full text-white placeholder:text-gray-300 border
                border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
                focus:text-white
                 hover:border-slate-300 shadow-sm focus:shadow"
-        placeholder="Content"
+        placeholder="Summary"
       />
       <span
         className={`ml-auto text-sm text-gray-300 ${
-          contentLenght >= 500 ? "text-red-500" : ""
+          summaryLenght >= 500 ? "text-red-500" : ""
         }`}
       >
-        {contentLenght}/500
+        {summaryLenght}/500
+      </span>
+
+      <textarea
+        onChange={(e) => {
+          setReviewLenght(e.target.textLength);
+          setReview(e.target.value);
+        }}
+        className="w-full bg-reviewbg h-full text-white placeholder:text-gray-300 border
+               border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
+               focus:text-white
+                hover:border-slate-300 shadow-sm focus:shadow"
+        placeholder="Review"
+      />
+      <span
+        className={`ml-auto text-sm text-gray-300 ${
+          reviewLenght >= 500 ? "text-red-500" : ""
+        }`}
+      >
+        {reviewLenght}/500
       </span>
 
       <div className="mr-auto">

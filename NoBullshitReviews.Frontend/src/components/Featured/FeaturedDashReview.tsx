@@ -1,13 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import { getScoreBackgroundColor } from "src/global/Colors";
 import { IReview } from "src/types/Types";
 
 const FeaturedDashReview = ({ review }: { review: IReview }) => {
+  const navigate = useNavigate();
+
   if (review === null || review === undefined) {
     return <></>;
   }
 
   return (
-    <div className="bg-white relative w-full sm:h-[535px] rounded-lg">
+    <div
+      className="cursor-pointer transition-colors duration-300 hover:bg-reviewinfobglight p-2 relative w-full sm:h-[580px]  rounded-lg"
+      onClick={() => navigate(`/review/${review.routeName}`)}
+    >
       <img
         className="w-full h-full object-cover rounded-lg"
         width={458}

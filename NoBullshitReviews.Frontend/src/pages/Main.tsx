@@ -25,10 +25,6 @@ export default function Main() {
   }, []);
 
   useEffect(() => {
-    console.log(feed);
-  }, [feed]);
-
-  useEffect(() => {
     if (feed === undefined) {
       return;
     }

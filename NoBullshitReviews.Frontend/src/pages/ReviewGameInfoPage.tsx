@@ -64,7 +64,7 @@ const ReviewGameInfoPage = () => {
      shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_8px_16px_rgba(0,0,0,0.6)] max-w-[90vw] px-5 py-5 md:px-5 2xl:px-64"
       >
         <div className="flex flex-col gap-5">
-          <div className="grid grid-cols-1 md:grid-cols-[2fr,5fr] gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-[2fr,5fr] gap-5 bg-reviewinfobglight rounded-xl p-5">
             <div className="flex justify-center sm:justify-start w-full h-full">
               <img
                 className="max-h-[260px] w-full object-cover rounded-xl"
@@ -109,11 +109,16 @@ const ReviewGameInfoPage = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col bg-reviewinfobglight p-5 rounded-xl">
             <span className="font-bold text-xl pb-2">Summary</span>
-            <span>{review.content}</span>
+            <span>{review.summary}</span>
           </div>
-          <div className="flex flex-col h-full w-full">
+          <div className="flex flex-col bg-reviewinfobglight p-5 rounded-xl">
+            <span className="font-bold text-xl pb-2">Review</span>
+            <span>{review.review}</span>
+          </div>
+
+          <div className="flex flex-col h-full w-full bg-reviewinfobglight rounded-xl p-5">
             <div className="flex flex-col gap-2 pt-5 w-full">
               {GameReviewAttributes.map((x, index) => {
                 const values = Object.values(review.attributes);
@@ -136,7 +141,7 @@ const ReviewGameInfoPage = () => {
             </div>
           </div>
 
-          <div className="bg-reviewinfobglight p-5 rounded border flex border-white">
+          <div className="bg-reviewinfobglight p-5 flex rounded-xl">
             <div className="flex text-sm gap-5 flex-wrap">
               <div className="flex flex-col">
                 <span className="font-semibold">Initlial Release</span>

@@ -36,7 +36,8 @@ public class Review : ReviewBase
             ReviewType = request.ReviewType,
             Tags = request.Tags,
             Title = request.Title,
-            Content = request.Content,
+            Summary = request.Summary,
+            Review = request.Review,
             Attributes = mappedAttributes,
             Score = request.Score,
         };

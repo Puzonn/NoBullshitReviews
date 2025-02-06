@@ -55,10 +55,14 @@ const Featured = ({ featured }: { featured: IReview[] }) => {
     navigate(`/game/${review.routeName}`);
   };
 
+  if (nextFeatured === undefined || nextFeatured.length === 0) {
+    return <></>;
+  }
+
   return (
     <div>
       <div className="flex items-center justify-start gap-3">
-        <span className="text-xl font-semibold">Featured Today</span>
+        <span className="text-3xl font-semibold">Featured Today</span>
         <span className="text-base text-gray-300 underline cursor-pointer">
           See All
         </span>
@@ -82,7 +86,12 @@ const Featured = ({ featured }: { featured: IReview[] }) => {
             }
 
             return (
-              <div className="flex gap-3">
+              <div
+                className="flex gap-3 cursor-pointer hover:bg-reviewinfobglight rounded-xl p-2 transition-colors duration-300"
+                onClick={() => {
+                  navigate(`/review/${review.routeName}`);
+                }}
+              >
                 <img
                   className="w-[184px] h-[170px] object-cover rounded-lg"
                   width={64}
@@ -90,9 +99,11 @@ const Featured = ({ featured }: { featured: IReview[] }) => {
                   src={`/assets/static/${review.imagePath}`}
                   alt={review.title}
                 />
-                <div className="truncate h-full flex flex-col">
+                <div className="flex flex-col h-[170px]">
                   <p className="truncate">{review.title}</p>
-                  <p className="text-gray-400 truncate">{review.content}</p>
+                  <span className="text-gray-400 overflow-hidden text-sm">
+                    {review.summary}
+                  </span>
 
                   <div className="mt-auto flex items-center gap-3">
                     <div>

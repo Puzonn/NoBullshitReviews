@@ -19,7 +19,7 @@ export const Review = ({ review }: { review: IReview }) => {
           Review
         </div>
         <span className="font-bold">{review.title}</span>
-        <p>{review.content}</p>
+        <p>{review.review}</p>
         <div className="mt-auto flex gap-3 items-center pt-5">
           <div
             className={`${getScoreBackgroundColor(review.score)} font-bold p-1`}

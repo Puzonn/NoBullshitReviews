@@ -1,13 +1,18 @@
 import "../index.css";
 import "../App.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "src/contexts/AuthContext";
 
 const Sidebar = () => {
   const [visible, setVisible] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
   const auth = useContext(AuthContext);
+
+  const checkLocation = (value: string) => {
+    return location.search == value;
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -48,10 +53,12 @@ const Sidebar = () => {
         </div>
 
         <div className={`flex flex-col h-full`}>
-          <div className={`flex flex-col gap-5 justify-center items-center`}>
+          <div className={`flex flex-col gap-5 p-2`}>
             <div
               onClick={() => navigate("/")}
-              className="hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center"
+              className={`hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center ${
+                checkLocation("") ? "bg-reviewinfobg font-semibold" : ""
+              }`}
             >
               <img
                 width={24}
@@ -63,7 +70,11 @@ const Sidebar = () => {
                 <span className="">Home</span>
               </div>
             </div>
-            <div className="hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center">
+            <div
+              className={`hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center ${
+                checkLocation("/games") ? "bg-reviewinfobg font-semibold" : ""
+              }`}
+            >
               <img
                 width={24}
                 height={24}
@@ -72,7 +83,11 @@ const Sidebar = () => {
               />
               <span className={`${visible ? "" : "hidden"}`}>Games</span>
             </div>
-            <div className="hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center">
+            <div
+              className={`hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center ${
+                checkLocation("/movies") ? "bg-reviewinfobg font-semibold" : ""
+              }`}
+            >
               <img
                 width={24}
                 height={24}
@@ -90,7 +105,7 @@ const Sidebar = () => {
                    border-slate-200 rounded-md px-2 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
                    focus:text-white
                     hover:border-slate-300 shadow-sm focus:shadow"
-                    placeholder="Search Reviews"
+                    placeholder="Search"
                   />
                 </div>
               ) : (

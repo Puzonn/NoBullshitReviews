@@ -52,7 +52,7 @@ public class ReviewService
 
         return new Feed()
         {
-            Featured = latest.GetRange(0, 4),
+            Featured = latest.Take(4).ToList(),
             MostRecent = latest
         };
     }

@@ -10,7 +10,8 @@ export interface Feed {
 
 export interface IReviewCreation {
   title: string;
-  content: string;
+  review: string;
+  summary: string;
   tags: string[];
   score: number;
   attributes: Dictionary<string, number>;
