@@ -11,7 +11,7 @@ const Latest = ({ reviews }: { reviews: IReview[] }) => {
   const navigate = useNavigate();
 
   const reviewClicked = (review: IReview) => {
-    navigate(`/game/${review.routeName}`);
+    navigate(`/review/${review.routeName}`);
   };
 
   const checkCanScrollRight = (): boolean => {

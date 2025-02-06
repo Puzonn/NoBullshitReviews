@@ -1,4 +1,4 @@
-import Featured from "src/components/Featured";
+import Featured from "src/components/Featured/Featured";
 import { IReview, ContentType } from "../types/Types";
 import { useEffect, useState } from "react";
 import Latest from "src/components/Latest";
@@ -38,7 +38,7 @@ export default function Main() {
     <div className="box-border bg-reviewbg w-full">
       <div className="pb-20 gap-8 p-4 font-[family-name:var(--font-geist-sans)]">
         <div className="flex flex-col gap-3 justify-start">
-          <Featured reviews={filtredReviews} />
+          {/* <Featured featured={reviews} /> */}
           <div className="flex gap-2 font-medium justify-center">
             <div
               onClick={() => setFilter(ContentType.Any)}

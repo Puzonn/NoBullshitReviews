@@ -11,12 +11,12 @@ import { useEffect, useState } from "react";
 const ReviewGameInfoPage = () => {
   const [review, setReview] = useState<ReviewGameInfo | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { game } = useParams<{ game: string }>();
+  const { route } = useParams<{ route: string }>();
 
   useEffect(() => {
     const fetchInfo = async () => {
       try {
-        await fetch(`https://localhost:7106/review/get-info-name/${game}`, {
+        await fetch(`https://localhost:7106/review/get-info-name/${route}`, {
           credentials: "include",
         }).then((e) => {
           e.json().then((e) => {
@@ -125,7 +125,10 @@ const ReviewGameInfoPage = () => {
                   <GameReviewAttribute
                     key={`game_review_attribute_${index}`}
                     attribute={x.Name}
-                    attributeValue={getAttributeValueName(x.FormName, attributeIndex)}
+                    attributeValue={getAttributeValueName(
+                      x.FormName,
+                      attributeIndex
+                    )}
                     imageSource={x.Image}
                   />
                 );

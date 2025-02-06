@@ -1,4 +1,3 @@
-import * as React from "react";
 import "./index.css";
 import "./App.css";
 import { createRoot } from "react-dom/client";
@@ -19,10 +18,12 @@ const root = createRoot(document.getElementById("root") as HTMLElement);
 
 const renderWithSidebar = (child) => {
   return (
-    <div className="box-border flex flex-col min-h-screen">
+    <div className="box-border flex flex-col h-screen">
       <div className="flex h-screen w-full">
         <Sidebar />
-        <div className="sm:ml-24 flex-1">{child}</div>
+        <div className="flex-1 pl-20 xl:pl-64 h-screen w-full bg-reviewbg ">
+          {child}
+        </div>
       </div>
     </div>
   );
@@ -50,7 +51,7 @@ root.render(
         <Route path="/join" element={renderWithSidebar(<Join />)} />
         <Route path="/auth/oauthCallback" element={<OAuth />} />
         <Route
-          path="/game/:game"
+          path="/review/:route"
           element={renderWithSidebar(<ReviewGameInfoPage />)}
         />
       </Routes>

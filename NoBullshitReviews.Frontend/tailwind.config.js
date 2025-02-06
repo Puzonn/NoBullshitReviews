@@ -11,6 +11,16 @@ module.exports = {
         reviewinfobglight: "var(--review-background-light)",
       },
     },
+    keyframes: {
+      featuredNextAnimation: {
+        "0%": {
+          "background-size": "100% 0%",
+        },
+        "100%": {
+          "background-size": "100% 100%",
+        },
+      },
+    },
   },
   plugins: [],
 };

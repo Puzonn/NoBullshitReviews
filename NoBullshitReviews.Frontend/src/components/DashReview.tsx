@@ -1,3 +1,4 @@
+import { GetTag } from "src/utils/CreatorUtils";
 import { getScoreBackgroundColor } from "../global/Colors";
 import { IReview, ContentType } from "../types/Types";
 
@@ -8,17 +9,6 @@ export const DashReview = ({
   review: IReview;
   onClick: (e: IReview) => void;
 }) => {
-  const GetTag = (): string => {
-    switch (review.reviewType) {
-      case ContentType.ReviewMovie:
-        return "Movie";
-      case ContentType.ReviewGame:
-        return "Game";
-    }
-
-    return "";
-  };
-
   return (
     <div className="flex overflow-x-auto gap-4 p-4">
       <div
@@ -45,7 +35,7 @@ export const DashReview = ({
               {review.score}
             </span>
             <span className="ml-auto border border-white p-1 rounded font-medium">
-              {GetTag()}
+              {GetTag(review)}
             </span>
           </div>
         </div>

@@ -4,14 +4,16 @@ import "../App.css";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = React.useState(true);
   const [mobile, setMobile] = React.useState(true);
   const navigate = useNavigate();
 
   React.useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 640) {
-        console.log("mobile");
+      if (window.innerWidth <= 1280) {
+        setVisible(false);
+      } else if (window.innerWidth >= 1280) {
+        setVisible(true);
       }
     };
     window.addEventListener("resize", handleResize);
@@ -20,29 +22,31 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div
-      className={`fixed z-30 ${
-        visible ? "max-w-[220px] min-w-[220px]" : "w-[100px]"
-      } gap-5 h-screen pt-5 bg-reviewinfobglight hidden
-    shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_8px_16px_rgba(0,0,0,0.6)] sm:flex
-    transition-[width] duration-300 ease-in-out`}
+    <aside
+      className={`fixed top-0 left-0 z-40 h-screen bg-gray-800 transition-all duration-300
+        ${visible ? "w-64" : "w-20"}
+        lg:${visible ? "w-64" : "w-20"} xl:${visible ? "w-64" : "w-20"}`}
     >
-      <div className="flex flex-col relative h-screen w-full">
-        <button
-          onClick={() => setVisible(!visible)}
-          className={`absolute right-[-14px] top-[20px] ${
-            visible ? "scale-x-[-1]" : ""
-          } duration-300 ease-out transition-transform`}
-        >
-          <div className="p-1 border border-reviewinfobg rounded bg-reviewinfobglight">
-            <img className="" src="/assets/icons/arrow.png" width={18} alt="" />
-          </div>
-        </button>
+      <div className="h-full px-3 py-4 overflow-y-auto bg-reviewinfobglight">
+        <div className="xl:hidden">
+          <button
+            onClick={() => setVisible(!visible)}
+            className={`absolute right-[-14px] top-[20px] ${
+              visible ? "scale-x-[-1]" : ""
+            } duration-300 ease-out transition-transform`}
+          >
+            <div className="p-1 border border-reviewinfobg rounded bg-reviewinfobglight">
+              <img
+                className=""
+                src="/assets/icons/arrow.png"
+                width={18}
+                alt=""
+              />
+            </div>
+          </button>
+        </div>
 
         <div className={`flex flex-col h-full`}>
-          <span
-            className={`font-semibold text-xl ${visible ? "" : "hidden"}`}
-          ></span>
           <div className={`flex flex-col gap-5 justify-center items-center`}>
             <div
               onClick={() => navigate("/")}
@@ -54,7 +58,9 @@ const Sidebar = () => {
                 alt="home"
                 src="/assets/icons/home.png"
               />
-              <span className={`${visible ? "" : "hidden"}`}>Home</span>
+              <div className="hidden xl:block">
+                <span className="">Home</span>
+              </div>
             </div>
             <div className="hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center">
               <img
@@ -129,7 +135,7 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-    </div>
+    </aside>
   );
 };
 
