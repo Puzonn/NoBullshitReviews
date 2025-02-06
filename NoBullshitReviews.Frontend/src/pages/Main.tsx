@@ -1,12 +1,12 @@
 import Featured from "src/components/Featured/Featured";
-import { IReview, ContentType } from "../types/Types";
+import { IReview, ContentType, Feed } from "../types/Types";
 import { useEffect, useState } from "react";
 import Latest from "src/components/Latest";
 import { FetchFeed } from "src/api/ReviewApi";
 
 export default function Main() {
+  const [feed, setFeed] = useState<Feed | undefined>(undefined);
   const [filtredReviews, setFiltredReviews] = useState<IReview[]>([]);
-  const [reviews, setReviews] = useState<IReview[]>([]);
   const [filter, setFilter] = useState<ContentType>(ContentType.Any);
 
   useEffect(() => {
@@ -14,8 +14,8 @@ export default function Main() {
       try {
         await FetchFeed().then((e) => {
           e.json().then((e) => {
-            setReviews(e);
-            setFiltredReviews(e);
+            setFeed(e);
+            setFiltredReviews(e.mostRecent);
           });
         });
       } catch (e) {}
@@ -25,20 +25,31 @@ export default function Main() {
   }, []);
 
   useEffect(() => {
+    console.log(feed);
+  }, [feed]);
+
+  useEffect(() => {
+    if (feed === undefined) {
+      return;
+    }
     setFiltredReviews((prev) => {
       if (filter !== ContentType.Any) {
-        return reviews.filter((x) => x.reviewType === filter);
+        return feed.mostRecent.filter((x) => x.reviewType === filter);
       }
 
-      return reviews;
+      return feed.mostRecent;
     });
-  }, [filter]);
+  }, [filter, feed]);
+
+  if (feed === undefined) {
+    return;
+  }
 
   return (
     <div className="box-border bg-reviewbg w-full">
       <div className="pb-20 gap-8 p-4 font-[family-name:var(--font-geist-sans)]">
         <div className="flex flex-col gap-3 justify-start">
-          <Featured featured={reviews} />
+          <Featured featured={feed.featured} />
           <div className="flex gap-2 font-medium justify-center">
             <div
               onClick={() => setFilter(ContentType.Any)}

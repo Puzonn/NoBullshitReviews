@@ -3,6 +3,11 @@ export interface User {
   username: string;
 }
 
+export interface Feed {
+  featured: IReview[];
+  mostRecent: IReview[];
+}
+
 export interface IReviewCreation {
   title: string;
   content: string;

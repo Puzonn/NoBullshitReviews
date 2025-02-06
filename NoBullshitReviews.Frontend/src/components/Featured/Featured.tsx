@@ -10,8 +10,6 @@ const FEATURED_CHANGE_TIME: number = 5500;
 
 const Featured = ({ featured }: { featured: IReview[] }) => {
   const featuredElement = useRef<HTMLDivElement>(null);
-  const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
-  const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
   const [featuredContent, setFeaturedContent] = useState<IReview>(featured[0]);
   const [nextFeatured, setNextFeatured] = useState<IReview[]>(featured);
 
@@ -77,8 +75,12 @@ const Featured = ({ featured }: { featured: IReview[] }) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 lg:w-[500px]">
+        <div className="flex flex-col gap-3 lg:w-[500px] w-fit">
           {nextFeatured.map((review, index) => {
+            if (review === featuredContent) {
+              return <></>;
+            }
+
             return (
               <div className="flex gap-3">
                 <img

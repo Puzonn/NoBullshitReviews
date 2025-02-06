@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using NoBullshitReviews.Database;
-using NoBullshitReviews.Models.Responses;
+using NoBullshitReviews.Models;
 
 namespace NoBullshitReviews.Services;
 
@@ -16,7 +16,7 @@ public class ReviewService
         _context = context;
     }
 
-    public async Task<IEnumerable<ReviewResponse>> GetFeed()
+    public async Task<Feed> GetFeed()
     {
 #if DEBUG
         return await CreateFeed(10);
@@ -34,10 +34,10 @@ public class ReviewService
             _cache.Set(cacheKey, await CreateFeed(10), cacheEntryOptions);
         }
 
-        return (IEnumerable<ReviewResponse>)feed!;
+        return (Feed)feed!;
     }
 
-    public async Task<IEnumerable<ReviewResponse>> CreateFeed(int limit)
+    public async Task<Feed> CreateFeed(int limit)
     {
         if(limit > 100 || limit < 0)
         {
@@ -50,11 +50,10 @@ public class ReviewService
             .Take(limit)
             .ToListAsync();
 
-        return latest.Select(x =>
+        return new Feed()
         {
-            var review = ReviewResponse.FromReview(x);
-            review.AuthorName = x.Author.Username;
-            return review;
-        });
+            Featured = latest.GetRange(0, 4),
+            MostRecent = latest
+        };
     }
 }
