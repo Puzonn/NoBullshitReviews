@@ -16,12 +16,15 @@ import GameNewsCreator from "./pages/creator/GameNewsCreator";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
-const renderWithSidebar = (child) => {
+const RenderWithSidebar = (child) => {
   return (
     <div className="box-border flex flex-col h-screen">
       <div className="flex h-screen w-full">
         <Sidebar />
-        <div className="flex-1 pl-20 xl:pl-64 h-screen w-full bg-reviewbg ">
+        <div
+          id=""
+          className="flex-1 sm:pl-20 xl:pl-64 h-screen w-full bg-reviewbg "
+        >
           {child}
         </div>
       </div>
@@ -33,26 +36,26 @@ root.render(
   <AuthProvider>
     <BrowserRouter>
       <Routes>
-        <Route index path="/" element={renderWithSidebar(<Main />)} />
-        <Route index path="/games" element={renderWithSidebar(<Games />)} />
-        <Route path="/creator/" element={renderWithSidebar(<Creator />)} />
+        <Route index path="/" element={RenderWithSidebar(<Main />)} />
+        <Route index path="/games" element={RenderWithSidebar(<Games />)} />
+        <Route path="/creator/" element={RenderWithSidebar(<Creator />)} />
         <Route
           path="/creator/news/game"
-          element={renderWithSidebar(<GameNewsCreator />)}
+          element={RenderWithSidebar(<GameNewsCreator />)}
         />
         <Route
           path="/creator/review/movie"
-          element={renderWithSidebar(<MovieReviewCreator />)}
+          element={RenderWithSidebar(<MovieReviewCreator />)}
         />
         <Route
           path="/creator/review/game"
-          element={renderWithSidebar(<GameReviewCreator />)}
+          element={RenderWithSidebar(<GameReviewCreator />)}
         />
-        <Route path="/join" element={renderWithSidebar(<Join />)} />
+        <Route path="/join" element={RenderWithSidebar(<Join />)} />
         <Route path="/auth/oauthCallback" element={<OAuth />} />
         <Route
           path="/review/:route"
-          element={renderWithSidebar(<ReviewGameInfoPage />)}
+          element={RenderWithSidebar(<ReviewGameInfoPage />)}
         />
       </Routes>
     </BrowserRouter>
