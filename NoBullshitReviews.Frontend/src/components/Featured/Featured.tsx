@@ -84,38 +84,37 @@ const Featured = ({ featured }: { featured: IReview[] }) => {
             if (review === featuredContent) {
               return <></>;
             }
-
             return (
               <div
-                className="flex gap-3 cursor-pointer hover:bg-reviewinfobglight rounded-xl p-2 transition-colors duration-300"
+                key={`featured_${index}`}
                 onClick={() => {
                   navigate(`/review/${review.routeName}`);
                 }}
+                className="flex gap-4 cursor-pointer hover:bg-reviewinfobglight p-3 rounded-xl transition-colors duration-300"
               >
                 <img
-                  className="w-[184px] h-[170px] object-cover rounded-lg"
-                  width={64}
-                  height={128}
+                  className="w-[150px] h-[150px] sm:w-[184px] sm:h-[170px] object-cover rounded-lg"
+                  width={150}
+                  height={150}
                   src={`/assets/static/${review.imagePath}`}
                   alt={review.title}
                 />
-                <div className="flex flex-col h-[170px]">
-                  <p className="truncate">{review.title}</p>
-                  <span className="text-gray-400 overflow-hidden text-sm">
-                    {review.summary}
-                  </span>
 
+                <div className="flex flex-col flex-1">
+                  <p className="font-semibold truncate">{review.title}</p>
+                  <div className="text-gray-400 text-sm mt-1 line-clamp-4">
+                    {review.summary}
+                  </div>
                   <div className="mt-auto flex items-center gap-3">
-                    <div>
-                      <span
-                        className={`h-full ${getScoreBackgroundColor(
-                          review.score
-                        )}  rounded p-2 font-medium`}
-                      >
-                        {review.score}
-                      </span>
-                    </div>
-                    <span className="border border-white p-1 rounded font-medium">
+                    <span
+                      className={`rounded p-2 font-medium ${getScoreBackgroundColor(
+                        review.score
+                      )}`}
+                    >
+                      {review.score}
+                    </span>
+
+                    <span className="border border-white px-2 py-1 rounded font-medium">
                       {GetTag(review)}
                     </span>
                   </div>

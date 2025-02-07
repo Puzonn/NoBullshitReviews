@@ -11,4 +11,11 @@ export const FetchFeed = async () => {
     credentials: "include",
     method: "GET",
   });
-}
+};
+
+export const FetchQuery = async (query: string) => {
+  return await fetch(`https://localhost:7106/review/query?${query}`, {
+    credentials: "include",
+    method: "GET",
+  });
+};

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoBullshitReviews.Database;
+using NoBullshitReviews.Models;
 using NoBullshitReviews.Models.Database;
 using NoBullshitReviews.Models.Requests;
 using NoBullshitReviews.Models.Responses;
@@ -35,6 +36,23 @@ public class ReviewController : ControllerBase
         }
 
         _staticImageDirectory = staticImageDirectory;
+    }
+
+    [HttpGet("query")]
+    public async Task<ActionResult<ReviewResponse[]>> Query([FromQuery] string query)
+    {
+        if (string.IsNullOrEmpty(query))
+        {
+            return BadRequest("Search query cannot be empty.");
+        }
+
+        string lowerQuery = query.ToLower();
+
+        return Ok(await _context.Reviews
+            .Where(x => !string.IsNullOrEmpty(x.Title) && x.Title.ToLower().Contains(lowerQuery))
+            .Take(5)
+            .Select(x => ReviewResponse.FromReview(x))
+            .ToArrayAsync());
     }
 
     [Authorize]
@@ -98,7 +116,7 @@ public class ReviewController : ControllerBase
     }
 
     [HttpGet("feed")]
-    public async Task<ActionResult<List<ReviewRequest>>> GetFeed()
+    public async Task<ActionResult<Feed>> GetFeed()
     {
         return Ok(await _reviewService.GetFeed());
     }
