@@ -42,7 +42,7 @@ const Sidebar = () => {
             visible ? "scale-x-[-1] right-[-14px]" : "sm:right-[-14px]"
           }`}
         >
-          <div className="p-1 border border-reviewinfobg rounded bg-reviewinfobglight">
+          <div className="p-1 border border-reviewinfobg rounded-xl bg-reviewinfobglight">
             <img
               className=""
               src="/assets/icons/arrow.png"
@@ -64,7 +64,7 @@ const Sidebar = () => {
             <div className={`flex flex-col h-full gap-5 p-2`}>
               <div
                 onClick={() => navigate("/")}
-                className={`hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center ${
+                className={`hover:bg-reviewinfobg p-2 rounded-xl cursor-pointer flex gap-3 items-center ${
                   checkLocation("") ? "bg-reviewinfobg font-semibold" : ""
                 }`}
               >
@@ -77,7 +77,20 @@ const Sidebar = () => {
                 <span className={`${visible ? "" : "hidden"}`}>Home</span>
               </div>
               <div
-                className={`hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center ${
+                onClick={() => setSearchOpen(true)}
+                className={`hover:bg-reviewinfobg p-2 rounded-xl cursor-pointer flex gap-3 items-center`}
+              >
+                <img
+                  width={24}
+                  height={24}
+                  alt="home"
+                  src="/assets/icons/search.png"
+                />
+                <span className={`${visible ? "" : "hidden"}`}>Search</span>
+              </div>
+              <hr className="opacity-20" />
+              <div
+                className={`hover:bg-reviewinfobg p-2 rounded-xl cursor-pointer flex gap-3 items-center ${
                   checkLocation("/movies")
                     ? "bg-reviewinfobg font-semibold"
                     : ""
@@ -92,7 +105,7 @@ const Sidebar = () => {
                 <span className={`${visible ? "" : "hidden"}`}>Movies</span>
               </div>
               <div
-                className={`hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center ${
+                className={`hover:bg-reviewinfobg p-2 rounded-xl cursor-pointer flex gap-3 items-center ${
                   checkLocation("/games") ? "bg-reviewinfobg font-semibold" : ""
                 }`}
               >
@@ -103,18 +116,6 @@ const Sidebar = () => {
                   src="/assets/icons/gamepad.png"
                 />
                 <span className={`${visible ? "" : "hidden"}`}>Games</span>
-              </div>
-              <div
-                onClick={() => setSearchOpen(true)}
-                className={`hover:bg-reviewinfobg p-2 rounded cursor-pointer flex gap-3 items-center`}
-              >
-                <img
-                  width={24}
-                  height={24}
-                  alt="home"
-                  src="/assets/icons/search.png"
-                />
-                <span className={`${visible ? "" : "hidden"}`}>Search</span>
               </div>
             </div>
 
@@ -140,7 +141,7 @@ const Sidebar = () => {
                 </div>
               )}
 
-              <hr className="border border-white" />
+              <hr className="opacity-20" />
 
               <div className="flex justify-center">
                 {auth === undefined ? (

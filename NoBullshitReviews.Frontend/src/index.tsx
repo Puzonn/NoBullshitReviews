@@ -13,6 +13,7 @@ import GameReviewCreator from "src/pages/creator/GameReviewCreator";
 import MovieReviewCreator from "src/pages/creator/MovieReviewCreator";
 import Games from "./pages/Games";
 import GameNewsCreator from "./pages/creator/GameNewsCreator";
+import FilterProvider from "./Providers/FilterProvider";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
@@ -34,30 +35,34 @@ const RenderWithSidebar = (child) => {
 
 root.render(
   <AuthProvider>
-    <BrowserRouter>
-      <Routes>
-        <Route index path="/" element={RenderWithSidebar(<Main />)} />
-        <Route index path="/games" element={RenderWithSidebar(<Games />)} />
-        <Route path="/creator/" element={RenderWithSidebar(<Creator />)} />
-        <Route
-          path="/creator/news/game"
-          element={RenderWithSidebar(<GameNewsCreator />)}
-        />
-        <Route
-          path="/creator/review/movie"
-          element={RenderWithSidebar(<MovieReviewCreator />)}
-        />
-        <Route
-          path="/creator/review/game"
-          element={RenderWithSidebar(<GameReviewCreator />)}
-        />
-        <Route path="/join" element={RenderWithSidebar(<Join />)} />
-        <Route path="/auth/oauthCallback" element={<OAuth />} />
-        <Route
-          path="/review/:route"
-          element={RenderWithSidebar(<ReviewGameInfoPage />)}
-        />
-      </Routes>
-    </BrowserRouter>
+    <FilterProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route index path="/games" element={RenderWithSidebar(<Games />)} />
+          <Route path="/creator/" element={RenderWithSidebar(<Creator />)} />
+
+          <Route index path="/" element={RenderWithSidebar(<Main />)} />
+          <Route
+            path="/creator/news/game"
+            element={RenderWithSidebar(<GameNewsCreator />)}
+          />
+          <Route
+            path="/creator/review/movie"
+            element={RenderWithSidebar(<MovieReviewCreator />)}
+          />
+          <Route
+            path="/creator/review/game"
+            element={RenderWithSidebar(<GameReviewCreator />)}
+          />
+
+          <Route path="/join" element={RenderWithSidebar(<Join />)} />
+          <Route path="/auth/oauthCallback" element={<OAuth />} />
+          <Route
+            path="/review/:route"
+            element={RenderWithSidebar(<ReviewGameInfoPage />)}
+          />
+        </Routes>
+      </BrowserRouter>
+    </FilterProvider>
   </AuthProvider>
 );

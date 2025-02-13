@@ -63,11 +63,8 @@ const Featured = ({ featured }: { featured: IReview[] }) => {
     <div>
       <div className="flex items-center justify-start gap-3">
         <span className="text-3xl font-semibold">Featured Today</span>
-        <span className="text-base text-gray-300 underline cursor-pointer">
-          See All
-        </span>
       </div>
-      <hr className="w-full my-5" />
+      <hr className="w-full my-5 opacity-20" />
       <div className="flex flex-wrap gap-5">
         <div className="lg:flex-1 flex-col items-center w-full">
           <div

@@ -3,6 +3,15 @@ export interface User {
   username: string;
 }
 
+export interface FilterContextType {
+  filters: Dictionary<string, string[]>;
+  addFilter: (selectorName: string, filter: string) => void;
+  removeFilter: (selectorName: string, filter: string) => void;
+  isSelected: (selectorName: string, filter: string) => boolean;
+  flatFilterValues: () => string[];
+  removeFilterFromAnySelector: (filter: string) => void;
+}
+
 export interface Feed {
   featured: IReview[];
   mostRecent: IReview[];

@@ -52,12 +52,9 @@ const Latest = ({ reviews }: { reviews: IReview[] }) => {
     <div>
       <div className="flex items-center justify-start gap-3">
         <span className="text-xl font-semibold">Latest Reviews</span>
-        <span className="text-base text-gray-300 underline cursor-pointer">
-          See All
-        </span>
       </div>
       <div className="flex items-center gap-3">
-        <hr className="w-full" />
+        <hr className="w-full opacity-20" />
         <div className="gap-3 hidden sm:flex">
           <div
             onClick={() => scroll("latest", -400)}
