@@ -16,5 +16,5 @@ public class DbUser
 
     /* TODO: Throws when review include author */
     [JsonIgnore]
-    public ICollection<Review> Reviews { get; set; } = new List<Review>();
+    public ICollection<DbGameReview> Reviews { get; set; } = new List<DbGameReview>();
 }

@@ -25,11 +25,7 @@ public class ReviewService
 
         if (!_cache.TryGetValue(cacheKey, out object? feed))
         {
-            var cacheEntryOptions = new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
-                SlidingExpiration = TimeSpan.FromMinutes(5)
-            };
+            var cacheEntryOptions = new MemoryCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5), SlidingExpiration = TimeSpan.FromMinutes(5) };
 
             _cache.Set(cacheKey, await CreateFeed(10), cacheEntryOptions);
         }
@@ -44,16 +40,16 @@ public class ReviewService
             throw new ArgumentOutOfRangeException(nameof(limit), limit, "Limit must be greater than 0 and less than 100.");
         }
 
-        var latest = await _context.Reviews
+        var latest = await _context.GameReviews
             .Include(x => x.Author)
-            .OrderByDescending(x => x.Creation)
+            .OrderByDescending(x => x.CreatedAt)
             .Take(limit)
             .ToListAsync();
 
         return new Feed()
         {
             Featured = latest.Take(4).ToList(),
-            MostRecent = latest
+            MostRecent = latest.ToList()
         };
     }
 }

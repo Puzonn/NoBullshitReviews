@@ -19,3 +19,11 @@ export const FetchQuery = async (query: string) => {
     method: "GET",
   });
 };
+
+export const PostGame = async (form: FormData) => {
+  return await fetch(`https://localhost:7106/game/create`, {
+    body: form,
+    credentials: "include",
+    method: "POST",
+  });
+};

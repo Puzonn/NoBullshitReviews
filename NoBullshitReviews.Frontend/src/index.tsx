@@ -14,6 +14,7 @@ import MovieReviewCreator from "src/pages/creator/MovieReviewCreator";
 import Games from "./pages/Games";
 import GameNewsCreator from "./pages/creator/GameNewsCreator";
 import FilterProvider from "./Providers/FilterProvider";
+import GameCreator from "./pages/creator/GameCreator";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
@@ -53,6 +54,11 @@ root.render(
           <Route
             path="/creator/review/game"
             element={RenderWithSidebar(<GameReviewCreator />)}
+          />
+
+          <Route
+            path="/creator/game"
+            element={RenderWithSidebar(<GameCreator />)}
           />
 
           <Route path="/join" element={RenderWithSidebar(<Join />)} />

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoBullshitReviews.Database;
 
@@ -10,9 +11,11 @@ using NoBullshitReviews.Database;
 namespace NoBullshitReviews.Migrations
 {
     [DbContext(typeof(ReviewContext))]
-    partial class ReviewContextModelSnapshot : ModelSnapshot
+    [Migration("20250214092100_TitleRename")]
+    partial class TitleRename
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -31,12 +34,12 @@ namespace NoBullshitReviews.Migrations
                     b.Property<int>("AttributeValueIndex")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DbGameReviewId")
+                    b.Property<int?>("ReviewId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DbGameReviewId");
+                    b.HasIndex("ReviewId");
 
                     b.ToTable("Attribute");
                 });
@@ -71,68 +74,6 @@ namespace NoBullshitReviews.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("NoBullshitReviews.Models.Database.DbGameReview", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.PrimitiveCollection<string>("Platforms")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Review")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("RouteName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Summary")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.PrimitiveCollection<string>("Tags")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UID")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("GameId");
-
-                    b.ToTable("GameReviews");
-                });
-
             modelBuilder.Entity("NoBullshitReviews.Models.Database.DbUser", b =>
                 {
                     b.Property<int>("Id")
@@ -159,14 +100,103 @@ namespace NoBullshitReviews.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("NoBullshitReviews.Models.Attribute", b =>
+            modelBuilder.Entity("NoBullshitReviews.Models.Database.Review", b =>
                 {
-                    b.HasOne("NoBullshitReviews.Models.Database.DbGameReview", null)
-                        .WithMany("Attributes")
-                        .HasForeignKey("DbGameReviewId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Creation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Review")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ReviewType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RouteName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.PrimitiveCollection<string>("Tags")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UID")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Review");
+
+                    b.HasDiscriminator().HasValue("Review");
+
+                    b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("NoBullshitReviews.Models.Database.DbGameReview", b =>
+            modelBuilder.Entity("NoBullshitReviews.Models.Database.GameReview", b =>
+                {
+                    b.HasBaseType("NoBullshitReviews.Models.Database.Review");
+
+                    b.Property<string>("Developer")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("InitlialRelease")
+                        .HasColumnType("TEXT");
+
+                    b.PrimitiveCollection<string>("Platforms")
+                        .IsRequired()
+                        .HasMaxLength(7)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Publisher")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("GameReview");
+                });
+
+            modelBuilder.Entity("NoBullshitReviews.Models.Attribute", b =>
+                {
+                    b.HasOne("NoBullshitReviews.Models.Database.Review", null)
+                        .WithMany("Attributes")
+                        .HasForeignKey("ReviewId");
+                });
+
+            modelBuilder.Entity("NoBullshitReviews.Models.Database.Review", b =>
                 {
                     b.HasOne("NoBullshitReviews.Models.Database.DbUser", "Author")
                         .WithMany("Reviews")
@@ -174,30 +204,17 @@ namespace NoBullshitReviews.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NoBullshitReviews.Models.Database.DbGame", "Game")
-                        .WithMany("Reviews")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Author");
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("NoBullshitReviews.Models.Database.DbGame", b =>
-                {
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("NoBullshitReviews.Models.Database.DbGameReview", b =>
-                {
-                    b.Navigation("Attributes");
                 });
 
             modelBuilder.Entity("NoBullshitReviews.Models.Database.DbUser", b =>
                 {
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("NoBullshitReviews.Models.Database.Review", b =>
+                {
+                    b.Navigation("Attributes");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoBullshitReviews.Database;
 
@@ -10,9 +11,11 @@ using NoBullshitReviews.Database;
 namespace NoBullshitReviews.Migrations
 {
     [DbContext(typeof(ReviewContext))]
-    partial class ReviewContextModelSnapshot : ModelSnapshot
+    [Migration("20250214124759_CreatedAt")]
+    partial class CreatedAt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -83,9 +86,6 @@ namespace NoBullshitReviews.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("GameId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -127,8 +127,6 @@ namespace NoBullshitReviews.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("GameId");
 
                     b.ToTable("GameReviews");
                 });
@@ -174,20 +172,7 @@ namespace NoBullshitReviews.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NoBullshitReviews.Models.Database.DbGame", "Game")
-                        .WithMany("Reviews")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Author");
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("NoBullshitReviews.Models.Database.DbGame", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("NoBullshitReviews.Models.Database.DbGameReview", b =>

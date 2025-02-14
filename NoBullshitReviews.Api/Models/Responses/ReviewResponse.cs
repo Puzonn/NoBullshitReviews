@@ -1,39 +1,34 @@
 ﻿using NoBullshitReviews.Models.Database;
-using System.ComponentModel.DataAnnotations;
 
 namespace NoBullshitReviews.Models.Responses;
 
-public class ReviewResponse : ReviewBase
+public class ReviewResponse 
 {
-    [Required]
-    public DateTime Creation { get; set; }
+    public required string Title { get; set; }
+    public required string ImagePath { get; set; }
+    public required string RouteName { get; set; }
+    public required string Review { get; set; }
+    public required string Summary { get; set; }
+    public required string AuthorName { get; set; }
+    public required int Score { get; set; }
+    public required List<string> Tags { get; set; } = new List<string>();
+    public required List<Attribute> Attributes { get; set; } = new List<Attribute>();
+    public required DateTime CreatedAt { get; set; }
 
-    [Required]
-    public string AuthorName { get; set; } = string.Empty;
-
-    [Required]
-    public string ImagePath { get; set; } = string.Empty;
-
-    [Required]
-    public string RouteName { get; set; } = string.Empty;
-
-    [Required]
-    public bool IsAuthor { get; set; } = false;
-
-    public static ReviewResponse FromReview(Review review)
+    public static ReviewResponse FromReview(DbGameReview review)
     {
         return new ReviewResponse()
         {
-            ReviewType = review.ReviewType,
-            Summary = review.Summary,   
-            Review = review.Review,
-            ImagePath = review.ImagePath,
-            Creation = review.Creation,
             Title = review.Title,
-            Tags = review.Tags,
             Attributes = review.Attributes,
+            AuthorName = review.Author.Username,
+            CreatedAt = review.CreatedAt,
             Score = review.Score,
+            Tags = review.Tags,
+            ImagePath = review.ImagePath,
+            Review = review.Review,
             RouteName = review.RouteName,
-        };   
+            Summary = review.Summary,
+        };
     }
 }

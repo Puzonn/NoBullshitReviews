@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { platform } from "os";
+import { useEffect, useState } from "react";
 import { PostReview } from "src/api/ReviewApi";
 import CreatorGameAttribute from "src/components/creator/CreatorGameAttribute";
 import { getScoreBackgroundColor } from "src/global/Colors";
@@ -11,6 +12,16 @@ import {
 import { CreateDefaultAttributeDictionary } from "src/utils/CreatorUtils";
 
 const GameReviewCreator = () => {
+  const [reviewData, setReviewData] = useState({
+    title: "",
+    review: "",
+    summary: "",
+    tags: [] as string[],
+    score: 0,
+    image: null as File | null,
+    attributes: CreateDefaultAttributeDictionary(GameReviewAttributes),
+  });
+  const [gameTitle, setGameTitle] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [review, setReview] = useState<string>("");
   const [summary, setSummary] = useState<string>("");
@@ -18,7 +29,6 @@ const GameReviewCreator = () => {
   const [reviewLenght, setReviewLenght] = useState<number>(0);
   const [summaryLenght, setSummaryLenght] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
-  const [image, setImage] = useState<File | null>(null);
   const [attributes, setAttributes] = useState<Dictionary<string, number>[]>(
     CreateDefaultAttributeDictionary(GameReviewAttributes)
   );
@@ -26,28 +36,27 @@ const GameReviewCreator = () => {
   const postReview = async () => {
     const form = new FormData();
 
-    form.append("image", image!);
-    form.append("title", title);
-    form.append("review", review);
-    form.append("summary", summary);
-    form.append("tags", JSON.stringify(tags));
-    form.append("score", score.toString());
-    form.append("reviewType", ContentType.ReviewGame.toString());
+    const reviewData = {
+      title: title,
+      review: review,
+      summary: summary,
+      gameTitle: gameTitle,
+      score: score.toString(),
+    };
 
-    const mappedAttributes = attributes.reduce<Record<string, number>>(
-      (acc, obj) => {
-        const key = Object.keys(obj)[0];
-        acc[key] = obj[key];
-        return acc;
-      },
-      {}
+    Object.entries(reviewData).forEach(([key, value]) =>
+      form.append(key, value)
     );
 
-    Object.entries(mappedAttributes).forEach(([key, value]) => {
-      form.append(`Attributes[${key}]`, value.toString());
+    tags.forEach((tag) => form.append("tags", tag));
+
+    attributes.forEach((attribute) => {
+      Object.entries(attribute).forEach(([key, value]) => {
+        form.append(`Attributes[${key}]`, value.toString());
+      });
     });
 
-    const response = await PostReview(form);
+    await PostReview(form);
   };
 
   const onAttributeChange = (attribute: string, attributeIndex: number) => {
@@ -80,14 +89,22 @@ const GameReviewCreator = () => {
   };
 
   return (
-    <div className="box-border flex flex-col gap-4 min-h-screen bg-reviewbg w-full sm:pl-5 overflow-hidden p-5 sm:p-20">
+    <div className="box-border flex flex-col gap-4 min-h-screen bg-reviewbg w-full sm:pl-5 overflow-hidden sm:p-5 p-2">
       <input
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => setGameTitle(e.target.value)}
         className="w-full bg-reviewbg text-white placeholder:text-gray-300 text-sm border
-               border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
+               border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
                focus:text-white
                 hover:border-slate-300 shadow-sm focus:shadow"
         placeholder="Game Title"
+      />
+      <input
+        onChange={(e) => setTitle(e.target.value)}
+        className="w-full bg-reviewbg text-white placeholder:text-gray-300 text-sm border
+               border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
+               focus:text-white
+                hover:border-slate-300 shadow-sm focus:shadow"
+        placeholder="Review Title"
       />
       <textarea
         onChange={(e) => {
@@ -95,7 +112,7 @@ const GameReviewCreator = () => {
           setSummary(e.target.value);
         }}
         className="w-full bg-reviewbg h-full text-white placeholder:text-gray-300 border
-               border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
+               border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
                focus:text-white
                 hover:border-slate-300 shadow-sm focus:shadow"
         placeholder="Summary"
@@ -114,7 +131,7 @@ const GameReviewCreator = () => {
           setReview(e.target.value);
         }}
         className="w-full bg-reviewbg h-full text-white placeholder:text-gray-300 border
-               border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
+               border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
                focus:text-white
                 hover:border-slate-300 shadow-sm focus:shadow"
         placeholder="Review"
@@ -126,20 +143,7 @@ const GameReviewCreator = () => {
       >
         {reviewLenght}/500
       </span>
-
-      <div className="mr-auto">
-        <label className="text-medium" htmlFor="image">
-          Review Image
-        </label>
-        <input
-          onChange={(e) => setImage(e.target.files?.[0] || null)}
-          className="w-full file:bg-reviewinfobglight file:text-white file:rounded file:font-medium mb-5 text-gray-300 border py-1 px-1 transition duration-300 ease border-gray-300 rounded-lg cursor-pointer bg-reviewbg focus:outline-none"
-          id="image"
-          type="file"
-          accept="image/png, image/jpeg"
-        />
-      </div>
-
+      <hr className="opacity-20" />
       <div className="mr-auto flex items-center gap-4">
         <input
           onChange={(e) => setScore(Number(e.target.value))}
@@ -165,7 +169,6 @@ const GameReviewCreator = () => {
           </div>
         )}
       </div>
-
       <input
         type="text"
         onKeyDown={(e) => {
@@ -175,7 +178,7 @@ const GameReviewCreator = () => {
         }}
         id="review_creator_input_tag"
         className="w-full bg-reviewbg text-white placeholder:text-gray-300 text-sm border
-               border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
+               border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
                focus:text-white
                 hover:border-slate-300 shadow-sm focus:shadow"
         placeholder="Search Tags"
@@ -193,7 +196,7 @@ const GameReviewCreator = () => {
           );
         })}
       </div>
-
+      <hr className="opacity-20" />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {MovieReviewAttributes.map((attribute, index) => {
           return (

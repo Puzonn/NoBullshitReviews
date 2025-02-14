@@ -48,7 +48,7 @@ public class ReviewController : ControllerBase
 
         string lowerQuery = query.ToLower();
 
-        return Ok(await _context.Reviews
+        return Ok(await _context.GameReviews
             .Where(x => !string.IsNullOrEmpty(x.Title) && x.Title.ToLower().Contains(lowerQuery))
             .Take(5)
             .Select(x => ReviewResponse.FromReview(x))
@@ -57,11 +57,12 @@ public class ReviewController : ControllerBase
 
     [Authorize]
     [HttpPost("create")]
-    public async Task<ActionResult<Review>> CreateReview([FromForm] ReviewRequest request)
+    public async Task<ActionResult<ReviewResponse>> CreateReview([FromForm] GameReviewCreationRequest request)
     {
+        var r = await _context.GameReviews.Include(x => x.Game).ToListAsync();
         var principal = HttpContext.User;
         DbUser? user = null;
-
+        
         if(principal?.Identity?.IsAuthenticated ?? false)
         {
             var id = principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -79,38 +80,44 @@ public class ReviewController : ControllerBase
             return Unauthorized();
         }
 
-        Review review = Review.FromRequest(request);
+        DbGame? game = await _context.Games.Where(x => x.Title == request.GameTitle).FirstOrDefaultAsync();
 
+        if(game is null)
+        {
+            return BadRequest("Game with given title dose not exist");
+        }
+
+        DbGameReview review = DbGameReview.FromRequest(request);
+        review.Game = game;
         review.UID = Guid.NewGuid();
-        review.Creation = DateTime.UtcNow;
+        review.CreatedAt = DateTime.UtcNow;
         review.RouteName = Regex.Replace(review.Title.ToLower(), @"[^a-zA-Z0-9\s]", "").Replace(" ", "-");
         review.Author = user;
 
-        try
-        {
-            if (request.Image != null && request.Image.Length > 0)
-            {
-                string extension = Path.GetExtension(request.Image.FileName);
-                string path = $"{_staticImageDirectory}/{review.UID}{extension}";
+        //try
+        //{
+        //    if (request.Image != null && request.Image.Length > 0)
+        //    {
+        //        string extension = Path.GetExtension(request.Image.FileName);
+        //        string path = $"{_staticImageDirectory}/{review.UID}{extension}";
 
-                using (Stream stream = new FileStream(path, new FileStreamOptions() { Mode = FileMode.CreateNew, Access = FileAccess.Write }))
-                {
-                    await request.Image.CopyToAsync(stream);
-                }
+        //        using (Stream stream = new FileStream(path, new FileStreamOptions() { Mode = FileMode.CreateNew, Access = FileAccess.Write }))
+        //        {
+        //            await request.Image.CopyToAsync(stream);
+        //        }
 
-                review.ImagePath = $"{review.UID}{extension}";
-            }
-        }
-        catch(Exception)
-        {
-            return Problem("Error while saving image", statusCode: 500);
-        }
+        //        review.ImagePath = $"{review.UID}{extension}";
+        //    }
+        //}
+        //catch (Exception)
+        //{
+        //    return Problem("Error while saving image", statusCode: 500);
+        //}
 
-        await _context.Reviews.AddAsync(review);
+        await _context.GameReviews.AddAsync(review);
         await _context.SaveChangesAsync();
          
         ReviewResponse response = ReviewResponse.FromReview(review);
-        response.AuthorName = user.Username;
 
         return Ok(response);
     }
@@ -124,7 +131,7 @@ public class ReviewController : ControllerBase
     [HttpDelete("delete")]
     public async Task<ActionResult> DeleteAll()
     {
-        var r = await _context.Reviews.Include(r => r.Attributes).ToListAsync();
+        var r = await _context.GameReviews.Include(r => r.Attributes).ToListAsync();
 
         foreach(var a in r)
         {
@@ -143,7 +150,7 @@ public class ReviewController : ControllerBase
     [HttpGet("get-info-name/{name}")]
     public async Task<ActionResult<List<ReviewResponse>>> GetInfoByName(string name)
     {
-        Review? review = await _context.Reviews
+        DbGameReview? review = await _context.GameReviews
             .Include(x => x.Author)
             .Include(r => r.Attributes)
             .FirstOrDefaultAsync(x => x.RouteName == name);
@@ -168,17 +175,13 @@ public class ReviewController : ControllerBase
             return BadRequest($"Review with name: {name} dose not exist");
         }
 
-        var response = ReviewResponse.FromReview(review);
-        response.AuthorName = review.Author.Username;
-        response.IsAuthor = review.Author == user;
-
-        return Ok(response);
+        return Ok(ReviewResponse.FromReview(review));
     }
 
     [HttpDelete("delete/{id}")]
     public async Task<ActionResult> DeleteReviewById(int id)
     {
-        var review = await _context.Reviews.Include(r => r.Attributes).FirstOrDefaultAsync(x => x.Id == id);
+        var review = await _context.GameReviews.Include(r => r.Attributes).FirstOrDefaultAsync(x => x.Id == id);
 
         if(review is null)
         {

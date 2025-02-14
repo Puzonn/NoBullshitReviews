@@ -1,11 +1,7 @@
 import { useParams } from "react-router-dom";
 import GameReviewAttribute from "../components/creator/GameReviewAttribute";
 import { getScoreBackgroundColor } from "../global/Colors";
-import {
-  GameReviewAttributes,
-  IReviewCreation,
-  ReviewGameInfo,
-} from "../types/Types";
+import { GameReviewAttributes, ReviewGameInfo } from "../types/Types";
 import { useEffect, useState } from "react";
 
 const ReviewGameInfoPage = () => {

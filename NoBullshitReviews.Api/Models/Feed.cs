@@ -4,6 +4,6 @@ namespace NoBullshitReviews.Models;
 
 public class Feed
 {
-    public List<Review> MostRecent { get; set; } = new List<Review>();
-    public List<Review> Featured { get; set; } = new List<Review>();
+    public List<DbGameReview> MostRecent { get; set; } = new List<DbGameReview>();
+    public List<DbGameReview> Featured { get; set; } = new List<DbGameReview>();
 }

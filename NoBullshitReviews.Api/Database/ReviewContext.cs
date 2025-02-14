@@ -6,7 +6,8 @@ namespace NoBullshitReviews.Database;
 
 public class ReviewContext : DbContext
 {
-    public DbSet<Review> Reviews { get; set; }
+    public DbSet<DbGameReview> GameReviews { get; set; }
+    public DbSet<DbGame> Games { get; set; }
     public DbSet<DbUser> Users { get; set; }
     
     public string DbPath { get; }
@@ -30,12 +31,17 @@ public class ReviewContext : DbContext
 #endif
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        modelBuilder.Entity<Review>()
-        .HasOne(r => r.Author)
-        .WithMany(u => u.Reviews)
-        .HasForeignKey(r => r.AuthorId)
-        .OnDelete(DeleteBehavior.Cascade);
+        builder.Entity<DbGameReview>()
+            .HasOne(r => r.Author)
+            .WithMany(r => r.Reviews)
+            .HasForeignKey(r => r.AuthorId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<DbGameReview>()
+            .HasOne(p => p.Game)
+            .WithMany(p => p.Reviews)
+            .HasForeignKey(p => p.GameId);
     }
 }
