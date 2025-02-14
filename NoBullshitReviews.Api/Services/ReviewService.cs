@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using NoBullshitReviews.Database;
 using NoBullshitReviews.Models;
+using NoBullshitReviews.Models.Responses;
 
 namespace NoBullshitReviews.Services;
 
@@ -42,14 +43,15 @@ public class ReviewService
 
         var latest = await _context.GameReviews
             .Include(x => x.Author)
+            .Include(x => x.Game)
             .OrderByDescending(x => x.CreatedAt)
             .Take(limit)
             .ToListAsync();
 
         return new Feed()
         {
-            Featured = latest.Take(4).ToList(),
-            MostRecent = latest.ToList()
+            Featured = latest.Take(4).Select(x => ReviewResponse.FromReview(x)).ToList(),
+            MostRecent = latest.Take(4).Select(x => ReviewResponse.FromReview(x)).ToList()
         };
     }
 }

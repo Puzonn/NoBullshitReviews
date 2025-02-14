@@ -3,6 +3,30 @@ export interface User {
   username: string;
 }
 
+export interface FeedReview {
+  title: string;
+  imagePath: string;
+  review: string;
+  summary: string;
+  routeName: string;
+  authorName: string;
+  score: number;
+  reviewType: ContentType;
+  tags: string[];
+  attributes: Dictionary<string, number>;
+  createdAt: Date;
+  game: FeedGame;
+}
+
+export interface FeedGame {
+  title: string;
+  description: string;
+  publisher: string;
+  developer: string;
+  imagePath: string;
+  initialRelease: Date;
+}
+
 export interface FilterContextType {
   filters: Dictionary<string, string[]>;
   addFilter: (selectorName: string, filter: string) => void;
@@ -13,8 +37,8 @@ export interface FilterContextType {
 }
 
 export interface Feed {
-  featured: IReview[];
-  mostRecent: IReview[];
+  featured: FeedReview[];
+  mostRecent: FeedReview[];
 }
 
 export interface IReviewCreation {

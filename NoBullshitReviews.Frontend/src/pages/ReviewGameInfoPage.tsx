@@ -1,11 +1,15 @@
 import { useParams } from "react-router-dom";
 import GameReviewAttribute from "../components/creator/GameReviewAttribute";
 import { getScoreBackgroundColor } from "../global/Colors";
-import { GameReviewAttributes, ReviewGameInfo } from "../types/Types";
+import {
+  FeedReview,
+  GameReviewAttributes,
+  ReviewGameInfo,
+} from "../types/Types";
 import { useEffect, useState } from "react";
 
 const ReviewGameInfoPage = () => {
-  const [review, setReview] = useState<ReviewGameInfo | undefined>(undefined);
+  const [review, setReview] = useState<FeedReview | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { route } = useParams<{ route: string }>();
 
@@ -43,8 +47,7 @@ const ReviewGameInfoPage = () => {
     return <div></div>;
   }
 
-  const formatCreationDate = () => {
-    const date = new Date(review.creation);
+  const formatDate = (date: Date) => {
     const formattedDate = new Intl.DateTimeFormat("en-US", {
       month: "short",
       day: "numeric",
@@ -64,14 +67,14 @@ const ReviewGameInfoPage = () => {
             <div className="flex justify-center sm:justify-start w-full h-full">
               <img
                 className="max-h-[260px] w-full object-cover rounded-xl"
-                src={`/assets/static/${review.imagePath}`}
+                src={review.game.imagePath}
                 alt={review.title}
               />
             </div>
             <div className="flex flex-col gap-2">
               <span className="text-xl font-semibold">{review.title}</span>
               <span className="text-base font-medium text-gray-300">
-                {formatCreationDate()} • {review.authorName}
+                {formatDate(new Date(review.createdAt))} • {review.authorName}
               </span>
               <div className="mt-5">
                 <div className="flex justify-between">
@@ -141,15 +144,15 @@ const ReviewGameInfoPage = () => {
             <div className="flex text-sm gap-5 flex-wrap">
               <div className="flex flex-col">
                 <span className="font-semibold">Initlial Release</span>
-                <span>Dec 6, 2024</span>
+                <span>{formatDate(new Date(review.game.initialRelease))}</span>
               </div>
               <div className="flex flex-col">
-                <span className="font-semibold">Developers</span>
-                <span>Grinding Gear Games</span>
+                <span className="font-semibold">Developer</span>
+                <span>{review.game.developer}</span>
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold">Publishers</span>
-                <span>Grinding Gear Games</span>
+                <span>{review.game.publisher}</span>
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold">Tags</span>

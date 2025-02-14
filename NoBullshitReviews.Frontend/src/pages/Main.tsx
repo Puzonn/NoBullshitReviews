@@ -1,5 +1,5 @@
 import Featured from "src/components/Featured/Featured";
-import { IReview, ContentType, Feed } from "../types/Types";
+import { ContentType, Feed, FeedReview } from "../types/Types";
 import { useEffect, useState } from "react";
 import Latest from "src/components/Latest";
 import { FetchFeed } from "src/api/ReviewApi";
@@ -7,7 +7,7 @@ import Filter from "src/components/Filter/Filter";
 
 export default function Main() {
   const [feed, setFeed] = useState<Feed | undefined>(undefined);
-  const [filtredReviews, setFiltredReviews] = useState<IReview[]>([]);
+  const [filtredReviews, setFiltredReviews] = useState<FeedReview[]>([]);
   const [filter, setFilter] = useState<ContentType>(ContentType.Any);
 
   useEffect(() => {

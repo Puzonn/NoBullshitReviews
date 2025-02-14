@@ -1,8 +1,8 @@
 import {
   ContentType,
   Dictionary,
+  FeedReview,
   IAttributeReview,
-  IReview,
 } from "src/types/Types";
 
 export const CreateDefaultAttributeDictionary = (
@@ -16,7 +16,7 @@ export const CreateDefaultAttributeDictionary = (
   return dic;
 };
 
-export const GetTag = (review: IReview): string => {
+export const GetTag = (review: FeedReview): string => {
   switch (review.reviewType) {
     case ContentType.ReviewMovie:
       return "Movie";

@@ -19,6 +19,8 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddLogging();
+
 builder.Services.AddHttpClient();
 
 builder.Services.AddAuthentication(options =>
@@ -41,6 +43,8 @@ builder.Services.AddScoped<ReviewService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.UseStaticFiles();
 
 app.UseAuthentication();
 

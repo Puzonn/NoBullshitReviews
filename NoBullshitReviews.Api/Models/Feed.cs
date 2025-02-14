@@ -1,9 +1,9 @@
-﻿using NoBullshitReviews.Models.Database;
+﻿using NoBullshitReviews.Models.Responses;
 
 namespace NoBullshitReviews.Models;
 
 public class Feed
 {
-    public List<DbGameReview> MostRecent { get; set; } = new List<DbGameReview>();
-    public List<DbGameReview> Featured { get; set; } = new List<DbGameReview>();
+    public List<ReviewResponse> MostRecent { get; set; } = new List<ReviewResponse>();
+    public List<ReviewResponse> Featured { get; set; } = new List<ReviewResponse>();
 }

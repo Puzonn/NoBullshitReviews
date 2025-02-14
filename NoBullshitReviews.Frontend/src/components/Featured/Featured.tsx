@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IReview } from "src/types/Types";
+import { FeedReview, IReview } from "src/types/Types";
 import FeaturedDashReview from "./FeaturedDashReview";
 import { GetTag } from "src/utils/CreatorUtils";
 import { getScoreBackgroundColor } from "src/global/Colors";
@@ -8,10 +8,12 @@ import { getScoreBackgroundColor } from "src/global/Colors";
 /* Time needed to change main featured content */
 const FEATURED_CHANGE_TIME: number = 5500;
 
-const Featured = ({ featured }: { featured: IReview[] }) => {
+const Featured = ({ featured }: { featured: FeedReview[] }) => {
   const featuredElement = useRef<HTMLDivElement>(null);
-  const [featuredContent, setFeaturedContent] = useState<IReview>(featured[0]);
-  const [nextFeatured, setNextFeatured] = useState<IReview[]>(featured);
+  const [featuredContent, setFeaturedContent] = useState<FeedReview>(
+    featured[0]
+  );
+  const [nextFeatured, setNextFeatured] = useState<FeedReview[]>(featured);
 
   const navigate = useNavigate();
 
@@ -37,6 +39,10 @@ const Featured = ({ featured }: { featured: IReview[] }) => {
 
     if (featuredIndex + 1 >= featured.length) {
       featuredIndex = 0;
+    }
+
+    if (nextFeatured.length < 3) {
+      return;
     }
 
     const timer = setTimeout(() => {
@@ -93,8 +99,8 @@ const Featured = ({ featured }: { featured: IReview[] }) => {
                   className="w-[150px] h-[150px] sm:w-[184px] sm:h-[170px] object-cover rounded-lg"
                   width={150}
                   height={150}
-                  src={`/assets/static/${review.imagePath}`}
-                  alt={review.title}
+                  src={review.game.imagePath}
+                  alt={review.game.title}
                 />
 
                 <div className="flex flex-col flex-1">

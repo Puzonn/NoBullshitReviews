@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DashReview } from "src/components/DashReview";
-import { IReview } from "src/types/Types";
+import { FeedReview, IReview } from "src/types/Types";
 
-const Latest = ({ reviews }: { reviews: IReview[] }) => {
+const Latest = ({ reviews }: { reviews: FeedReview[] }) => {
   const lastestElement = useRef<HTMLDivElement>(null);
   const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
   const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
-  const reviewClicked = (review: IReview) => {
+  const reviewClicked = (review: FeedReview) => {
     navigate(`/review/${review.routeName}`);
   };
 

@@ -152,6 +152,7 @@ public class ReviewController : ControllerBase
     {
         DbGameReview? review = await _context.GameReviews
             .Include(x => x.Author)
+            .Include(x => x.Game)
             .Include(r => r.Attributes)
             .FirstOrDefaultAsync(x => x.RouteName == name);
  

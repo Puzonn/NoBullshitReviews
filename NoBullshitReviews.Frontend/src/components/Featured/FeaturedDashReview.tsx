@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { getScoreBackgroundColor } from "src/global/Colors";
-import { IReview } from "src/types/Types";
+import { FeedReview } from "src/types/Types";
 
-const FeaturedDashReview = ({ review }: { review: IReview }) => {
+const FeaturedDashReview = ({ review }: { review: FeedReview }) => {
   const navigate = useNavigate();
 
   if (review === null || review === undefined) {
@@ -18,8 +18,8 @@ const FeaturedDashReview = ({ review }: { review: IReview }) => {
         className="w-full h-full object-cover rounded-lg"
         width={458}
         height={425}
-        src={`/assets/static/${review.imagePath}`}
-        alt={review.title}
+        src={review.game.imagePath}
+        alt={review.game.title}
       />
       <div
         className={`absolute left-[20px] p-4 bottom-[20px] opacity-90 rounded-lg ${getScoreBackgroundColor(
@@ -31,7 +31,9 @@ const FeaturedDashReview = ({ review }: { review: IReview }) => {
       <div
         className={`absolute left-[100px] p-4 bottom-[20px] opacity-90 rounded-lg bg-black bg-opacity-50`}
       >
-        <span className="text-2xl text-white font-bold">{review.title}</span>
+        <span className="text-2xl text-white font-bold">
+          {review.game.title}
+        </span>
       </div>
     </div>
   );

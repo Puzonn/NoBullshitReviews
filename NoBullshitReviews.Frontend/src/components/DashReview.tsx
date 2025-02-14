@@ -1,13 +1,13 @@
 import { GetTag } from "src/utils/CreatorUtils";
 import { getScoreBackgroundColor } from "../global/Colors";
-import { IReview, ContentType } from "../types/Types";
+import { IReview, ContentType, FeedReview } from "../types/Types";
 
 export const DashReview = ({
   review,
   onClick,
 }: {
-  review: IReview;
-  onClick: (e: IReview) => void;
+  review: FeedReview;
+  onClick: (e: FeedReview) => void;
 }) => {
   return (
     <div className="flex overflow-x-auto gap-4 p-4">
@@ -22,7 +22,7 @@ export const DashReview = ({
           className="h-32 w-full object-cover rounded-lg sm:h-40"
           width={128}
           height={192}
-          src={`/assets/static/${review.imagePath}`}
+          src={review.game.imagePath}
           alt={review.title}
         />
         <div className="truncate">
@@ -41,7 +41,7 @@ export const DashReview = ({
         </div>
         <div className="truncate text-center">
           <span className="text-base font-semibold text-gray-200">
-            {review.title}
+            {review.game.title}
           </span>
         </div>
       </div>

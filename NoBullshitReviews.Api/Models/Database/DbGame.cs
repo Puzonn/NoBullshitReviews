@@ -14,14 +14,17 @@ public class DbGame
     [Required]
     public string Description { get; set; }
 
-    [Required]
-    public DateTime InitialRelease { get; set; }
-
     [Required(AllowEmptyStrings = false)]
     public string Publisher { get; set; }
 
     [Required]
     public string Developer { get; set; }
+
+    [Required]
+    public string ImagePath { get; set; }
+
+    [Required]
+    public DateTime InitialRelease { get; set; }
 
     public List<DbGameReview> Reviews { get; set; } = new List<DbGameReview>();
 
