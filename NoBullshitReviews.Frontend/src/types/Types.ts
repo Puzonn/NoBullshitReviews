@@ -1,3 +1,11 @@
+export interface IMovie {
+    description: string;
+    imagePath: string;
+    initialRelease: Date;
+    studio: string;
+    title: string;
+}
+
 export interface User {
   avatarUrl: string;
   username: string;

@@ -9,28 +9,41 @@ namespace NoBullshitReviews.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class GameController : ControllerBase
+public class MovieController : ControllerBase
 {
     private readonly ReviewContext _context;
     private readonly ILogger<GameController> _logger;
     private readonly IHostEnvironment _environment;
 
-    public GameController(ReviewContext context, ILogger<GameController> logger, IHostEnvironment environment)
+    public MovieController(ReviewContext context, ILogger<GameController> logger, IHostEnvironment environment)
     {
         _environment = environment;
         _logger = logger;
         _context = context;
     }
 
+    [HttpGet("{name}")]
+    public async Task<ActionResult<DbMovie?>> FetchMovie(string name)
+    {
+        DbMovie? movie = await _context.Movies.Where(x => x.Title == name).FirstOrDefaultAsync();
+
+        if (movie is null)
+        {
+            return NotFound($"Movie with title '{name}' not found.");
+        }
+
+        return Ok(movie);
+    }
+
     [Authorize]
     [HttpPost("create-base")]
-    public async Task<ActionResult<DbGame>> CreateGame([FromForm] GameCreationRequest request)
+    public async Task<ActionResult<DbGame>> CreateGame([FromForm] MovieCreationRequest request)
     {
-        DbGame game = DbGame.FromRequest(request);
+        DbMovie movie = DbMovie.FromRequest(request);
 
-        if ((await _context.Games.Where(x => x.Title == game.Title).FirstOrDefaultAsync()) != null)
+        if ((await _context.Movies.Where(x => x.Title == movie.Title).FirstOrDefaultAsync()) != null)
         {
-            return BadRequest("Game already exist with given title");
+            return BadRequest("Movie already exist with given title");
         }
 
         var webRootPath = Path.Combine(_environment.ContentRootPath, "wwwroot", "uploads");
@@ -41,7 +54,7 @@ public class GameController : ControllerBase
         var fileName = Guid.NewGuid().ToString() + Path.GetExtension(request.Image.FileName);
         var filePath = Path.Combine(webRootPath, fileName);
 
-        game.ImagePath = $"{Request.Scheme}://{Request.Host}/uploads/{fileName}";
+        movie.ImagePath = $"{Request.Scheme}://{Request.Host}/uploads/{fileName}";
 
         try
         {
@@ -50,14 +63,14 @@ public class GameController : ControllerBase
                 await request.Image.CopyToAsync(stream);
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             _logger.LogError(ex.StackTrace);
         }
 
-        await _context.AddAsync(game);
+        await _context.AddAsync(movie);
         await _context.SaveChangesAsync();
 
-        return Ok(game);
+        return Ok(movie);
     }
 }

@@ -7,6 +7,8 @@ namespace NoBullshitReviews.Database;
 public class ReviewContext : DbContext
 {
     public DbSet<DbGameReview> GameReviews { get; set; }
+    public DbSet<DbMovieReview> MovieReviews { get; set; }
+    public DbSet<DbMovie> Movies { get; set; }
     public DbSet<DbGame> Games { get; set; }
     public DbSet<DbUser> Users { get; set; }
     
@@ -35,7 +37,7 @@ public class ReviewContext : DbContext
     {
         builder.Entity<DbGameReview>()
             .HasOne(r => r.Author)
-            .WithMany(r => r.Reviews)
+            .WithMany(r => r.GameReviews)
             .HasForeignKey(r => r.AuthorId)
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -43,5 +45,16 @@ public class ReviewContext : DbContext
             .HasOne(p => p.Game)
             .WithMany(p => p.Reviews)
             .HasForeignKey(p => p.GameId);
+
+        builder.Entity<DbMovieReview>()
+           .HasOne(r => r.Author)
+           .WithMany(r => r.MovieReviews)
+           .HasForeignKey(r => r.AuthorId)
+           .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<DbMovieReview>()
+            .HasOne(p => p.Movie)
+            .WithMany(p => p.Reviews)
+            .HasForeignKey(p => p.MovieId);
     }
 }

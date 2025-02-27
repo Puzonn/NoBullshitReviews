@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { PostReview } from "src/api/ReviewApi";
-import CreatorGameAttribute from "src/components/creator/CreatorGameAttribute";
-import { getScoreBackgroundColor } from "src/global/Colors";
 import { Dictionary, GameReviewAttributes, ContentType } from "src/types/Types";
 import { CreateDefaultAttributeDictionary } from "src/utils/CreatorUtils";
 

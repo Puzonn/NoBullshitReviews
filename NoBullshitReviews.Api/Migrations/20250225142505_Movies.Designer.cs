@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoBullshitReviews.Database;
 
@@ -10,9 +11,11 @@ using NoBullshitReviews.Database;
 namespace NoBullshitReviews.Migrations
 {
     [DbContext(typeof(ReviewContext))]
-    partial class ReviewContextModelSnapshot : ModelSnapshot
+    [Migration("20250225142505_Movies")]
+    partial class Movies
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -142,10 +145,6 @@ namespace NoBullshitReviews.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("InitialRelease")
                         .HasColumnType("TEXT");
 
@@ -159,7 +158,7 @@ namespace NoBullshitReviews.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies");
+                    b.ToTable("DbMovie");
                 });
 
             modelBuilder.Entity("NoBullshitReviews.Models.Database.DbMovieReview", b =>
@@ -180,7 +179,7 @@ namespace NoBullshitReviews.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("MovieReviews");
+                    b.ToTable("DbMovieReview");
                 });
 
             modelBuilder.Entity("NoBullshitReviews.Models.Database.DbUser", b =>

@@ -59,7 +59,6 @@ public class ReviewController : ControllerBase
     [HttpPost("create")]
     public async Task<ActionResult<ReviewResponse>> CreateReview([FromForm] GameReviewCreationRequest request)
     {
-        var r = await _context.GameReviews.Include(x => x.Game).ToListAsync();
         var principal = HttpContext.User;
         DbUser? user = null;
         
@@ -93,26 +92,6 @@ public class ReviewController : ControllerBase
         review.CreatedAt = DateTime.UtcNow;
         review.RouteName = Regex.Replace(review.Title.ToLower(), @"[^a-zA-Z0-9\s]", "").Replace(" ", "-");
         review.Author = user;
-
-        //try
-        //{
-        //    if (request.Image != null && request.Image.Length > 0)
-        //    {
-        //        string extension = Path.GetExtension(request.Image.FileName);
-        //        string path = $"{_staticImageDirectory}/{review.UID}{extension}";
-
-        //        using (Stream stream = new FileStream(path, new FileStreamOptions() { Mode = FileMode.CreateNew, Access = FileAccess.Write }))
-        //        {
-        //            await request.Image.CopyToAsync(stream);
-        //        }
-
-        //        review.ImagePath = $"{review.UID}{extension}";
-        //    }
-        //}
-        //catch (Exception)
-        //{
-        //    return Problem("Error while saving image", statusCode: 500);
-        //}
 
         await _context.GameReviews.AddAsync(review);
         await _context.SaveChangesAsync();
@@ -157,20 +136,7 @@ public class ReviewController : ControllerBase
             .FirstOrDefaultAsync(x => x.RouteName == name);
  
         var principal = HttpContext.User;
-        DbUser? user = null;
-
-        if (principal?.Identity?.IsAuthenticated ?? false)
-        {
-            var id = principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-
-            if (id is null)
-            {
-                return Unauthorized();
-            }
-
-            user = await _context.Users.FindAsync(int.Parse(id));
-        }
-
+      
         if (review is null)
         {
             return BadRequest($"Review with name: {name} dose not exist");

@@ -1,29 +1,30 @@
-import { useState } from "react";
-import { PostReview } from "src/api/ReviewApi";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FetchMovie, FetchQuery, PostReview } from "src/api/ReviewApi";
 import CreatorGameAttribute from "src/components/creator/CreatorGameAttribute";
 import { getScoreBackgroundColor } from "src/global/Colors";
 import {
   Dictionary,
   MovieReviewAttributes,
   ContentType,
+  IMovie,
 } from "src/types/Types";
 import { CreateDefaultAttributeDictionary } from "src/utils/CreatorUtils";
 
 const MovieReviewCreator = () => {
+  const navigate = useNavigate();
+  const [movie, setMovie] = useState<IMovie>(undefined);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
   const [contentLenght, setContentLenght] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
-  const [image, setImage] = useState<File | null>(null);
   const [attributes, setAttributes] = useState<Dictionary<string, number>[]>(
     CreateDefaultAttributeDictionary(MovieReviewAttributes)
   );
 
   const postReview = async () => {
     const form = new FormData();
-
-    form.append("image", image!);
     form.append("title", title);
     form.append("content", content);
     form.append("tags", JSON.stringify(tags));
@@ -76,8 +77,24 @@ const MovieReviewCreator = () => {
     return score <= 100 && score >= 1;
   };
 
+  useEffect(() => {
+    const handler = setTimeout(async () => {
+      await FetchMovie(title).then((e) => {
+        if (e.status !== 200) {
+          setMovie(undefined);
+        } else {
+          e.json().then((e) => {
+            setMovie(e);
+          });
+        }
+      });
+    }, 800);
+
+    return () => clearTimeout(handler);
+  }, [title]);
+
   return (
-    <div className="box-border flex flex-col gap-4 min-h-screen bg-reviewbg w-full sm:pl-5 overflow-hidden p-5 sm:p-20">
+    <div className="box-border flex flex-col gap-4 min-h-screen bg-reviewbg w-full sm:pl-5 overflow-hidden p-5">
       <input
         onChange={(e) => setTitle(e.target.value)}
         className="w-full bg-reviewbg text-white placeholder:text-gray-300 text-sm border
@@ -86,6 +103,38 @@ const MovieReviewCreator = () => {
               hover:border-slate-300 shadow-sm focus:shadow"
         placeholder="Movie Title"
       />
+      {movie === undefined ? (
+        <span className="text-red-400">
+          No movie found with the given title. Please{" "}
+          <span
+            className="font-semibold underline cursor-pointer"
+            onClick={() => navigate("/creator/movie")}
+          >
+            add a movie
+          </span>{" "}
+          or try a different title.
+        </span>
+      ) : (
+        <div className="border rounded">
+          <div className="flex gap-4 cursor-pointer hover:bg-reviewinfobglight p-3 rounded-xl transition-colors duration-300">
+            <img
+              className="w-[150px] h-[150px] sm:w-[184px] sm:h-[170px] object-cover rounded-lg"
+              width={150}
+              height={150}
+              src={movie.imagePath}
+              alt={movie.title}
+            />
+
+            <div className="flex flex-col flex-1">
+              <p className="font-semibold truncate">{movie.title}</p>
+              <div className="text-gray-400 text-sm mt-1 line-clamp-4">
+                {movie.description}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <textarea
         onChange={(e) => {
           setContentLenght(e.target.textLength);
@@ -104,19 +153,6 @@ const MovieReviewCreator = () => {
       >
         {contentLenght}/500
       </span>
-
-      <div className="mr-auto">
-        <label className="text-medium" htmlFor="image">
-          Review Image
-        </label>
-        <input
-          onChange={(e) => setImage(e.target.files?.[0] || null)}
-          className="w-full file:bg-reviewinfobglight file:text-white file:rounded file:font-medium mb-5 text-gray-300 border py-1 px-1 transition duration-300 ease border-gray-300 rounded-lg cursor-pointer bg-reviewbg focus:outline-none"
-          id="image"
-          type="file"
-          accept="image/png, image/jpeg image/webp"
-        />
-      </div>
 
       <div className="mr-auto flex items-center gap-4">
         <input

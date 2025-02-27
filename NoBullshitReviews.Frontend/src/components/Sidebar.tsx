@@ -56,17 +56,17 @@ const Sidebar = () => {
       <SearchModal close={() => setSearchOpen(false)} isOpen={searchOpen} />
       <div
         className={`h-full ${
-          visible ? "block" : "hidden"
+          visible ? "" : "hidden"
         } sm:block shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_8px_16px_rgba(0,0,0,0.6)]`}
       >
-        <div className="h-full px-3 py-5 overflow-y-auto bg-reviewinfobglight">
+        <div className="h-full py-5 overflow-y-auto bg-reviewinfobglight">
           <div className={`flex flex-col h-full`}>
             <div className={`flex flex-col h-full gap-5 p-2`}>
               <div
                 onClick={() => navigate("/")}
-                className={`hover:bg-reviewinfobg p-2 rounded-xl cursor-pointer flex gap-3 items-center ${
+                className={`hover:bg-reviewinfobg p-3 rounded-xl cursor-pointer flex gap-3 items-center ${
                   checkLocation("") ? "bg-reviewinfobg font-semibold" : ""
-                }`}
+                } ${visible ? "" : "justify-center"}`}
               >
                 <img
                   width={24}
@@ -78,7 +78,9 @@ const Sidebar = () => {
               </div>
               <div
                 onClick={() => setSearchOpen(true)}
-                className={`hover:bg-reviewinfobg p-2 rounded-xl cursor-pointer flex gap-3 items-center`}
+                className={`hover:bg-reviewinfobg p-3 rounded-xl cursor-pointer flex gap-3 items-center ${
+                  visible ? "" : "justify-center"
+                }`}
               >
                 <img
                   width={24}
@@ -90,11 +92,11 @@ const Sidebar = () => {
               </div>
               <hr className="opacity-20" />
               <div
-                className={`hover:bg-reviewinfobg p-2 rounded-xl cursor-pointer flex gap-3 items-center ${
+                className={`hover:bg-reviewinfobg p-3 rounded-xl cursor-pointer flex gap-3 items-center ${
                   checkLocation("/movies")
                     ? "bg-reviewinfobg font-semibold"
                     : ""
-                }`}
+                } ${visible ? "" : "justify-center"}`}
               >
                 <img
                   width={24}
@@ -105,9 +107,9 @@ const Sidebar = () => {
                 <span className={`${visible ? "" : "hidden"}`}>Movies</span>
               </div>
               <div
-                className={`hover:bg-reviewinfobg p-2 rounded-xl cursor-pointer flex gap-3 items-center ${
+                className={`hover:bg-reviewinfobg p-3 rounded-xl cursor-pointer flex gap-3 items-center ${
                   checkLocation("/games") ? "bg-reviewinfobg font-semibold" : ""
-                }`}
+                } ${visible ? "" : "justify-center"}`}
               >
                 <img
                   width={24}
@@ -121,48 +123,64 @@ const Sidebar = () => {
 
             <div className="mt-auto flex flex-col gap-5 justify-between">
               {auth !== undefined && (
-                <div className="w-full text-center">
-                  {visible && (
-                    <button
-                      onClick={() => navigate("/creator")}
-                      className="hover:bg-reviewbg right-8 px-5 bg-reviewinfobg text-white py-2 rounded-lg shadow-lg transition-all"
-                    >
-                      Create Review
-                    </button>
-                  )}
-                  {!visible && (
-                    <button
-                      onClick={() => navigate("/creator")}
-                      className="hover:bg-reviewbg right-8 m-2 bg-reviewinfobg text-white py-2 rounded-lg shadow-lg transition-all"
-                    >
-                      Create
-                    </button>
-                  )}
+                <div className="w-full text-center flex justify-center">
+                  <button
+                    onClick={() => navigate("/creator")}
+                    className="hover:bg-reviewbg right-8 px-5 flex gap-3 items-center bg-reviewinfobg text-white py-2 rounded-lg shadow-lg transition-all"
+                  >
+                    <img
+                      src="/assets/icons/add.png"
+                      className="w-5 h-5"
+                      alt=""
+                    />
+                    <span className={`${visible ? "" : "hidden"}`}>Create</span>
+                  </button>
                 </div>
               )}
 
               <hr className="opacity-20" />
 
-              <div className="flex justify-center">
+              <div className="w-full">
                 {auth === undefined ? (
-                  <button
-                    onClick={() => navigate("/join")}
-                    className="border border-white text-white hover:bg-reviewinfobg py-1 px-5 rounded font-medium"
-                  >
-                    Join
-                  </button>
-                ) : (
-                  <div className="flex">
-                    <img
-                      className="rounded-full w-10"
-                      src={auth.avatarUrl}
-                      alt=""
-                    />
-                    <span
-                      className={`px-2 font-bold ${visible ? "" : "hidden"}`}
+                  <div className="flex justify-center">
+                    <button
+                      onClick={() => navigate("/join")}
+                      className="border border-white text-white hover:bg-reviewinfobg py-1 px-5 rounded font-medium"
                     >
-                      {auth.username}
-                    </span>
+                      Join
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center px-2">
+                    <div className="flex items-center hover:bg-reviewinfobg gap-3 px-3 py-2 rounded-xl cursor-pointer transition-colors">
+                      <img
+                        className="rounded-full h-8 w-8"
+                        src={auth.avatarUrl}
+                        alt="user_avatar"
+                      />
+                      <div
+                        className={`flex flex-col ${visible ? "" : "hidden"}`}
+                      >
+                        <span className="text-sm font-semibold leading-tight">
+                          {auth.username}
+                        </span>
+                        <span className="text-xs text-gray-400 font-semibold leading-tight">
+                          Member
+                        </span>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`ml-auto hidden sm:block hover:bg-reviewinfobg p-2.5 rounded-xl cursor-pointer transition-colors ${
+                        visible ? "" : "sm:hidden"
+                      }`}
+                    >
+                      <img
+                        src="assets/icons/more.png"
+                        className="w-4 h-4"
+                        alt=""
+                      />
+                    </div>
                   </div>
                 )}
               </div>

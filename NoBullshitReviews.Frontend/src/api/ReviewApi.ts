@@ -1,3 +1,5 @@
+import { mainModule } from "process";
+
 export const PostReview = async (form: FormData) => {
   return await fetch("https://localhost:7106/review/create", {
     credentials: "include",
@@ -21,7 +23,21 @@ export const FetchQuery = async (query: string) => {
 };
 
 export const PostGame = async (form: FormData) => {
-  return await fetch(`https://localhost:7106/game/create`, {
+  return await fetch(`https://localhost:7106/game/create-base`, {
+    body: form,
+    credentials: "include",
+    method: "POST",
+  });
+};
+
+export const FetchMovie = async (name: string) => {
+  return await fetch(`https://localhost:7106/movie/${name}`, {
+    method: "GET",
+  });
+};
+
+export const PostMovie = async (form: FormData) => {
+  return await fetch(`https://localhost:7106/movie/create-base`, {
     body: form,
     credentials: "include",
     method: "POST",
