@@ -1,5 +1,6 @@
 ﻿using NoBullshitReviews.Models.Requests;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace NoBullshitReviews.Models.Database;
 
@@ -24,6 +25,7 @@ public class DbGameReview
     [Required]
     public string RouteName { get; set; } = string.Empty;
 
+    [JsonIgnore]
     public int AuthorId { get; set; }
     public DbUser Author { get; set; }
 
@@ -45,7 +47,9 @@ public class DbGameReview
     [Required]
     public List<Attribute> Attributes { get; set; } = new List<Attribute>();
 
-    public DbGame Game { get; set; } 
+    public DbGame Game { get; set; }
+
+    [JsonIgnore]
     public int GameId { get; set; }
 
     public static DbGameReview FromRequest(GameReviewCreationRequest request)

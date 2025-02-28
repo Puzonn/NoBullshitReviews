@@ -88,7 +88,7 @@ public class AuthController : ControllerBase
              {
                  IsPersistent = true,
                  AllowRefresh = true,
-                 ExpiresUtc = DateTime.UtcNow.AddMinutes(15)
+                 ExpiresUtc = DateTime.UtcNow.AddMinutes(60)
              });
 
         return Ok(user);

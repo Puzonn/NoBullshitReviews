@@ -1,17 +1,20 @@
-import { platform } from "os";
 import { useEffect, useState } from "react";
-import { PostReview } from "src/api/ReviewApi";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FetchGame, PostReview } from "src/api/ReviewApi";
 import CreatorGameAttribute from "src/components/creator/CreatorGameAttribute";
 import { getScoreBackgroundColor } from "src/global/Colors";
 import {
   Dictionary,
   GameReviewAttributes,
   MovieReviewAttributes,
-  ContentType,
+  IGame,
 } from "src/types/Types";
 import { CreateDefaultAttributeDictionary } from "src/utils/CreatorUtils";
 
 const GameReviewCreator = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [game, setGame] = useState<IGame>(undefined);
   const [reviewData, setReviewData] = useState({
     title: "",
     review: "",
@@ -32,6 +35,30 @@ const GameReviewCreator = () => {
   const [attributes, setAttributes] = useState<Dictionary<string, number>[]>(
     CreateDefaultAttributeDictionary(GameReviewAttributes)
   );
+
+  useEffect(() => {
+    const handler = setTimeout(async () => {
+      await FetchGame(gameTitle).then((e) => {
+        if (e.status !== 200) {
+          setGame(undefined);
+        } else {
+          e.json().then((e) => {
+            setGame(e);
+          });
+        }
+      });
+    }, 800);
+
+    return () => clearTimeout(handler);
+  }, [gameTitle]);
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const from = query.get("from");
+    if (from) {
+      setGameTitle(from);
+    }
+  }, []);
 
   const postReview = async () => {
     const form = new FormData();
@@ -97,7 +124,41 @@ const GameReviewCreator = () => {
                focus:text-white
                 hover:border-slate-300 shadow-sm focus:shadow"
         placeholder="Game Title"
+        value={gameTitle}
       />
+
+      {game === undefined ? (
+        <span className="text-red-400">
+          No game found with the given title. Please{" "}
+          <span
+            className="font-semibold underline cursor-pointer"
+            onClick={() => navigate("/creator/game")}
+          >
+            add a game
+          </span>{" "}
+          or try a different title.
+        </span>
+      ) : (
+        <div className="border rounded">
+          <div className="flex gap-4 cursor-pointer hover:bg-reviewinfobglight p-3 rounded-xl transition-colors duration-300">
+            <img
+              className="w-[150px] h-[150px] sm:w-[184px] sm:h-[170px] object-cover rounded-lg"
+              width={150}
+              height={150}
+              src={game.imagePath}
+              alt={game.title}
+            />
+
+            <div className="flex flex-col flex-1">
+              <p className="font-semibold truncate">{game.title}</p>
+              <div className="text-gray-400 text-sm mt-1 line-clamp-4">
+                {game.description}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <input
         onChange={(e) => setTitle(e.target.value)}
         className="w-full bg-reviewbg text-white placeholder:text-gray-300 text-sm border

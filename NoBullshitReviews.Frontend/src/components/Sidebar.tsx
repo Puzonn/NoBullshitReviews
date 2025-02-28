@@ -107,6 +107,7 @@ const Sidebar = () => {
                 <span className={`${visible ? "" : "hidden"}`}>Movies</span>
               </div>
               <div
+                onClick={() => navigate("/games")}
                 className={`hover:bg-reviewinfobg p-3 rounded-xl cursor-pointer flex gap-3 items-center ${
                   checkLocation("/games") ? "bg-reviewinfobg font-semibold" : ""
                 } ${visible ? "" : "justify-center"}`}

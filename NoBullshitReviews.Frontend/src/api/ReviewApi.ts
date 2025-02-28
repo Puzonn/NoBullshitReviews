@@ -22,6 +22,12 @@ export const FetchQuery = async (query: string) => {
   });
 };
 
+export const FetchGame = async (name: string) => {
+  return await fetch(`https://localhost:7106/game/${name}`, {
+    method: "GET",
+  });
+};
+
 export const PostGame = async (form: FormData) => {
   return await fetch(`https://localhost:7106/game/create-base`, {
     body: form,
@@ -43,3 +49,9 @@ export const PostMovie = async (form: FormData) => {
     method: "POST",
   });
 };
+
+export const FetchLatestGames = async () => {
+    return await fetch(`https://localhost:7106/game/latest`, {
+      method: "GET",
+    });
+  };

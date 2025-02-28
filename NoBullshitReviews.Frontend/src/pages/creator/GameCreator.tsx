@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { PostGame } from "src/api/ReviewApi";
+import { IGame } from "src/types/Types";
 
 const GameCreator = () => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [publisher, setPublisher] = useState<string>("");
@@ -49,7 +52,12 @@ const GameCreator = () => {
 
     if (image) form.append("image", image);
 
-    await PostGame(form);
+    await PostGame(form).then((e) => {
+      e.json().then((r) => {
+        const game = r as IGame;
+        navigate(`/game/${game.routeName}`);
+      });
+    });
   };
 
   return (
@@ -60,7 +68,7 @@ const GameCreator = () => {
            border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400
            focus:text-white
             hover:border-slate-300 shadow-sm focus:shadow"
-        placeholder="News Title"
+        placeholder="Game Title"
       />
       <textarea
         onChange={(e) => {

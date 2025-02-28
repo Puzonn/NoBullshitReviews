@@ -1,9 +1,20 @@
 export interface IMovie {
-    description: string;
-    imagePath: string;
-    initialRelease: Date;
-    studio: string;
-    title: string;
+  description: string;
+  imagePath: string;
+  initialRelease: Date;
+  studio: string;
+  title: string;
+}
+
+export interface IGame {
+  score: number;
+  title: string;
+  description: string;
+  publisher: string;
+  developer: string;
+  imagePath: string;
+  initialRelease: Date;
+  routeName: string;
 }
 
 export interface User {
@@ -23,16 +34,7 @@ export interface FeedReview {
   tags: string[];
   attributes: Dictionary<string, number>;
   createdAt: Date;
-  game: FeedGame;
-}
-
-export interface FeedGame {
-  title: string;
-  description: string;
-  publisher: string;
-  developer: string;
-  imagePath: string;
-  initialRelease: Date;
+  game: IGame;
 }
 
 export interface FilterContextType {

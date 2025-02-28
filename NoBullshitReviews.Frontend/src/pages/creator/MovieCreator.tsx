@@ -33,7 +33,9 @@ const MovieCreator = () => {
 
     if (image) form.append("image", image);
 
-    await PostMovie(form);
+    await PostMovie(form).then((e) => {
+      console.log(e);
+    });
   };
 
   return (

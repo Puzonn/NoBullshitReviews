@@ -1,0 +1,29 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace NoBullshitReviews.Migrations
+{
+    /// <inheritdoc />
+    public partial class GameRouteName : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<string>(
+                name: "RouteName",
+                table: "Games",
+                type: "TEXT",
+                nullable: false,
+                defaultValue: "");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "RouteName",
+                table: "Games");
+        }
+    }
+}

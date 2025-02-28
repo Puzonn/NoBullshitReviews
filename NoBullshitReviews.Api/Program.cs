@@ -36,9 +36,10 @@ builder.Services.AddAuthentication(options =>
     });
 
 builder.Services.AddMemoryCache();
+builder.Services.AddScoped<CDNService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddDbContext<ReviewContext>();
-builder.Services.AddScoped<ReviewService>();
+builder.Services.AddScoped<FeedService>();
 
 builder.Services.AddControllers();
 

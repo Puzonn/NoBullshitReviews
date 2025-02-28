@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using NoBullshitReviews.Database;
 using NoBullshitReviews.Models.Database;
 using NoBullshitReviews.Models.Requests;
+using NoBullshitReviews.Services;
 
 namespace NoBullshitReviews.Controllers;
 
@@ -11,12 +12,14 @@ namespace NoBullshitReviews.Controllers;
 [Route("[controller]")]
 public class MovieController : ControllerBase
 {
+    private readonly CDNService _cdn;
     private readonly ReviewContext _context;
     private readonly ILogger<GameController> _logger;
     private readonly IHostEnvironment _environment;
 
-    public MovieController(ReviewContext context, ILogger<GameController> logger, IHostEnvironment environment)
+    public MovieController(ReviewContext context, ILogger<GameController> logger, IHostEnvironment environment, CDNService cdn)
     {
+        _cdn = cdn;   
         _environment = environment;
         _logger = logger;
         _context = context;
@@ -37,35 +40,30 @@ public class MovieController : ControllerBase
 
     [Authorize]
     [HttpPost("create-base")]
-    public async Task<ActionResult<DbGame>> CreateGame([FromForm] MovieCreationRequest request)
+    public async Task<ActionResult<DbGame>> CreateMovie([FromForm] MovieCreationRequest request)
     {
         DbMovie movie = DbMovie.FromRequest(request);
 
-        if ((await _context.Movies.Where(x => x.Title == movie.Title).FirstOrDefaultAsync()) != null)
+        if(await _context.Movies.AnyAsync(x => x.Title == request.Title))
         {
             return BadRequest("Movie already exist with given title");
         }
 
-        var webRootPath = Path.Combine(_environment.ContentRootPath, "wwwroot", "uploads");
-
-        if (!Directory.Exists(webRootPath))
-            Directory.CreateDirectory(webRootPath);
-
-        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(request.Image.FileName);
-        var filePath = Path.Combine(webRootPath, fileName);
-
-        movie.ImagePath = $"{Request.Scheme}://{Request.Host}/uploads/{fileName}";
-
         try
         {
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            string? path = await _cdn.CreateFile(Request, request.Image);
+
+            if (string.IsNullOrEmpty(path))
             {
-                await request.Image.CopyToAsync(stream);
+                return BadRequest("An error occurred while uploading a file.");
             }
+
+            movie.ImagePath = path;
         }
+
         catch (Exception ex)
         {
-            _logger.LogError(ex.StackTrace);
+            BadRequest(ex.Message);
         }
 
         await _context.AddAsync(movie);

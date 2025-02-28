@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoBullshitReviews.Database;
 
@@ -10,9 +11,11 @@ using NoBullshitReviews.Database;
 namespace NoBullshitReviews.Migrations
 {
     [DbContext(typeof(ReviewContext))]
-    partial class ReviewContextModelSnapshot : ModelSnapshot
+    [Migration("20250228012328_GameRouteName")]
+    partial class GameRouteName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -46,9 +49,6 @@ namespace NoBullshitReviews.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .IsRequired()

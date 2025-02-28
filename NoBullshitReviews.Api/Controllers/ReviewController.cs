@@ -19,23 +19,10 @@ public class ReviewController : ControllerBase
     private readonly ReviewContext _context;
     private readonly ReviewService _reviewService;
 
-    private readonly IConfiguration _configuration;
-    private readonly string _staticImageDirectory;
-
-    public ReviewController(ReviewContext context, IConfiguration configuration, ReviewService reviewService)
+    public ReviewController(ReviewContext context, ReviewService reviewService)
     {
         _reviewService = reviewService;
-        _configuration = configuration;
         _context = context;
-
-        string? staticImageDirectory = _configuration["StaticImageDirectory"];
-
-        if(string.IsNullOrEmpty(staticImageDirectory))
-        {
-            throw new Exception("StaticImageDirectory is empty in configuration");
-        }
-
-        _staticImageDirectory = staticImageDirectory;
     }
 
     [HttpGet("query")]
@@ -110,13 +97,18 @@ public class ReviewController : ControllerBase
     [HttpDelete("delete")]
     public async Task<ActionResult> DeleteAll()
     {
-        var r = await _context.GameReviews.Include(r => r.Attributes).ToListAsync();
+        var r = await _context.GameReviews.Include(r => r.Attributes).Include(x => x.Game).ToListAsync();
 
         foreach(var a in r)
         {
             if(a.Attributes != null)
             {
                 _context.RemoveRange(a.Attributes);
+            }
+            
+            if(a.Game != null)
+            {
+                _context.Remove(a.Game);
             }
         }
 
@@ -134,8 +126,6 @@ public class ReviewController : ControllerBase
             .Include(x => x.Game)
             .Include(r => r.Attributes)
             .FirstOrDefaultAsync(x => x.RouteName == name);
- 
-        var principal = HttpContext.User;
       
         if (review is null)
         {
