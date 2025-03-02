@@ -4,7 +4,7 @@ services:
   frontend:
     build:
       context: ./NoBullshitReviews.Frontend
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
     ports:
       - "3000:3000"
     networks:
@@ -13,7 +13,7 @@ services:
   backend:
     build:
       context: ./NoBullshitReviews.Api
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
     ports:
       - "5000:80"
     networks:
