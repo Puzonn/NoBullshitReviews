@@ -28,12 +28,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-}).AddCookie(options =>
-    {
-        options.Cookie.SameSite = SameSiteMode.None;
-        options.ExpireTimeSpan = TimeSpan.FromHours(20);
-        options.Cookie.HttpOnly = false;
-    });
+});
 
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<CDNService>();
@@ -44,6 +39,13 @@ builder.Services.AddScoped<FeedService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ReviewContext>();
+    await context.Database.EnsureCreatedAsync();
+}
 
 app.UseStaticFiles();
 
