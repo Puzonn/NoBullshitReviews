@@ -23,13 +23,16 @@ jobs:
           port: 22
 
       - name: Deploy Docker Compose to VPS
-run: |
-    sudo apt-get install -y sshpass
-    sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
-      cd /path/to/your/project
+        run: |
+          sudo apt-get install -y sshpass
+          sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
 
-      git pull origin main
+            cd /path/to/your/project
 
-      docker-compose build
-      docker-compose up -d
-    EOF
+            git pull origin main
+
+            docker-compose build
+            docker-compose up -d
+
+            docker-compose up -d
+          EOF
