@@ -1,31 +1,18 @@
-name: Build and Deploy Docker Compose to VPS
+name: Deploy to VPS
 
 on:
   push:
     branches:
-      - github-actions
+      - main  # or any branch you want
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and push Docker image
-        run: |
-          docker build -t ghcr.io/puzonne/nobullshitreviews:latest .
-          docker push ghcr.io/puzonne/nobullshitreviews:latest
 
       - name: Set up SSH
         uses: appleboy/ssh-action@v0.1.0
@@ -39,7 +26,11 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
             cd /path/to/your/project
-            git pull origin main  # Pull the latest code from your GitHub repo
-            docker-compose pull    # Pull the latest images
-            docker-compose up -d   # Restart the services in detached mode
+
+            git pull origin main
+
+            docker-compose build
+            docker-compose up -d
+
+            docker-compose up -d
           EOF
