@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PostReview } from "src/api/ReviewApi";
 import { Dictionary, GameReviewAttributes, ContentType } from "src/types/Types";
-import { CreateDefaultAttributeDictionary } from "src/utils/CreatorUtils";
+import { CreateDefaultAttributeDictionary } from "src/utils/Utils";
 
 const GameNewsCreator = () => {
   const [title, setTitle] = useState<string>("");

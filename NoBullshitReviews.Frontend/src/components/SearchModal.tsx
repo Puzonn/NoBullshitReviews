@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { FetchQuery } from "src/api/ReviewApi";
 import { ContentType, IReview } from "src/types/Types";
 import { getScoreBackgroundColor } from "src/global/Colors";
-import { GetTag } from "src/utils/CreatorUtils";
+import { GetTag } from "src/utils/Utils";
 
 const SearchModal = ({
   isOpen,

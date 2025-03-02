@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FetchGame } from "src/api/ReviewApi";
 import { getScoreBackgroundColor } from "src/global/Colors";
 import { IGame } from "src/types/Types";
-import { FormatDate } from "src/utils/CreatorUtils";
+import { FormatDate } from "src/utils/Utils";
 
 const GameInfoPage = () => {
   const navigate = useNavigate();

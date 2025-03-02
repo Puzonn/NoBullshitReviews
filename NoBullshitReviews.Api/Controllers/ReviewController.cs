@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoBullshitReviews.Database;
-using NoBullshitReviews.Models;
 using NoBullshitReviews.Models.Database;
+using NoBullshitReviews.Models.Feeds;
 using NoBullshitReviews.Models.Requests;
 using NoBullshitReviews.Models.Responses;
 using NoBullshitReviews.Services;
@@ -17,16 +17,16 @@ namespace NoBullshitReviews.Controllers;
 public class ReviewController : ControllerBase
 {
     private readonly ReviewContext _context;
-    private readonly ReviewService _reviewService;
+    private readonly FeedService _reviewService;
 
-    public ReviewController(ReviewContext context, ReviewService reviewService)
+    public ReviewController(ReviewContext context, FeedService reviewService)
     {
         _reviewService = reviewService;
         _context = context;
     }
 
     [HttpGet("query")]
-    public async Task<ActionResult<ReviewResponse[]>> Query([FromQuery] string query)
+    public async Task<ActionResult<Dash[]>> Query([FromQuery] string query)
     {
         if (string.IsNullOrEmpty(query))
         {
@@ -38,13 +38,13 @@ public class ReviewController : ControllerBase
         return Ok(await _context.GameReviews
             .Where(x => !string.IsNullOrEmpty(x.Title) && x.Title.ToLower().Contains(lowerQuery))
             .Take(5)
-            .Select(x => ReviewResponse.FromReview(x))
+            .Select(x => Dash.FromGameReview(x))
             .ToArrayAsync());
     }
 
     [Authorize]
     [HttpPost("create")]
-    public async Task<ActionResult<ReviewResponse>> CreateReview([FromForm] GameReviewCreationRequest request)
+    public async Task<ActionResult<Dash>> CreateReview([FromForm] GameReviewCreationRequest request)
     {
         var principal = HttpContext.User;
         DbUser? user = null;
@@ -82,16 +82,8 @@ public class ReviewController : ControllerBase
 
         await _context.GameReviews.AddAsync(review);
         await _context.SaveChangesAsync();
-         
-        ReviewResponse response = ReviewResponse.FromReview(review);
-
-        return Ok(response);
-    }
-
-    [HttpGet("feed")]
-    public async Task<ActionResult<Feed>> GetFeed()
-    {
-        return Ok(await _reviewService.GetFeed());
+        
+        return Ok(review);
     }
 
     [HttpDelete("delete")]
@@ -119,7 +111,7 @@ public class ReviewController : ControllerBase
     }
 
     [HttpGet("get-info-name/{name}")]
-    public async Task<ActionResult<List<ReviewResponse>>> GetInfoByName(string name)
+    public async Task<ActionResult<List<Dash>>> GetInfoByName(string name)
     {
         DbGameReview? review = await _context.GameReviews
             .Include(x => x.Author)
@@ -132,7 +124,7 @@ public class ReviewController : ControllerBase
             return BadRequest($"Review with name: {name} dose not exist");
         }
 
-        return Ok(ReviewResponse.FromReview(review));
+        return Ok(review);
     }
 
     [HttpDelete("delete/{id}")]

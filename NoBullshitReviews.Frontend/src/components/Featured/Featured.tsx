@@ -1,43 +1,41 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FeedReview, IReview } from "src/types/Types";
+import { FeedReview, IDash, IReview } from "src/types/Types";
 import FeaturedDashReview from "./FeaturedDashReview";
-import { GetTag } from "src/utils/CreatorUtils";
+import { GetTag } from "src/utils/Utils";
 import { getScoreBackgroundColor } from "src/global/Colors";
 
 /* Time needed to change main featured content */
 const FEATURED_CHANGE_TIME: number = 5500;
 
-const Featured = ({ featured }: { featured: FeedReview[] }) => {
+const Featured = ({ dashes }: { dashes: IDash[] }) => {
   const featuredElement = useRef<HTMLDivElement>(null);
-  const [featuredContent, setFeaturedContent] = useState<FeedReview>(
-    featured[0]
-  );
-  const [nextFeatured, setNextFeatured] = useState<FeedReview[]>(featured);
+  const [featuredContent, setFeaturedContent] = useState<IDash>(dashes[0]);
+  const [nextFeatured, setNextFeatured] = useState<IDash[]>(dashes);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (featured.length === 0) {
+    if (dashes.length === 0) {
       return;
     }
 
-    setNextFeatured(featured);
-    setFeaturedContent(featured[0]);
-  }, [featured]);
+    setNextFeatured(dashes);
+    setFeaturedContent(dashes[0]);
+  }, [dashes]);
 
   useEffect(() => {
-    if (featuredContent === null || featured.length === 0) {
+    if (featuredContent === null || dashes.length === 0) {
       return;
     }
 
-    let featuredIndex = featured.indexOf(featuredContent);
+    let featuredIndex = dashes.indexOf(featuredContent);
 
     if (featuredIndex === -1) {
       return;
     }
 
-    if (featuredIndex + 1 >= featured.length) {
+    if (featuredIndex + 1 >= dashes.length) {
       featuredIndex = 0;
     }
 
@@ -46,7 +44,7 @@ const Featured = ({ featured }: { featured: FeedReview[] }) => {
     }
 
     const timer = setTimeout(() => {
-      setFeaturedContent(featured[featuredIndex + 1]);
+      setFeaturedContent(dashes[featuredIndex + 1]);
       setNextFeatured((prev) => {
         const updatedFeatured = [...prev];
         updatedFeatured.push(updatedFeatured.shift());
@@ -55,7 +53,7 @@ const Featured = ({ featured }: { featured: FeedReview[] }) => {
     }, FEATURED_CHANGE_TIME);
 
     return () => clearTimeout(timer);
-  }, [featuredContent, featured]);
+  }, [featuredContent, dashes]);
 
   const reviewClicked = (review: IReview) => {
     navigate(`/game/${review.routeName}`);
@@ -78,7 +76,7 @@ const Featured = ({ featured }: { featured: FeedReview[] }) => {
             className="flex flex-row overflow-auto no-scrollbar w-full h-full"
             id="featured"
           >
-            <FeaturedDashReview review={featuredContent} />
+            <FeaturedDashReview dash={featuredContent} />
           </div>
         </div>
 
@@ -99,14 +97,15 @@ const Featured = ({ featured }: { featured: FeedReview[] }) => {
                   className="w-[150px] h-[150px] sm:w-[184px] sm:h-[170px] object-cover rounded-lg"
                   width={150}
                   height={150}
-                  src={review.game.imagePath}
-                  alt={review.game.title}
+                  src={review.imagePath}
+                  alt={review.title}
                 />
 
                 <div className="flex flex-col flex-1">
                   <p className="font-semibold truncate">{review.title}</p>
                   <div className="text-gray-400 text-sm mt-1 line-clamp-4">
-                    {review.summary}
+                    {/* {review.summary} */}
+                    summary
                   </div>
                   <div className="mt-auto flex items-center gap-3">
                     <span

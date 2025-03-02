@@ -1,5 +1,5 @@
 import Featured from "src/components/Featured/Featured";
-import { ContentType, Feed, FeedReview } from "../types/Types";
+import { ContentType, Feed, FeedReview, IDash } from "../types/Types";
 import { useEffect, useState } from "react";
 import Latest from "src/components/Latest";
 import { FetchFeed } from "src/api/ReviewApi";
@@ -7,7 +7,7 @@ import Filter from "src/components/Filter/Filter";
 
 export default function Main() {
   const [feed, setFeed] = useState<Feed | undefined>(undefined);
-  const [filtredReviews, setFiltredReviews] = useState<FeedReview[]>([]);
+  const [filtredReviews, setFiltredReviews] = useState<IDash[]>([]);
   const [filter, setFilter] = useState<ContentType>(ContentType.Any);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function Main() {
     }
     setFiltredReviews((prev) => {
       if (filter !== ContentType.Any) {
-        return feed.mostRecent.filter((x) => x.reviewType === filter);
+        return feed.mostRecent.filter((x) => x.contentType === filter);
       }
 
       return feed.mostRecent;
@@ -46,9 +46,9 @@ export default function Main() {
     <div className="box-border bg-reviewbg w-full">
       <div className="pb-20 gap-8 p-4 font-[family-name:var(--font-geist-sans)]">
         <div className="flex flex-col gap-3 justify-start">
-          <Featured featured={feed.featured} />
+          <Featured dashes={feed.featured} />
           <Filter setFilter={setFilter} currentFilter={filter} />
-          <Latest reviews={filtredReviews} />
+          <Latest dashes={filtredReviews} />
         </div>
       </div>
     </div>

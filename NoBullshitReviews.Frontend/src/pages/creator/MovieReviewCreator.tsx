@@ -9,7 +9,7 @@ import {
   ContentType,
   IMovie,
 } from "src/types/Types";
-import { CreateDefaultAttributeDictionary } from "src/utils/CreatorUtils";
+import { CreateDefaultAttributeDictionary } from "src/utils/Utils";
 
 const MovieReviewCreator = () => {
   const navigate = useNavigate();

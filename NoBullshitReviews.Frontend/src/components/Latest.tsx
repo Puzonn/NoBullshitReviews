@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { DashReview } from "src/components/DashReview";
-import { FeedReview, IReview } from "src/types/Types";
+import { DashReview } from "src/components/DashView";
+import { FeedReview, IDash } from "src/types/Types";
 
-const Latest = ({ reviews }: { reviews: FeedReview[] }) => {
+const Latest = ({ dashes }: { dashes: IDash[] }) => {
   const lastestElement = useRef<HTMLDivElement>(null);
   const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
   const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
-  const reviewClicked = (review: FeedReview) => {
+  const dashClicked = (review: IDash) => {
     navigate(`/review/${review.routeName}`);
   };
 
@@ -46,7 +46,7 @@ const Latest = ({ reviews }: { reviews: FeedReview[] }) => {
   useEffect(() => {
     setCanScrollLeft(checkCanScrollLeft());
     setCanScrollRight(checkCanScrollRight());
-  }, [reviews]);
+  }, [dashes]);
 
   return (
     <div>
@@ -84,14 +84,14 @@ const Latest = ({ reviews }: { reviews: FeedReview[] }) => {
         className="flex flex-row overflow-auto no-scrollbar"
         id="latest"
       >
-        {reviews.map((review, index) => {
+        {dashes.map((review, index) => {
           return (
             <div key={`review_${index}`} className="flex-shrink-0 rounded">
               <DashReview
                 onClick={(e) => {
-                  reviewClicked(e);
+                  dashClicked(e);
                 }}
-                review={review}
+                dash={review}
               />
             </div>
           );

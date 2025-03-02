@@ -17,6 +17,11 @@ export interface IGame {
   routeName: string;
 }
 
+export interface GameFeed {
+  latest: IGame[];
+  best: IGame[];
+}
+
 export interface User {
   avatarUrl: string;
   username: string;
@@ -37,6 +42,14 @@ export interface FeedReview {
   game: IGame;
 }
 
+export interface IDash {
+  title: string;
+  imagePath: string;
+  routeName: string;
+  contentType: ContentType;
+  score: number;
+}
+
 export interface FilterContextType {
   filters: Dictionary<string, string[]>;
   addFilter: (selectorName: string, filter: string) => void;
@@ -47,8 +60,8 @@ export interface FilterContextType {
 }
 
 export interface Feed {
-  featured: FeedReview[];
-  mostRecent: FeedReview[];
+  featured: IDash[];
+  mostRecent: IDash[];
 }
 
 export interface IReviewCreation {

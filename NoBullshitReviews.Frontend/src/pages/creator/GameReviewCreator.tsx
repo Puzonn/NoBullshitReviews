@@ -9,7 +9,7 @@ import {
   MovieReviewAttributes,
   IGame,
 } from "src/types/Types";
-import { CreateDefaultAttributeDictionary } from "src/utils/CreatorUtils";
+import { CreateDefaultAttributeDictionary } from "src/utils/Utils";
 
 const GameReviewCreator = () => {
   const navigate = useNavigate();

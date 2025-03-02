@@ -14,14 +14,10 @@ public class MovieController : ControllerBase
 {
     private readonly CDNService _cdn;
     private readonly ReviewContext _context;
-    private readonly ILogger<GameController> _logger;
-    private readonly IHostEnvironment _environment;
 
-    public MovieController(ReviewContext context, ILogger<GameController> logger, IHostEnvironment environment, CDNService cdn)
+    public MovieController(ReviewContext context, CDNService cdn)
     {
         _cdn = cdn;   
-        _environment = environment;
-        _logger = logger;
         _context = context;
     }
 

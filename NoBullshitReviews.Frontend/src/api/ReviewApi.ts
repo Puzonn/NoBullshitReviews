@@ -1,5 +1,3 @@
-import { mainModule } from "process";
-
 export const PostReview = async (form: FormData) => {
   return await fetch("https://localhost:7106/review/create", {
     credentials: "include",
@@ -9,8 +7,7 @@ export const PostReview = async (form: FormData) => {
 };
 
 export const FetchFeed = async () => {
-  return await fetch("https://localhost:7106/review/feed", {
-    credentials: "include",
+  return await fetch("https://localhost:7106/feed", {
     method: "GET",
   });
 };
@@ -24,6 +21,12 @@ export const FetchQuery = async (query: string) => {
 
 export const FetchGame = async (name: string) => {
   return await fetch(`https://localhost:7106/game/${name}`, {
+    method: "GET",
+  });
+};
+
+export const FetchGameFeed = async () => {
+  return await fetch(`https://localhost:7106/feed/games`, {
     method: "GET",
   });
 };
@@ -51,7 +54,7 @@ export const PostMovie = async (form: FormData) => {
 };
 
 export const FetchLatestGames = async () => {
-    return await fetch(`https://localhost:7106/game/latest`, {
-      method: "GET",
-    });
-  };
+  return await fetch(`https://localhost:7106/game/latest`, {
+    method: "GET",
+  });
+};

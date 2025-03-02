@@ -3,6 +3,7 @@ import {
   Dictionary,
   FeedReview,
   IAttributeReview,
+  IDash,
 } from "src/types/Types";
 
 export const CreateDefaultAttributeDictionary = (
@@ -16,8 +17,8 @@ export const CreateDefaultAttributeDictionary = (
   return dic;
 };
 
-export const GetTag = (review: FeedReview): string => {
-  switch (review.reviewType) {
+export const GetTag = (dash: IDash): string => {
+  switch (dash.contentType) {
     case ContentType.ReviewMovie:
       return "Movie";
     case ContentType.ReviewGame:

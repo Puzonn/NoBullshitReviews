@@ -1,17 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using NoBullshitReviews.Database;
-using NoBullshitReviews.Models;
+using NoBullshitReviews.Models.Feeds;
 using NoBullshitReviews.Models.Responses;
+using System.Collections.Generic;
 
 namespace NoBullshitReviews.Services;
 
-public class ReviewService
+public class FeedService
 {
     private readonly ReviewContext _context;
     private readonly IMemoryCache _cache;
 
-    public ReviewService(ReviewContext context, IMemoryCache cache)
+    public FeedService(ReviewContext context, IMemoryCache cache)
     {
         _cache = cache;
         _context = context;
@@ -34,6 +35,23 @@ public class ReviewService
         return (Feed)feed!;
     }
 
+    public async Task<GameFeed> CreateGameFeed()
+    {
+        var latestGames = await _context.Games
+           .OrderByDescending(x => x.CreatedAt)
+           .Take(10)
+           .Select(x => GameResponse.FromGame(x))
+           .ToListAsync();
+
+        var bestGames = await _context.Games
+           .OrderByDescending(x => Random.Shared.NextDouble())
+           .Take(5)
+           .Select(x => GameResponse.FromGame(x))
+           .ToListAsync();
+
+        return new GameFeed() { Best = bestGames, Latest = latestGames };
+    }
+
     public async Task<Feed> CreateFeed(int limit)
     {
         if(limit > 100 || limit < 0)
@@ -50,8 +68,8 @@ public class ReviewService
 
         return new Feed()
         {
-            Featured = latest.Take(4).Select(x => ReviewResponse.FromReview(x)).ToList(),
-            MostRecent = latest.Take(4).Select(x => ReviewResponse.FromReview(x)).ToList()
+            Featured = latest.Take(4).Select(x => Dash.FromGameReview(x)).ToList(),
+            MostRecent = latest.Take(4).Select(x => Dash.FromGameReview(x)).ToList()
         };
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace NoBullshitReviews.Enums;
 
-public enum ReviewType
+public enum ContentType
 {
     Game,
     Movie

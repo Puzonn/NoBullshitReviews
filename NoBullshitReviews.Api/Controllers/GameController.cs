@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoBullshitReviews.Database;
 using NoBullshitReviews.Models.Database;
+using NoBullshitReviews.Models.Feeds;
 using NoBullshitReviews.Models.Requests;
 using NoBullshitReviews.Models.Responses;
 using NoBullshitReviews.Services;
@@ -16,11 +17,9 @@ public class GameController : ControllerBase
 {
     private readonly CDNService _cdn;
     private readonly ReviewContext _context;
-    private readonly FeedService _feedService;
 
-    public GameController(ReviewContext context, CDNService cdn, FeedService feedService)
+    public GameController(ReviewContext context, CDNService cdn)
     {
-        _feedService = feedService;
         _cdn = cdn;
         _context = context;
     }
@@ -75,16 +74,5 @@ public class GameController : ControllerBase
         }
 
         return Ok(game);
-    }
-
-    [HttpGet("/latest")]
-    public async Task<ActionResult<GameResponse[]>> FetchGames()
-    {
-        var latest = await _context.Games
-           .OrderByDescending(x => x.CreatedAt)
-           .Take(10)
-           .ToListAsync();
-
-        return Ok(latest.Select(x => GameResponse.FromGame(x)));
     }
 }

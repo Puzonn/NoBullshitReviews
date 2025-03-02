@@ -3,7 +3,7 @@ import GameReviewAttribute from "../components/creator/GameReviewAttribute";
 import { getScoreBackgroundColor } from "../global/Colors";
 import { FeedReview, GameReviewAttributes } from "../types/Types";
 import { useEffect, useState } from "react";
-import { FormatDate } from "src/utils/CreatorUtils";
+import { FormatDate } from "src/utils/Utils";
 
 const ReviewGameInfoPage = () => {
   const [review, setReview] = useState<FeedReview | undefined>(undefined);

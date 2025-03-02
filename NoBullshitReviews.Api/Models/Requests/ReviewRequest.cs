@@ -28,7 +28,7 @@ public class ReviewRequest
     public List<string> Tags { get; set; } = new();
 
     [Required]
-    public ReviewType ReviewType { get; set; }
+    public ContentType ReviewType { get; set; }
 
     [Required]
     public IFormFile Image { get; set; }

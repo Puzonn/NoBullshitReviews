@@ -1,18 +1,18 @@
-import { GetTag } from "src/utils/CreatorUtils";
+import { GetTag } from "src/utils/Utils";
 import { getScoreBackgroundColor } from "../global/Colors";
-import { IReview, ContentType, FeedReview } from "../types/Types";
+import { FeedReview, IDash } from "../types/Types";
 
 export const DashReview = ({
-  review,
+  dash,
   onClick,
 }: {
-  review: FeedReview;
-  onClick: (e: FeedReview) => void;
+  dash: IDash;
+  onClick: (e: IDash) => void;
 }) => {
   return (
     <div className="flex overflow-x-auto gap-4 p-4">
       <div
-        onClick={() => onClick(review)}
+        onClick={() => onClick(dash)}
         className="hover:bg-reviewinfobglight
                  transition-colors duration-500 cursor-pointer flex flex-col gap-2
                  p-3 rounded shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_4px_8px_rgba(0,0,0,0.6)]
@@ -22,26 +22,26 @@ export const DashReview = ({
           className="h-32 w-full object-cover rounded-lg sm:h-40"
           width={128}
           height={192}
-          src={review.game.imagePath}
-          alt={review.title}
+          src={dash.imagePath}
+          alt={dash.title}
         />
         <div className="truncate">
           <div className="flex items-center">
             <span
               className={`${getScoreBackgroundColor(
-                review.score
+                dash.score
               )} my-2 rounded p-1 font-medium`}
             >
-              {review.score}
+              {dash.score}
             </span>
             <span className="ml-auto border border-white p-1 rounded font-medium">
-              {GetTag(review)}
+              {GetTag(dash)}
             </span>
           </div>
         </div>
         <div className="truncate text-center">
           <span className="text-base font-semibold text-gray-200">
-            {review.game.title}
+            {dash.title}
           </span>
         </div>
       </div>
