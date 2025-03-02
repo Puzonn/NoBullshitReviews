@@ -3,7 +3,7 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main  # or any branch you want
+      - github-actions
   workflow_dispatch:
 
 jobs:
