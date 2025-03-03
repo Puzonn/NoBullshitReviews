@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import FilterContext from "src/contexts/FiltetContext";
+import FilterContext from "src/contexes/FilterContext";
 import { Dictionary } from "src/types/Types";
 import { __values } from "tslib";
 
