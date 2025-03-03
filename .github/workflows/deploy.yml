@@ -34,5 +34,6 @@ jobs:
             cd NoBullshitReviews
 
             service docker start
-            docker-compose -f docker-compose.yml up -d
+            docker-compose build
+            docker-compose -f docker-compose.yml up
           EOF
