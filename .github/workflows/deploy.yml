@@ -21,10 +21,14 @@ jobs:
 
             cd /var/www/nobullshitreviews
             if [ ! -d .git ]; then
-              git clone git@github.com:Puzonn/NoBullshitReviews.git .
+              git clone git@github.com:Puzonn/NoBullshitReviews.git
             fi
-            git pull origin github-actions
 
-            docker-compose build
-            docker-compose up -d
+            git checkout github-actions
+
+            git pull origin
+
+            cd NoBullshitReviews
+
+            docker-compose up --build
           EOF
