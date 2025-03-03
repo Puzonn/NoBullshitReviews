@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import AuthContext from "src/contexts/AuthContext";
 import { User } from "src/types/Types";
 
-const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState<User>(undefined);
 
   useEffect(() => {
@@ -22,5 +22,3 @@ const AuthProvider = ({ children }) => {
 
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 };
-
-export default AuthProvider;

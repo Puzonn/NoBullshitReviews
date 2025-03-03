@@ -8,7 +8,7 @@ import Sidebar from "src/components/Sidebar";
 import Creator from "src/pages/creator/Creator";
 import Join from "src/pages/Join";
 import OAuth from "src/pages/OAuth";
-import AuthProvider from "src/Providers/AuthProvider";
+import { AuthProvider } from "src/Providers/AuthProvider";
 import GameReviewCreator from "src/pages/creator/GameReviewCreator";
 import MovieReviewCreator from "src/pages/creator/MovieReviewCreator";
 import Games from "./pages/Games";
