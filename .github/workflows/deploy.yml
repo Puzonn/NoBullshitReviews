@@ -3,7 +3,7 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - github-actions
+      - main
   workflow_dispatch:
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
               git clone git@github.com:Puzonn/NoBullshitReviews.git
             fi
 
-            git checkout github-actions
+            git checkout main
 
             git pull origin
 
