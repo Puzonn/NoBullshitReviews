@@ -1,6 +1,6 @@
 import { ContentType } from "src/types/Types";
 import FilterSelector from "./FilterSelector";
-import { useFilterManager } from "src/Providers/FilterProvider";
+import { useFilterManager } from "src/providers/FilterProvider";
 
 const Filter = ({
   setFilter,

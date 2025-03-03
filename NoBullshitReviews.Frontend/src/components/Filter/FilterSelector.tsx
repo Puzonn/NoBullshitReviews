@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useFilterManager } from "src/Providers/FilterProvider";
+import { useFilterManager } from "src/providers/FilterProvider";
 
 const FilterSelector = ({
   selectorName,

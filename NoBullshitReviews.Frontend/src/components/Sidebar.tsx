@@ -2,7 +2,7 @@ import "../index.css";
 import "../App.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import AuthContext from "src/contexts/AuthContext";
+import AuthContext from "src/contexes/AuthContext";
 import SearchModal from "./SearchModal";
 
 const Sidebar = () => {

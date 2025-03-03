@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FetchMovie, FetchQuery, PostReview } from "src/api/ReviewApi";
-import CreatorGameAttribute from "src/components/creator/CreatorGameAttribute";
+import CreatorGameAttribute from "src/components/Creator/CreatorGameAttribute";
 import { getScoreBackgroundColor } from "src/global/Colors";
 import {
   Dictionary,
