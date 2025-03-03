@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import FilterContext from "src/contexes/FilterContext";
 import { Dictionary } from "src/types/Types";
-import { __values } from "tslib";
 
 const FilterProvider = ({ children }) => {
   const [filters, setFilters] = useState<Dictionary<string, string[]>>({});
