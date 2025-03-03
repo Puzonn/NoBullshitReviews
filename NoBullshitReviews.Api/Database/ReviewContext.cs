@@ -27,6 +27,10 @@ public class ReviewContext : DbContext
     warnings.Ignore(RelationalEventId.NonTransactionalMigrationOperationWarning));
 
         options.UseSqlite($"Data Source={DbPath}");
+
+#if DEBUG
+        options.EnableSensitiveDataLogging();
+#endif
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
