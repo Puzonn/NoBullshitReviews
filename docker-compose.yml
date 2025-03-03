@@ -6,7 +6,7 @@ services:
       context: ./NoBullshitReviews.Frontend
       dockerfile: dockerfile
     ports:
-      - "3000:3000"
+      - "3000:80"
     networks:
       - app-network
 
