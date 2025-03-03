@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import GameReviewAttribute from "../components/creator/GameReviewAttribute";
+import GameReviewAttribute from "../components/Creator/GameReviewAttribute";
 import { getScoreBackgroundColor } from "../global/Colors";
 import { FeedReview, GameReviewAttributes } from "../types/Types";
 import { useEffect, useState } from "react";
