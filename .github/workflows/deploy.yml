@@ -36,8 +36,3 @@ jobs:
             service docker start
             docker-compose -f docker-compose.yml up -d
           EOF
-
-      - name: Keep containers running
-        run: |
-          echo "Containers are running. Keeping GitHub Action alive..."
-          sleep infinity
