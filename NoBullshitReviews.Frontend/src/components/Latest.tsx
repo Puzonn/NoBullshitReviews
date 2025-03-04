@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DashReview } from "src/components/DashView";
-import { FeedReview, IDash } from "src/types/Types";
+import { useFilterManager } from "src/providers/FilterProvider";
+import { IDash } from "src/types/Types";
 
 const Latest = ({ dashes }: { dashes: IDash[] }) => {
   const lastestElement = useRef<HTMLDivElement>(null);
   const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
   const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
 
+  const filter = useFilterManager("");
   const navigate = useNavigate();
 
   const dashClicked = (review: IDash) => {
@@ -48,10 +50,14 @@ const Latest = ({ dashes }: { dashes: IDash[] }) => {
     setCanScrollRight(checkCanScrollRight());
   }, [dashes]);
 
+  if (dashes === undefined) {
+    return <></>;
+  }
+
   return (
     <div>
       <div className="flex items-center justify-start gap-3">
-        <span className="text-xl font-semibold">Latest Reviews</span>
+        <span className="text-xl font-semibold">Latest</span>
       </div>
       <div className="flex items-center gap-3">
         <hr className="w-full opacity-20" />

@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "src/contexes/AuthContext";
 import SearchModal from "./SearchModal";
+import { useFilterManager } from "src/providers/FilterProvider";
+import { ContentType } from "src/types/Types";
 
 const Sidebar = () => {
   const [visible, setVisible] = useState<boolean>(true);
@@ -11,6 +13,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useContext(AuthContext);
+  const filter = useFilterManager("");
 
   const checkLocation = (value: string) => {
     return location.search == value;
@@ -107,7 +110,7 @@ const Sidebar = () => {
                 <span className={`${visible ? "" : "hidden"}`}>Movies</span>
               </div>
               <div
-                onClick={() => navigate("/games")}
+                onClick={() => filter.setContentType(ContentType.Games)}
                 className={`hover:bg-reviewinfobg p-3 rounded-xl cursor-pointer flex gap-3 items-center ${
                   checkLocation("/games") ? "bg-reviewinfobg font-semibold" : ""
                 } ${visible ? "" : "justify-center"}`}

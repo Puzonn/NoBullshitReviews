@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
 import FilterContext from "src/contexes/FilterContext";
-import { Dictionary } from "src/types/Types";
+import { ContentType, Dictionary } from "src/types/Types";
 
 const FilterProvider = ({ children }) => {
   const [filters, setFilters] = useState<Dictionary<string, string[]>>({});
+  const [contentType, setContentType] = useState<ContentType>(ContentType.Any);
 
   const isSelected = (selectorName: string, value: string) => {
     return filters?.[selectorName]?.includes(value) ?? false;
@@ -44,6 +45,8 @@ const FilterProvider = ({ children }) => {
   return (
     <FilterContext.Provider
       value={{
+        contentType,
+        setContentType,
         filters,
         addFilter,
         removeFilter,
@@ -71,7 +74,10 @@ export const useFilterManager = (selectorName: string) => {
   }
 
   return {
+    contentType: context.contentType,
     filters,
+    setContentType: (contentType: ContentType) =>
+      context.setContentType(contentType),
     flatFilterValues: () => context.flatFilterValues(),
     isSelected: (value: string) => context.isSelected(selectorName, value),
     addFilter: (value: string) => context.addFilter(selectorName, value),

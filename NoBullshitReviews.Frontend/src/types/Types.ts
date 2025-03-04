@@ -18,8 +18,8 @@ export interface IGame {
 }
 
 export interface GameFeed {
-  latest: IGame[];
-  best: IGame[];
+  latest: IDash[];
+  best: IDash[];
 }
 
 export interface User {
@@ -51,6 +51,8 @@ export interface IDash {
 }
 
 export interface FilterContextType {
+  setContentType: (contentType: ContentType) => void;
+  contentType: ContentType;
   filters: Dictionary<string, string[]>;
   addFilter: (selectorName: string, filter: string) => void;
   removeFilter: (selectorName: string, filter: string) => void;
@@ -80,6 +82,8 @@ export enum ContentType {
   ReviewMovie = 1,
   NewsGame = 2,
   NewsMovie = 3,
+  Games = 4,
+  Movies = 5,
 }
 
 export interface IReview extends IReviewCreation {

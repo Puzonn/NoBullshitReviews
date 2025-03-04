@@ -2,22 +2,16 @@ import { ContentType } from "src/types/Types";
 import FilterSelector from "./FilterSelector";
 import { useFilterManager } from "src/providers/FilterProvider";
 
-const Filter = ({
-  setFilter,
-  currentFilter,
-}: {
-  setFilter: (contentType: ContentType) => void;
-  currentFilter: ContentType;
-}) => {
+const Filter = () => {
   const filterManager = useFilterManager("");
 
   return (
     <div className="flex flex-col font-medium">
       <div className="flex gap-1">
         <div
-          onClick={() => setFilter(ContentType.Any)}
+          onClick={() => filterManager.setContentType(ContentType.Any)}
           className={`p-3 w-[90px] text-center cursor-pointer rounded-tl-xl bg-reviewinfobg transition-colors duration-200 ${
-            currentFilter === ContentType.Any
+            filterManager.contentType === ContentType.Any
               ? "bg-reviewinfobglight text-white font-bold"
               : ""
           }`}
@@ -25,9 +19,9 @@ const Filter = ({
           All
         </div>
         <div
-          onClick={() => setFilter(ContentType.ReviewMovie)}
+          onClick={() => filterManager.setContentType(ContentType.Movies)}
           className={`p-3 w-[110px] text-center flex gap-3 items-center cursor-pointer bg-reviewinfobg transition-colors duration-200 ${
-            currentFilter === ContentType.ReviewMovie
+            filterManager.contentType === ContentType.Movies
               ? "bg-reviewinfobglight text-white font-bold"
               : ""
           }`}
@@ -40,9 +34,9 @@ const Filter = ({
           <span>Movies</span>
         </div>
         <div
-          onClick={() => setFilter(ContentType.ReviewGame)}
+          onClick={() => filterManager.setContentType(ContentType.Games)}
           className={`p-3 w-[110px] text-center flex gap-3 items-center cursor-pointer rounded-tr-xl transition-colors duration-200 bg-reviewinfobg ${
-            currentFilter === ContentType.ReviewGame
+            filterManager.contentType === ContentType.Games
               ? "bg-reviewinfobglight text-white font-bold"
               : ""
           }`}
@@ -74,7 +68,7 @@ const Filter = ({
               <img
                 src="/assets/icons/close.png"
                 className=" w-[12px] h-[12px]"
-                alt=""
+                alt="close_icon"
               />
             </div>
           );

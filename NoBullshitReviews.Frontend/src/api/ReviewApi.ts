@@ -25,7 +25,7 @@ export const FetchGame = async (name: string) => {
   });
 };
 
-export const FetchGameFeed = async () => {
+export const FetchGamesFeed = async () => {
   return await fetch(`https://localhost:7106/feed/games`, {
     method: "GET",
   });

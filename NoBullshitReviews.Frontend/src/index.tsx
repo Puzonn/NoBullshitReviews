@@ -11,7 +11,6 @@ import OAuth from "src/pages/OAuth";
 import { AuthProvider } from "src/providers/AuthProvider";
 import GameReviewCreator from "src/pages/creator/GameReviewCreator";
 import MovieReviewCreator from "src/pages/creator/MovieReviewCreator";
-import Games from "./pages/Games";
 import GameNewsCreator from "./pages/creator/GameNewsCreator";
 import FilterProvider from "./providers/FilterProvider";
 import GameCreator from "./pages/creator/GameCreator";
@@ -41,7 +40,6 @@ root.render(
     <FilterProvider>
       <BrowserRouter>
         <Routes>
-          <Route index path="/games" element={RenderWithSidebar(<Games />)} />
           <Route path="/creator/" element={RenderWithSidebar(<Creator />)} />
 
           <Route index path="/" element={RenderWithSidebar(<Main />)} />
@@ -67,8 +65,6 @@ root.render(
             path="/game/:route"
             element={RenderWithSidebar(<GameInfoPage />)}
           />
-
-          <Route path="/games" element={RenderWithSidebar(<Games />)} />
 
           <Route
             path="/creator/movie"

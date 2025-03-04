@@ -55,10 +55,6 @@ const Featured = ({ dashes }: { dashes: IDash[] }) => {
     return () => clearTimeout(timer);
   }, [featuredContent, dashes]);
 
-  const reviewClicked = (review: IReview) => {
-    navigate(`/game/${review.routeName}`);
-  };
-
   if (nextFeatured === undefined || nextFeatured.length === 0) {
     return <></>;
   }
