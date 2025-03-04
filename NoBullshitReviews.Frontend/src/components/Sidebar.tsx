@@ -13,11 +13,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useContext(AuthContext);
-  const filter = useFilterManager("");
-
-  const checkLocation = (value: string) => {
-    return location.search == value;
-  };
+  const filterManager = useFilterManager("");
 
   useEffect(() => {
     const handleResize = () => {
@@ -66,10 +62,17 @@ const Sidebar = () => {
           <div className={`flex flex-col h-full`}>
             <div className={`flex flex-col h-full gap-5 p-2`}>
               <div
-                onClick={() => navigate("/")}
-                className={`hover:bg-reviewinfobg p-3 rounded-xl cursor-pointer flex gap-3 items-center ${
-                  checkLocation("") ? "bg-reviewinfobg font-semibold" : ""
-                } ${visible ? "" : "justify-center"}`}
+                onClick={() => {
+                  navigate("/");
+                  filterManager.setContentType(ContentType.Any);
+                }}
+                className={`hover:bg-reviewinfobg p-3 rounded-xl ${
+                  filterManager.contentType === ContentType.Any
+                    ? "bg-reviewinfobg"
+                    : ""
+                } cursor-pointer flex gap-3 items-center ${
+                  visible ? "" : "justify-center"
+                }`}
               >
                 <img
                   width={24}
@@ -88,18 +91,21 @@ const Sidebar = () => {
                 <img
                   width={24}
                   height={24}
-                  alt="home"
+                  alt="search"
                   src="/assets/icons/search.png"
                 />
                 <span className={`${visible ? "" : "hidden"}`}>Search</span>
               </div>
               <hr className="opacity-20" />
               <div
-                className={`hover:bg-reviewinfobg p-3 rounded-xl cursor-pointer flex gap-3 items-center ${
-                  checkLocation("/movies")
-                    ? "bg-reviewinfobg font-semibold"
+                onClick={() => filterManager.setContentType(ContentType.Movies)}
+                className={`hover:bg-reviewinfobg ${
+                  filterManager.contentType === ContentType.Movies
+                    ? "bg-reviewinfobg"
                     : ""
-                } ${visible ? "" : "justify-center"}`}
+                } p-3 rounded-xl cursor-pointer flex gap-3 items-center ${
+                  visible ? "" : "justify-center"
+                }`}
               >
                 <img
                   width={24}
@@ -110,10 +116,14 @@ const Sidebar = () => {
                 <span className={`${visible ? "" : "hidden"}`}>Movies</span>
               </div>
               <div
-                onClick={() => filter.setContentType(ContentType.Games)}
-                className={`hover:bg-reviewinfobg p-3 rounded-xl cursor-pointer flex gap-3 items-center ${
-                  checkLocation("/games") ? "bg-reviewinfobg font-semibold" : ""
-                } ${visible ? "" : "justify-center"}`}
+                onClick={() => filterManager.setContentType(ContentType.Games)}
+                className={`hover:bg-reviewinfobg ${
+                  filterManager.contentType === ContentType.Games
+                    ? "bg-reviewinfobg"
+                    : ""
+                } p-3 rounded-xl cursor-pointer flex gap-3 items-center ${
+                  visible ? "" : "justify-center"
+                }`}
               >
                 <img
                   width={24}
