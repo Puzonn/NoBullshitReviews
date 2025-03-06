@@ -30,37 +30,32 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`fixed top-0 left-0 z-40 h-screen transition-all duration-300
-        ${visible ? "w-64" : "w-20"}
-        lg:${visible ? "w-64" : "w-20"} xl:${visible ? "w-64" : "w-20"}`}
+      className={`fixed top-0 left-0 z-40 h-screen transition-all duration-300 
+    ${visible ? "w-64" : "w-20"}
+    lg:${visible ? "w-64" : "w-20"} xl:${visible ? "w-64" : "w-20"}`}
     >
-      <div className="xl:hidden">
-        <button
-          onClick={() => setVisible(!visible)}
-          className={`absolute  top-[20px] ${
-            visible ? "scale-x-[-1] right-[-14px]" : "sm:right-[-14px]"
-          }`}
-        >
-          <div className="p-1 border border-reviewinfobg rounded-xl bg-reviewinfobglight">
-            <img
-              className=""
-              src="/assets/icons/arrow.png"
-              width={18}
-              alt="arrow"
-            />
-          </div>
-        </button>
-      </div>
+      <div className="h-full">
+        <div>
+          <button
+            onClick={() => setVisible(!visible)}
+            className={`absolute top-[33px] ${
+              visible ? "scale-x-[-1] right-[-14px]" : "sm:right-[-14px]"
+            }`}
+          >
+            <div className="p-2 border border-reviewinfobg rounded-xl bg-reviewinfobglight">
+              <img src="/assets/icons/arrow.png" width={18} alt="arrow" />
+            </div>
+          </button>
+        </div>
 
-      <SearchModal close={() => setSearchOpen(false)} isOpen={searchOpen} />
-      <div
-        className={`h-full ${
-          visible ? "" : "hidden"
-        } sm:block shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_8px_16px_rgba(0,0,0,0.6)]`}
-      >
-        <div className="h-full py-5 overflow-y-auto bg-reviewinfobglight">
-          <div className={`flex flex-col h-full`}>
-            <div className={`flex flex-col h-full gap-5 p-2`}>
+        <SearchModal close={() => setSearchOpen(false)} isOpen={searchOpen} />
+        <div
+          className={`h-full ${
+            visible ? "" : "hidden"
+          } sm:block shadow-[0_2px_4px_rgba(255,255,255,0.04),_0_8px_16px_rgba(0,0,0,0.6)]`}
+        >
+          <div className="h-full py-5 overflow-y-auto bg-reviewinfobglight flex flex-col">
+            <div className="flex flex-col gap-5 p-2 flex-grow">
               <div
                 onClick={() => {
                   navigate("/");
@@ -110,7 +105,7 @@ const Sidebar = () => {
                 <img
                   width={24}
                   height={24}
-                  alt="home"
+                  alt="movies"
                   src="/assets/icons/video.png"
                 />
                 <span className={`${visible ? "" : "hidden"}`}>Movies</span>
@@ -128,19 +123,19 @@ const Sidebar = () => {
                 <img
                   width={24}
                   height={24}
-                  alt="home"
+                  alt="games"
                   src="/assets/icons/gamepad.png"
                 />
                 <span className={`${visible ? "" : "hidden"}`}>Games</span>
               </div>
             </div>
 
-            <div className="mt-auto flex flex-col gap-5 justify-between">
+            <div className="mt-auto flex flex-col gap-5">
               {auth !== undefined && (
                 <div className="w-full text-center flex justify-center">
                   <button
                     onClick={() => navigate("/creator")}
-                    className="hover:bg-reviewbg right-8 px-5 flex gap-3 items-center bg-reviewinfobg text-white py-2 rounded-lg shadow-lg transition-all"
+                    className="hover:bg-reviewbg px-5 flex gap-3 items-center bg-reviewinfobg text-white py-2 rounded-lg shadow-lg transition-all"
                   >
                     <img
                       src="/assets/icons/add.png"
